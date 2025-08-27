@@ -1,1 +1,4 @@
 ^\.dev$
+^LICENSE\.md$
+^[\.]?air\.toml$
+^\.vscode$

@@ -1,0 +1,7 @@
+map_int <- function(.x, .f, ...) {
+  vapply(.x, .f, integer(1), ...)
+}
+
+map_chr <- function(.x, .f, ...) {
+  vapply(.x, .f, character(1), ...)
+}

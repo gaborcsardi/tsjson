@@ -1,0 +1,19 @@
+PKG_CPPFLAGS = \
+        -I./tree-sitter/lib/include \
+        -I./tree-sitter/lib/src \
+
+tree-sitter-files = \
+        tree-sitter/lib/src/lib.o \
+	tree-sitter/json/parser.o
+
+lib-files = \
+        init.o tree-sitter.o cleancall.o
+
+OBJECTS = $(tree-sitter-files) $(lib-files)
+
+all: $(SHLIB)
+
+clean:
+	rm -rf $(SHLIB) $(OBJECTS)
+
+.PHONY: all clean
