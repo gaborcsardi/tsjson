@@ -1,12 +1,32 @@
 #' @export
 
 select <- function(json, ...) {
-  slts <- list(...)
+  select_(json, current = NULL, list(...))
+}
 
-  idoc <- which(json$type == "document")
-  itop <- json$children[[idoc]]
-  itop <- itop[json$type[itop] != "comment"]
-  current <- itop
+#' @export
+
+select_refine <- function(json, ...) {
+  current <- attr(json, "selection")
+  select_(json, current = current, list(...))
+}
+
+#' @export
+
+select_add <- function(json, ...) {
+  current <- attr(json, "selection")
+  json <- select_(json, current = NULL, list(...))
+  attr(json, "selection") <- sort(unique(c(current, attr(json, "selection"))))
+  json
+}
+
+select_ <- function(json, current, slts) {
+  if (is.null(current)) {
+    idoc <- which(json$type == "document")
+    itop <- json$children[[idoc]]
+    itop <- itop[json$type[itop] != "comment"]
+    current <- itop
+  }
 
   for (slt in slts) {
     nxt <- integer()
@@ -15,7 +35,7 @@ select <- function(json, ...) {
     }
     current <- nxt
   }
-  attr(json, "selection") <- current
+  attr(json, "selection") <- unique(current)
   json
 }
 
