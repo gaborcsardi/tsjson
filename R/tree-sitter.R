@@ -14,10 +14,10 @@ token_table <- function(
   text = NULL
 ) {
   if (is.null(text) + is.null(file) != 1) {
-    stop(
-      "Invalid arguments in `token_table()`: exactly one of ",
-      "`file` and `text` must be given."
-    )
+    stop(cnd(
+      "Invalid arguments in `token_table()`: exactly one of `file` \\
+       and `text` must be given."
+    ))
   }
   if (is.null(text)) {
     text <- readBin(file, "raw", n = file.size(file))

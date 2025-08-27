@@ -2,10 +2,10 @@
 
 load_json <- function(file = NULL, text = NULL) {
   if (is.null(text) + is.null(file) != 1) {
-    stop(
-      "Invalid arguments in `load_json()`: exactly one of ",
-      "`file` and `text` must be given."
-    )
+    stop(cnd(
+      "Invalid arguments in `load_json()`: exactly one of `file` \\
+       and `text` must be given."
+    ))
   }
   if (is.null(text)) {
     text <- readBin(file, "raw", n = file.size(file))
