@@ -22,16 +22,7 @@ load_json <- function(file = NULL, text = NULL) {
 
 #' @export
 
-print.tsjson <- function(x, ...) {
-  writeLines(format(x, ...))
-  invisible(x)
-}
-
-#' @export
-
-format.tsjson <- function(x, ...) {
-  c(
-    "<json>",
-    strsplit(rawToChar(attr(x, "text")), "\r?\n")[[1]]
-  )
+`[.tsjson` <- function(x, i, j, drop = FALSE) {
+  class(x) <- setdiff(class(x), "tsjson")
+  NextMethod("[")
 }
