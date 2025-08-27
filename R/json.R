@@ -62,12 +62,14 @@ parse_false <- function(token_table, id) {
   FALSE
 }
 
-# TODO: escapes
 parse_string <- function(token_table, id) {
   stopifnot(token_table$type[id] == "string")
-  # has three children: ", string_content, "
-  tab_string <- token_table[token_table$children[[id]], ]
-  tab_string$code[tab_string$type == "string_content"]
+  # escapes are almost the same as for R, but R does not have \/
+  chdn <- token_table$children[[id]]
+  str <- paste0(token_table$code[chdn], collapse = "")
+  str <- gsub("\\/", "/", str, fixed = TRUE)
+  # TODO: is there anything simpler than eval(parse(.))?
+  eval(parse(text = str, keep.source = FALSE))
 }
 
 parse_number <- function(token_table, id) {
