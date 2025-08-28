@@ -57,7 +57,7 @@ insert_at_selection <- function(json, new, at = 0) {
         '"',
         names(new),
         '": ',
-        serialize_json(new, collapse = TRUE)
+        serialize_json(unname(new), collapse = TRUE)
       )
       chdn <- json$children[[sel1]]
       nchdn <- if (length(chdn) == 2) {
