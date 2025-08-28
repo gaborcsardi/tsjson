@@ -24,6 +24,6 @@ format.tsjson <- function(x, ...) {
 
   c(
     "<json>",
-    paste0((mark), " ", num, cli::col_grey(" | "), lns)
+    paste0((mark), " ", num, if (length(lns)) cli::col_grey(" | "), lns)
   )
 }

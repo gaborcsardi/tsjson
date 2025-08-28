@@ -22,8 +22,7 @@ select_add <- function(json, ...) {
 
 select_ <- function(json, current, slts) {
   if (is.null(current)) {
-    idoc <- which(json$type == "document")
-    itop <- json$children[[idoc]]
+    itop <- json$children[[1L]]
     itop <- itop[json$type[itop] != "comment"]
     current <- itop
   }
