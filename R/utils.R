@@ -1,3 +1,11 @@
+`%||%` <- function(l, r) {
+  if (is.null(l)) {
+    r
+  } else {
+    l
+  }
+}
+
 map_int <- function(.x, .f, ...) {
   vapply(.x, .f, integer(1), ...)
 }
