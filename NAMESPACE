@@ -3,6 +3,7 @@
 S3method("[",tsjson)
 S3method(format,tsjson)
 S3method(print,tsjson)
+export(delete_selected)
 export(load_json)
 export(save_json)
 export(select)

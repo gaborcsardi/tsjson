@@ -13,3 +13,7 @@ map_int <- function(.x, .f, ...) {
 map_chr <- function(.x, .f, ...) {
   vapply(.x, .f, character(1), ...)
 }
+
+na_omit <- function(x) {
+  x[!is.na(x)]
+}

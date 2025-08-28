@@ -9,7 +9,14 @@ save_json <- function(json, file = NULL) {
     ))
   }
 
-  term <- which(!is.na(json$code))
-  parts <- rbind(c("", json$code[term]), c(json$tws[1], json$tws[term]))
-  writeLines(parts, con = file, sep = "")
+  text <- attr(json, "text")
+  if (inherits(file, "connection")) {
+    if (summary(file)$mode == "wb") {
+      writeBin(text, con = file)
+    } else {
+      writeChar(text, con = file)
+    }
+  } else {
+    writeBin(text, con = file)
+  }
 }
