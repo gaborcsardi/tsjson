@@ -40,7 +40,7 @@ delete_selections <- function(json) {
     nc <- length(chld)
     # if nothing left, then nothing to do
     if (nc == 2) {
-      next
+      return()
     }
     ctypes <- json$type[chld]
     todel <- rep(FALSE, length(chld))
