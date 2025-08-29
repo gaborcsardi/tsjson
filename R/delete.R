@@ -1,6 +1,6 @@
 #' @export
 
-delete_selected <- function(json) {
+delete_selections <- function(json) {
   select <- attr(json, "selection")
   if (is.null(select)) {
     stop(cnd(

@@ -1,6 +1,6 @@
 #' @export
 
-update_selection <- function(json, new) {
+update_selections <- function(json, new) {
   select <- attr(json, "selection")
   if (is.null(select)) {
     stop(cnd(

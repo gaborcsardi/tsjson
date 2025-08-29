@@ -7,7 +7,7 @@
 # If no selection then insert into the root element or at top level if
 # none
 
-insert_at_selection <- function(json, new, at = 0) {
+insert_at_selections <- function(json, new, key = NULL, at = Inf) {
   sel <- attr(json, "selection")
   # if no selection then insert at root element
   if (is.null(sel)) {
@@ -55,9 +55,9 @@ insert_at_selection <- function(json, new, at = 0) {
     } else if (type == "object") {
       code <- paste0(
         '"',
-        names(new),
+        key,
         '": ',
-        serialize_json(unname(new), collapse = TRUE)
+        serialize_json(new, collapse = TRUE)
       )
       chdn <- json$children[[sel1]]
       nchdn <- if (length(chdn) == 2) {

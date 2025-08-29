@@ -24,7 +24,11 @@ select_ <- function(json, current, slts) {
   if (is.null(current)) {
     itop <- json$children[[1L]]
     itop <- itop[json$type[itop] != "comment"]
-    current <- itop
+    if (length(itop)) {
+      current <- itop
+    } else {
+      current <- 1L
+    }
   }
 
   for (slt in slts) {
@@ -58,14 +62,14 @@ select1 <- function(json, idx, slt) {
     ]
     vals[keyvals %in% slt]
   } else if (is.numeric(slt)) {
-    if (type != "array") {
-      stop(cnd(
-        "Cannot select numeric index of {type} at row {row}, column {column}."
-      ))
-    }
     chdn <- json$children[[idx]]
     chdn <- chdn[!json$type[chdn] %in% c("[", ",", "]", "comment")]
-    na.omit(chdn[slt])
+    # TODO: select from the back
+    if (Inf %in% slt) {
+      na_omit(chdn)
+    } else {
+      na_omit(chdn[slt])
+    }
     #
   } else {
     stop("Invalid JSON selector")
