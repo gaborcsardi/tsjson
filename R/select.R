@@ -63,14 +63,22 @@ select1 <- function(json, idx, slt) {
     vals[keyvals %in% slt]
   } else if (is.numeric(slt)) {
     chdn <- json$children[[idx]]
-    chdn <- chdn[!json$type[chdn] %in% c("[", ",", "]", "comment")]
+    chdn <- chdn[!json$type[chdn] %in% c("[", ",", "]", "{", "}", "comment")]
     # TODO: select from the back
-    if (Inf %in% slt) {
+    sel <- if (Inf %in% slt) {
       na_omit(chdn)
     } else {
       na_omit(chdn[slt])
     }
-    #
+    # for objects we select the values
+    if (type == "object") {
+      sel <- map_int(sel, function(sel1) {
+        gchdn <- json$children[[sel1]]
+        gchdn <- gchdn[!is.na(json$field_name[gchdn])]
+        gchdn[json$field_name[gchdn] == "value"]
+      })
+    }
+    sel
   } else {
     stop("Invalid JSON selector")
   }
