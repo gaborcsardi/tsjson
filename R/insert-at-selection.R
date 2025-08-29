@@ -22,7 +22,7 @@ insert_at_selections <- function(json, new, key = NULL, at = Inf) {
   insertions <- lapply(sel, function(sel1) {
     type <- json$type[sel1]
     if (type == "document") {
-      # TODO
+      stop(cnd("Inserting into a document element is not implemented yet"))
     } else if (type == "array") {
       if (!is.numeric(at)) {
         stop(cnd(
