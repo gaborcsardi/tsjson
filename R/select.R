@@ -166,7 +166,7 @@ select1 <- function(json, idx, slt) {
 sel_default <- function() {
   structure(
     list(),
-    class = c("tsjosn_selector_default", "tsjson_selector", "list")
+    class = c("tsjson_selector_default", "tsjson_selector", "list")
   )
 }
 
