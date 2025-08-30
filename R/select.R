@@ -45,11 +45,11 @@ select_ <- function(json, current, slts) {
   for (slt in slts) {
     nxt <- integer()
     for (cur in current) {
-      nxt <- c(nxt, select1(json, cur, slt))
+      nxt <- unique(c(nxt, select1(json, cur, slt)))
     }
     current <- nxt
   }
-  attr(json, "selection") <- sort(unique(current))
+  attr(json, "selection") <- sort(current)
   json
 }
 
