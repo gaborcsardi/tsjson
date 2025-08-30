@@ -31,11 +31,15 @@ select <- function(json, ...) {
 #' @export
 
 `[[<-.tsjson` <- function(x, i, value) {
-  if (inherits(value, "tsjson")) {
+  res <- if (inherits(value, "tsjson")) {
     value
+  } else if (inherits(value, "tsjson_action_delete")) {
+    delete_selections(select_refine(x, i))
   } else {
     update_selections(select_refine(x, i), value)
   }
+  attr(res, "selection") <- NULL
+  res
 }
 
 #' @export
@@ -150,5 +154,14 @@ sel_back <- function(v) {
   structure(
     list(v = v),
     class = c("tsjson_selector_back", "tsjson_selection_all", "list")
+  )
+}
+
+#' @export
+
+deleted <- function() {
+  structure(
+    list(),
+    class = c("tsjson_action_delete", "tsjson_action", "list")
   )
 }
