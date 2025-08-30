@@ -24,6 +24,22 @@ select <- function(json, ...) {
 
 #' @export
 
+`[[.tsjson` <- function(x, i, ...) {
+  select_refine(x, i, ...)
+}
+
+#' @export
+
+`[[<-.tsjson` <- function(x, i, value) {
+  if (inherits(value, "tsjson")) {
+    value
+  } else {
+    update_selections(select_refine(x, i), value)
+  }
+}
+
+#' @export
+
 select_refine <- function(json, ...) {
   current <- get_selection(json)
   select_(json, current = current, list(...))
