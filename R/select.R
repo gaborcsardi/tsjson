@@ -55,42 +55,84 @@ select_ <- function(json, current, slts) {
 
 select1 <- function(json, idx, slt) {
   type <- json$type[idx]
-  row <- json$start_row[idx] + 1
-  column <- json$start_column[idx] + 1
-  if (is.character(slt)) {
+  sel <- if (inherits(slt, "tsjson_selector_all")) {
+    chdn <- json$children[[idx]]
+    chdn[!json$type[chdn] %in% c("[", ",", "]", "{", "}", "comment")]
+  } else if (inherits(slt, "tsjson_selector_regex")) {
     if (type != "object") {
-      stop(cnd(
-        "Cannot select named element of {type} at row {row}, column {column}."
-      ))
+      integer()
+    } else {
+      pairs <- json$children[[idx]]
+      pairs <- pairs[json$type[pairs] == "pair"]
+      chdn <- unlist(json$children[pairs])
+      keys <- chdn[
+        !is.na(json$field_name[chdn]) & json$field_name[chdn] == "key"
+      ]
+      keyvals <- map_chr(keys, unserialize_string, token_table = json)
+      pairs[grep(
+        slt$regex,
+        keyvals,
+        ignore.case = slt$ignore_case,
+        invert = slt$invert
+      )]
     }
-    pairs <- json$children[[idx]]
-    pairs <- pairs[json$type[pairs] == "pair"]
-    chdn <- unlist(json$children[pairs])
-    keys <- chdn[!is.na(json$field_name[chdn]) & json$field_name[chdn] == "key"]
-    keyvals <- map_chr(keys, unserialize_string, token_table = json)
-    vals <- chdn[
-      !is.na(json$field_name[chdn]) & json$field_name[chdn] == "value"
-    ]
-    vals[keyvals %in% slt]
+  } else if (inherits(slt, "tsjson_selector_back")) {
+    chdn <- json$children[[idx]]
+    chdn <- chdn[!json$type[chdn] %in% c("[", ",", "]", "{", "}", "comment")]
+    rev(rev(chdn)[slt$v])
+  } else if (is.character(slt)) {
+    if (type != "object") {
+      integer()
+    } else {
+      pairs <- json$children[[idx]]
+      pairs <- pairs[json$type[pairs] == "pair"]
+      chdn <- unlist(json$children[pairs])
+      keys <- chdn[
+        !is.na(json$field_name[chdn]) & json$field_name[chdn] == "key"
+      ]
+      keyvals <- map_chr(keys, unserialize_string, token_table = json)
+      pairs[keyvals %in% slt]
+    }
   } else if (is.numeric(slt)) {
     chdn <- json$children[[idx]]
     chdn <- chdn[!json$type[chdn] %in% c("[", ",", "]", "{", "}", "comment")]
-    # TODO: select from the back
-    sel <- if (Inf %in% slt) {
-      na_omit(chdn)
-    } else {
-      na_omit(chdn[slt])
-    }
-    # for objects we select the values
-    if (type == "object") {
-      sel <- map_int(sel, function(sel1) {
-        gchdn <- json$children[[sel1]]
-        gchdn <- gchdn[!is.na(json$field_name[gchdn])]
-        gchdn[json$field_name[gchdn] == "value"]
-      })
-    }
-    sel
+    chdn[slt]
   } else {
     stop("Invalid JSON selector")
   }
+
+  # for objects we select the values, instead of the pairs
+  if (type == "object") {
+    sel <- map_int(sel, function(sel1) {
+      gchdn <- json$children[[sel1]]
+      gchdn <- gchdn[!is.na(json$field_name[gchdn])]
+      gchdn[json$field_name[gchdn] == "value"]
+    })
+  }
+
+  sel
+}
+
+#' @export
+
+sel_all <- function() {
+  structure(list(), class = c("tsjson_selector_all", "tsjson_selector", "list"))
+}
+
+#' @export
+
+sel_regex <- function(regex, ignore_case = FALSE, invert = FALSE) {
+  structure(
+    list(regex = regex, ignore_case = ignore_case, invert = invert),
+    class = c("tsjson_selector_regex", "tsjson_selection_all", "list")
+  )
+}
+
+#' @export
+
+sel_back <- function(v) {
+  structure(
+    list(v = v),
+    class = c("tsjson_selector_back", "tsjson_selection_all", "list")
+  )
 }
