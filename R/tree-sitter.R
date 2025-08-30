@@ -34,8 +34,8 @@ token_table <- function(
   tab$children <- I(unname(split(lvls, factor(tab$parent, levels = lvls))))
   attr(tab, "file") <- file
 
-  # this is a workarond for TS adding code to a non-terminal array node
-  tab$code[tab$type == "array"] <- NA_character_
+  # this is a workarond for TS adding code to a non-terminal array/object node
+  tab$code[tab$type %in% c("array", "object")] <- NA_character_
 
   tab
 }

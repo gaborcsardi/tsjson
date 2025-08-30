@@ -1,10 +1,26 @@
 #' @export
 
 update_selections <- function(json, new) {
-  select <- get_selected_nodes(json)
+  selection <- get_selection(json)
+  ptr <- length(selection)
+  select <- selection[[ptr]]$nodes
 
+  # if no selection, then maybe this is an insert
   if (length(select) == 0) {
-    return(json)
+    while (length(selection[[ptr]]$nodes) == 0) {
+      slt <- selection[[ptr]]$selector
+      # only if characters
+      if (inherits(slt, "tsjson_selector") || !is.character(slt)) {
+        return(json)
+      }
+      ptr <- ptr - 1L
+      new <- structure(
+        replicate(length(slt), new, simplify = FALSE),
+        names = slt
+      )
+    }
+    attr(json, "selection") <- selection[1:(ptr - 1L)]
+    return(insert_at_selections(json, new[[1]], key = names(new)))
   }
 
   deleted <- select
