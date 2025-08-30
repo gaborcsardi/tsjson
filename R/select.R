@@ -1,19 +1,39 @@
+# A section is a list of records. Each record has a selector
+# and a list of selected nodes.
+#
 # 1. there is an explicit selection
 # 2. otherwise the top element is selected (or elements if many)
 # 3. otherwise the document node is selected
 
-get_selection <- function(json) {
-  attr(json, "selection") %||% get_default_selection(json)
+get_selection <- function(json, default = TRUE) {
+  sel <- attr(json, "selection")
+  if (!is.null(sel)) {
+    sel
+  } else if (default) {
+    get_default_selection(json)
+  } else {
+    NULL
+  }
+}
+
+get_selected_nodes <- function(json, default = TRUE) {
+  sel <- get_selection(json, default = default)
+  if (is.null(sel)) {
+    return(integer())
+  } else {
+    sel[[length(sel)]]$nodes
+  }
 }
 
 get_default_selection <- function(json) {
   top <- json$children[[1]]
   top <- top[json$type[top] != "comment"]
-  if (length(top) > 0) {
-    top
-  } else {
-    1L
-  }
+  list(
+    list(
+      selector = sel_default(),
+      nodes = if (length(top) > 0) top else 1L
+    )
+  )
 }
 
 #' @export
@@ -52,6 +72,7 @@ select_refine <- function(json, ...) {
 #' @export
 
 select_add <- function(json, ...) {
+  stop("defunct, temporarily")
   # do not use get_selection() here, don't want to add to the whole document
   current <- attr(json, "selection")
   json <- select_(json, current = NULL, list(...))
@@ -61,15 +82,20 @@ select_add <- function(json, ...) {
 
 select_ <- function(json, current, slts) {
   current <- current %||% get_default_selection(json)
+  cnodes <- current[[length(current)]]$nodes
 
   for (slt in slts) {
     nxt <- integer()
-    for (cur in current) {
+    for (cur in cnodes) {
       nxt <- unique(c(nxt, select1(json, cur, slt)))
     }
-    current <- nxt
+    current[[length(current) + 1L]] <- list(
+      selector = slt,
+      nodes = sort(nxt)
+    )
+    cnodes <- current[[length(current)]]$nodes
   }
-  attr(json, "selection") <- sort(current)
+  attr(json, "selection") <- current
   json
 }
 
@@ -131,6 +157,13 @@ select1 <- function(json, idx, slt) {
   }
 
   sel
+}
+
+sel_default <- function() {
+  structure(
+    list(),
+    class = c("tsjosn_selector_default", "tsjson_selector", "list")
+  )
 }
 
 #' @export

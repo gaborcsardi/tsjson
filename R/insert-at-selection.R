@@ -8,7 +8,7 @@
 # none
 
 insert_at_selections <- function(json, new, key = NULL, at = Inf) {
-  select <- get_selection(json)
+  select <- get_selected_nodes(json)
 
   if (length(select) == 0) {
     return(json)

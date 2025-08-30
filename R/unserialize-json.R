@@ -21,7 +21,7 @@ unserialize_json <- function(file = NULL, text = NULL) {
 #' @export
 
 unserialize_selections <- function(json) {
-  sel <- get_selection(json)
+  sel <- get_selected_nodes(json)
   lapply(sel, unserialize_element, token_table = json)
 }
 

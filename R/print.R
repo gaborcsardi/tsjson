@@ -12,9 +12,8 @@ format.tsjson <- function(x, ...) {
   num <- cli::col_grey(format(seq_along(lns)))
   mark <- rep(" ", length(lns))
 
-  # do not use get_selection() here, because we don't want to highlight
-  # the whole document, which is the default selection
-  sel <- attr(x, "selection")
+  # do not highlight the default selection
+  sel <- get_selected_nodes(x, default = FALSE)
   if (length(sel) > 0) {
     for (sel1 in sel) {
       rows <- x$start_row[sel1]:x$end_row[sel1] + 1L

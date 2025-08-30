@@ -1,7 +1,7 @@
 #' @export
 
 update_selections <- function(json, new) {
-  select <- get_selection(json)
+  select <- get_selected_nodes(json)
 
   if (length(select) == 0) {
     return(json)
