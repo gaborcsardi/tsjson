@@ -81,6 +81,10 @@ select_add <- function(json, ...) {
 }
 
 select_ <- function(json, current, slts) {
+  slts <- unlist(
+    lapply(slts, function(x) if (!is.list(x)) list(x) else x),
+    recursive = FALSE
+  )
   current <- current %||% get_default_selection(json)
   cnodes <- current[[length(current)]]$nodes
 
