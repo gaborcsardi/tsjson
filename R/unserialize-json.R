@@ -22,16 +22,6 @@ unserialize_json <- function(file = NULL, text = NULL) {
 
 #' @export
 
-unserialize_first_selection <- function(json) {
-  sel <- attr(json, "selection")
-  if (is.null(sel)) {
-    stop(cnd("No JSON elements are selected."))
-  }
-  unserialize_element(json, sel[1])
-}
-
-#' @export
-
 unserialize_selections <- function(json) {
   sel <- attr(json, "selection")
   if (is.null(sel)) {
