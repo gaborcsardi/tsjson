@@ -8,18 +8,13 @@
 # none
 
 insert_at_selections <- function(json, new, key = NULL, at = Inf) {
-  sel <- attr(json, "selection")
-  # if no selection then insert at root element
-  if (is.null(sel)) {
-    sel <- json$children[[1L]]
-    sel <- sel[json$type[sel] != "comment"]
-  }
-  # if no root element then at top level, under 'document'
-  if (length(sel) == 0) {
+  select <- get_selection(json)
+
+  if (length(select) == 0) {
     return(json)
   }
 
-  insertions <- lapply(sel, function(sel1) {
+  insertions <- lapply(select, function(sel1) {
     type <- json$type[sel1]
     if (type == "document") {
       stop(cnd("Inserting into a document element is not implemented yet"))

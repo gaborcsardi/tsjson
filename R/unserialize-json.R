@@ -7,26 +7,21 @@ unserialize_json <- function(file = NULL, text = NULL) {
 
   # document is the top element. easier to process without NA parents
   # TODO: do not fail for empty file, but what to return? NULL, maybe?
-  idoc <- which(tt$type == "document")
-  stopifnot(length(idoc) == 1)
-  tt$parent[idoc] <- 0L
+  tt$parent[1] <- 0L
 
   # it must have one non-comment element
   # multiple top-level values (e.g. JSONL) are not (yet) allowed
-  itop <- tt$children[[idoc]]
-  itop <- itop[tt$type[itop] != "comment"]
-  stopifnot(length(itop) == 1)
+  top <- tt$children[[1]]
+  top <- top[tt$type[top] != "comment"]
+  stopifnot(length(top) == 1)
 
-  unserialize_element(tt, itop)
+  unserialize_element(tt, top)
 }
 
 #' @export
 
 unserialize_selections <- function(json) {
-  sel <- attr(json, "selection")
-  if (is.null(sel)) {
-    stop(cnd("No JSON elements are selected."))
-  }
+  sel <- get_selection(json)
   lapply(sel, unserialize_element, token_table = json)
 }
 

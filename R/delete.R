@@ -1,13 +1,7 @@
 #' @export
 
 delete_selections <- function(json) {
-  select <- attr(json, "selection")
-  if (is.null(select)) {
-    stop(cnd(
-      "No selection to delete from JSON object. Use `select()` first \\
-       to select the elements to delete."
-    ))
-  }
+  select <- get_selection(json)
 
   if (length(select) == 0) {
     return(json)
