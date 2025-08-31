@@ -1,6 +1,11 @@
 #' @export
 
-update_selections <- function(json, new) {
+update_selections <- function(
+  json,
+  new,
+  format = c("auto", "pretty", "compact", "oneline")
+) {
+  format <- match.arg(format)
   selection <- get_selection(json)
   ptr <- length(selection)
   select <- selection[[ptr]]$nodes
@@ -33,7 +38,11 @@ update_selections <- function(json, new) {
   }
 
   # keep select nodes to inject the new elements
-  code <- serialize_json(new, collapse = TRUE)
+  # TODO
+  if (format == "auto") {
+    format <- "oneline"
+  }
+  code <- serialize_json(new, collapse = TRUE, format = format)
   json$code[select] <- NA_character_
   json$tws[select] <- code
   really_deleted <- setdiff(deleted, select)

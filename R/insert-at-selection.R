@@ -7,7 +7,14 @@
 # If no selection then insert into the root element or at top level if
 # none
 
-insert_at_selections <- function(json, new, key = NULL, at = Inf) {
+insert_at_selections <- function(
+  json,
+  new,
+  key = NULL,
+  at = Inf,
+  format = c("auto", "pretty", "compact", "oneline")
+) {
+  format <- match.arg(format)
   select <- get_selected_nodes(json)
 
   if (length(select) == 0) {
@@ -25,7 +32,11 @@ insert_at_selections <- function(json, new, key = NULL, at = Inf) {
            It must be an integer scalar or `Inf`."
         ))
       }
-      code <- serialize_json(new, collapse = TRUE)
+      # TODO
+      if (format == "auto") {
+        format <- "oneline"
+      }
+      code <- serialize_json(new, collapse = TRUE, format = format)
       chdn <- json$children[[sel1]]
       nchdn <- if (length(chdn) == 2) {
         0
