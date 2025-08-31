@@ -27,7 +27,11 @@ tojson <- local({
       nokey <- is.na(key) | key == ""
       key[nokey] <- seq_along(x)[nokey]
       x <- map2(jq(key), x, function(k, el) {
-        el[1] <- paste0(k, if (opts$pretty) ": " else ":", el[1])
+        el[1] <- paste0(
+          k,
+          if (opts$format %in% c("pretty", "oneline")) ": " else ":",
+          el[1]
+        )
         el
       })
     }
@@ -38,7 +42,8 @@ tojson <- local({
     }
 
     x2 <- lapply(x, function(el) {
-      el[length(el)] <- paste0(el[length(el)], ",")
+      cm <- if (opts$format == "oneline") ", " else ","
+      el[length(el)] <- paste0(el[length(el)], cm)
       el
     })
 
@@ -71,10 +76,12 @@ tojson <- local({
         j_list(row, opts)
       })
     ))
-    if (opts$pretty) {
+    if (opts$format == "pretty") {
       c("[", paste0("  ", sub), "]")
-    } else {
+    } else if (opts$format == "compact") {
       paste0(c("[", sub, "]"), collapse = "")
+    } else {
+      paste0(c("[ ", sub, " ]"), collapse = "")
     }
   }
 
@@ -86,17 +93,19 @@ tojson <- local({
       if (is.null(names(x))) "[]" else "{}"
     } else if (is.null(names(x))) {
       sub <- unlist(comma(lapply(x, j, opts), opts))
-      if (opts$pretty) {
+      if (opts$format == "pretty") {
         c("[", paste0("  ", sub), "]")
       } else {
         paste(c("[", sub, "]"), collapse = "")
       }
     } else {
       sub <- unlist(comma(lapply(x, j, opts), opts, names(x)))
-      if (opts$pretty) {
+      if (opts$format == "pretty") {
         c("{", paste0("  ", sub), "}")
-      } else {
+      } else if (opts$format == "compact") {
         paste(c("{", sub, "}"), collapse = "")
+      } else {
+        paste(c("{ ", sub, " }"), collapse = "")
       }
     }
   }
@@ -129,7 +138,7 @@ tojson <- local({
       if (is.na(x) || x == "NA") "null" else paste0(x)
     } else {
       x[is.na(x) | x == "NA"] <- "null"
-      sep <- if (opts$pretty) " " else ""
+      sep <- if (opts$format %in% c("pretty", "oneline")) " " else ""
       paste0("[", paste(comma(x), collapse = sep), "]")
     }
   }
@@ -159,7 +168,7 @@ tojson <- local({
   write_lines <- function(x, opts = NULL) {
     opts <- list(
       auto_unbox = opts$auto_unbox %||% FALSE,
-      pretty = opts$pretty %||% FALSE
+      format = opts$format %||% "pretty"
     )
     j(x, opts)
   }
