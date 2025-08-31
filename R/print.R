@@ -1,54 +1,153 @@
 #' @export
 
-print.tsjson <- function(x, ...) {
-  writeLines(format(x, ...))
+print.tsjson <- function(x, n = 10, ...) {
+  writeLines(format(x, n = n, ...))
   invisible(x)
 }
 
 #' @export
 
-format.tsjson <- function(x, ...) {
-  lns <- strsplit(rawToChar(attr(x, "text")), "\r?\n")[[1]]
-  num <- cli::col_grey(format(seq_along(lns)))
-  mark <- rep(" ", length(lns))
-
-  # do not highlight the default selection
+format.tsjson <- function(x, n = 10, ...) {
   sel <- get_selected_nodes(x, default = FALSE)
   if (length(sel) > 0) {
-    for (sel1 in sel) {
-      rows <- x$start_row[sel1]:x$end_row[sel1] + 1L
-      mark[rows] <- cli::bg_cyan(">")
-      # one row only
-      if (length(rows) == 1) {
-        lns[rows] <- hl(
-          lns[rows],
-          x$start_column[sel1] + 1L,
+    format_tsjson_selection(x, n = n, ...)
+  } else {
+    format_tsjson_noselection(x, n = n, ...)
+  }
+}
+
+format_tsjson_noselection <- function(x, n = 10, ...) {
+  lns <- strsplit(rawToChar(attr(x, "text")), "\r?\n")[[1]]
+  nc <- length(lns)
+  sc <- min(nc, n)
+  lns <- head(lns, sc)
+  num <- cli::col_grey(format(seq_len(sc)))
+
+  sel <- get_selected_nodes(x, default = FALSE)
+
+  grey <- cli::col_grey
+
+  sfn <- if (!is.null(attr(x, "file"))) paste0(basename(attr(x, "file")), ", ")
+
+  c(
+    if (is.null(sel)) {
+      grey(glue("# json ({snf}{nc} line{plural(nc)})"))
+    } else {
+      grey(glue("# json ({sfn}{nc} line{plural(nc)}, 0 selected elements)"))
+    },
+    paste0(num, if (sc) cli::col_grey(" | "), lns),
+    if (nc > sc) {
+      c(
+        grey(glue("{cli::symbol$info} {nc-sc} more line{plural(nc-sc)}")),
+        grey(glue("{cli::symbol$info} Use `print(n = ...)` to see more lines"))
+      )
+    }
+  )
+}
+
+format_tsjson_selection <- function(x, n = n, context = 3, ...) {
+  lns <- strsplit(rawToChar(attr(x, "text")), "\r?\n")[[1]]
+  nlns <- length(lns)
+  num <- seq_along(lns)
+  sel <- get_selected_nodes(x, default = FALSE)
+  nsel <- length(sel)
+  ssel <- min(nsel, n)
+  sel <- head(sel, ssel)
+
+  # calculate the lines affected by the first ssel selections
+  selrows <- rep(FALSE, nlns)
+  shwrows <- rep(FALSE, nlns)
+  for (sel1 in sel) {
+    beg <- x$start_row[sel1] + 1L
+    end <- x$end_row[sel1] + 1L
+    selrows[beg:end] <- TRUE
+    sbeg <- max(1, beg - context)
+    send <- min(nlns, end + context)
+    shwrows[sbeg:send] <- TRUE
+  }
+
+  # now highlight the selected elements
+  mark <- rep("  ", nlns)
+  for (sel1 in sel) {
+    rows <- x$start_row[sel1]:x$end_row[sel1] + 1L
+    mark[rows] <- paste0(cli::bg_cyan(">"), " ")
+    # one row only
+    if (length(rows) == 1) {
+      lns[rows] <- hl(
+        lns[rows],
+        x$start_column[sel1] + 1L,
+        x$end_column[sel1]
+      )
+    } else {
+      # first row
+      lns[rows[1]] <- hl(lns[rows[1]], x$start_column[sel1] + 1L, end = NULL)
+      # middle rows, if any
+      if (length(rows) > 2) {
+        mid <- rows[-c(1, length(rows))]
+        lns[mid] <- hl(lns[mid])
+      }
+      # last row
+      if (length(rows) >= 2) {
+        lns[rows[length(rows)]] <- hl(
+          lns[rows[length(rows)]],
+          start = NULL,
           x$end_column[sel1]
         )
-      } else {
-        # first row
-        lns[rows[1]] <- hl(lns[rows[1]], x$start_column[sel1] + 1L, end = NULL)
-        # middle rows, if any
-        if (length(rows) > 2) {
-          mid <- rows[-c(1, length(rows))]
-          lns[mid] <- hl(lns[mid])
-        }
-        # last row
-        if (length(rows) >= 2) {
-          lns[rows[length(rows)]] <- hl(
-            lns[rows[length(rows)]],
-            start = NULL,
-            x$end_column[sel1]
-          )
-        }
       }
     }
   }
 
+  grey <- cli::col_grey
+
+  # add ... between consecutive lines
+  dots <- diff(c(1, num[shwrows])) > 1
+  dotlns <- num[shwrows][dots] - 1L
+  # add ... to the end
+  lastshown <- tail(num[shwrows], 1)
+  if (lastshown < nlns) {
+    dotlns <- c(dotlns, lastshown + 1L)
+  }
+  shwrows[dotlns] <- TRUE
+
+  # format the ... lines
+  num[shwrows] <- format(num[shwrows])
+  num[dotlns] <- "..."
+  num <- grey(format(num[shwrows]))
+  lns[dotlns] <- ""
+  split <- rep(cli::col_grey(" | "), nlns)
+  split[dotlns] <- "   "
+
+  slns <- paste0(mark[shwrows], num, split[shwrows], lns[shwrows])
+
+  sfn <- if (!is.null(attr(x, "file"))) paste0(basename(attr(x, "file")), ", ")
+
   c(
-    "<json>",
-    paste0((mark), " ", num, if (length(lns)) cli::col_grey(" | "), lns)
+    grey(glue(
+      "# json ({sfn}{nlns} line{plural(nlns)}, \\
+      {nsel} selected element{plural(nsel)})"
+    )),
+    slns,
+    if (nsel > ssel) {
+      c(
+        grey(glue(
+          "{cli::symbol$info} {nsel-ssel} more selected \\
+          element{plural(nsel-ssel)}"
+        )),
+        grey(glue(
+          "{cli::symbol$info} Use `print(n = ...)` to see more selected \\
+           elements"
+        ))
+      )
+    }
   )
+}
+
+plural <- function(x) {
+  if (x > 1) {
+    "s"
+  } else {
+    ""
+  }
 }
 
 # TODO: only vectorized for the default case
