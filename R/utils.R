@@ -17,3 +17,11 @@ map_chr <- function(.x, .f, ...) {
 na_omit <- function(x) {
   x[!is.na(x)]
 }
+
+middle <- function(x) {
+  if (length(x) <= 2) {
+    x[numeric()]
+  } else {
+    x[-c(1, length(x))]
+  }
+}

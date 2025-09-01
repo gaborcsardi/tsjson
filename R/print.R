@@ -83,7 +83,7 @@ format_tsjson_selection <- function(x, n = n, context = 3, ...) {
       lns[rows[1]] <- hl(lns[rows[1]], x$start_column[sel1] + 1L, end = NULL)
       # middle rows, if any
       if (length(rows) > 2) {
-        mid <- rows[-c(1, length(rows))]
+        mid <- middle(rows)
         lns[mid] <- hl(lns[mid])
       }
       # last row

@@ -95,6 +95,8 @@ tojson <- local({
       sub <- unlist(comma(lapply(x, j, opts), opts))
       if (opts$format == "pretty") {
         c("[", paste0("  ", sub), "]")
+      } else if (opts$format == "oneline") {
+        paste(c("[ ", sub, " ]"), collapse = "")
       } else {
         paste(c("[", sub, "]"), collapse = "")
       }
