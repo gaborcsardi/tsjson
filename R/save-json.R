@@ -10,11 +10,14 @@ save_json <- function(json, file = NULL) {
   }
 
   text <- attr(json, "text")
+  if (length(text) > 0 && text[length(text)] != 0xa) {
+    text <- c(text, as.raw(0xa))
+  }
   if (inherits(file, "connection")) {
     if (summary(file)$mode == "wb") {
       writeBin(text, con = file)
     } else {
-      writeChar(text, con = file)
+      writeChar(rawToChar(text), con = file, useBytes = TRUE)
     }
   } else {
     writeBin(text, con = file)

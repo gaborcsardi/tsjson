@@ -38,10 +38,6 @@ update_selections <- function(
   }
 
   # keep select nodes to inject the new elements
-  # TODO
-  if (format == "auto") {
-    format <- "oneline"
-  }
   code <- serialize_json(new, collapse = TRUE, format = format)
   json$code[select] <- NA_character_
   json$tws[select] <- code
