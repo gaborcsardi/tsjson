@@ -17,7 +17,7 @@ save_json <- function(json, file = NULL) {
     if (summary(file)$mode == "wb") {
       writeBin(text, con = file)
     } else {
-      writeChar(rawToChar(text), con = file, useBytes = TRUE)
+      cat(rawToChar(text), file = file)
     }
   } else {
     writeBin(text, con = file)

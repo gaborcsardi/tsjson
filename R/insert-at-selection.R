@@ -58,7 +58,15 @@ insert_at_selections <- function(
     while (aft != 1 && is.na(json$code[aft])) {
       aft <- tail(json$children[[aft]], 1)
     }
-    json$tws[aft] <- paste0(json$tws[aft], ins$code)
+    # reformat whole array
+    lastchld <- json$children[[ins$select]][2]
+    json$tws[lastchld] <- paste0(reformat_mark, json$tws[lastchld])
+    json$tws[aft] <- paste0(
+      if (ins$leading_comma) ",",
+      json$tws[aft],
+      ins$code,
+      if (ins$trailing_comma) ","
+    )
   }
 
   parts <- c(rbind(json$code, json$tws))
@@ -67,9 +75,17 @@ insert_at_selections <- function(
   # TODO: update coordinates without reparsing
   new <- load_json(text = text)
   attr(new, "file") <- attr(json, "file")
+  rm(json)
 
-  new
+  # now reformat the new parts, or the newly non-empty arrays/objects
+  tofmt <- which(startsWith(new$tws, reformat_mark))
+  new$tws[tofmt] <- gsub(reformat_mark, "", new$tws[tofmt], fixed = TRUE)
+  tofmt2 <- new$parent[tofmt]
+  new <- select(new, sel_ids(tofmt2))
+  deselect(format_selections(new))
 }
+
+reformat_mark <- "\f"
 
 insert_into_array <- function(json, sel1, new, at, format) {
   if (!is.numeric(at)) {
@@ -84,46 +100,24 @@ insert_into_array <- function(json, sel1, new, at, format) {
   } else {
     (length(chdn) - 1L) / 2L
   }
-  cc <- if (format == "oneline") ", " else ","
-  lc <- tc <- NULL
   after <- if (at < 1) {
-    tc <- if (nchdn >= 1) cc
     chdn[1]
   } else if (at >= nchdn) {
-    lc <- if (nchdn >= 1) cc
     chdn[length(chdn) - 1L]
   } else {
-    lc <- cc
     chdn[at * 2L]
   }
-  # need the indentation of the array element itself
-  # take the last trailing whitespace of the previous line
-  code <- serialize_json(new, collapse = FALSE, format = format)
-  ind <- if (format == "pretty") {
-    prevline <- rev(which(json$end_row == json$start_row[sel1] - 1))[1]
-    ind0 <- sub("^.*\n", "", json$tws[prevline])
-    if (is.na(prevline)) {
-      ""
-    } else {
-      c("  ", rep(paste0(ind0, "  "), length(code) - 1L))
-    }
-  }
-  lws <- switch(
-    format,
-    "pretty" = if (is.null(lc)) paste0("\n", ind0),
-    "oneline" = " ",
-    ""
-  )
-  tws <- switch(format, "pretty" = paste0("\n", ind0), "oneline" = " ", "")
+
   list(
+    select = sel1,
     after = after,
-    code = paste0(lc, lws, paste0(ind, code, collapse = "\n"), tc, tws)
+    code = serialize_json(new, collapse = TRUE, format = "compact"),
+    leading_comma = at < 1 || (at >= nchdn && nchdn >= 1) || at < nchdn,
+    trailing_comma = at < 1 && nchdn >= 1
   )
 }
 
 insert_into_object <- function(json, sel1, new, key, at, format) {
-  code <- serialize_json(new, collapse = FALSE, format = format)
-  code[1] <- paste0('"', key, switch(format, compact = '":', '": '), code[1])
   chdn <- json$children[[sel1]]
   nchdn <- if (length(chdn) == 2) {
     0
@@ -143,38 +137,26 @@ insert_into_object <- function(json, sel1, new, key, at, format) {
       at <- Inf
     }
   }
-  cc <- if (format == "oneline") ", " else ","
-  lc <- tc <- NULL
   after <- if (at < 1) {
-    tc <- if (nchdn >= 1) cc
     chdn[1]
   } else if (at >= nchdn) {
-    lc <- if (nchdn >= 1) cc
     chdn[length(chdn) - 1L]
   } else {
-    lc <- cc
     chdn[at * 2L]
   }
-  # need the indentation of the array element itself
-  # take the last trailing whitespace of the previous line
-  ind <- if (format == "pretty") {
-    prevline <- rev(which(json$end_row == json$start_row[sel1] - 1))[1]
-    ind0 <- sub("^.*\n", "", json$tws[prevline])
-    if (is.na(prevline)) {
-      ""
-    } else {
-      c("  ", rep(paste0(ind0, "  "), length(code) - 1L))
-    }
-  }
-  lws <- switch(
-    format,
-    "pretty" = paste0("\n", ind0),
-    "oneline" = " ",
-    ""
+
+  code <- paste0(
+    '"',
+    key,
+    '":',
+    serialize_json(new, collapse = TRUE, format = "compact")
   )
-  tws <- switch(format, "pretty" = paste0("\n", ind0), "oneline" = " ", "")
+
   list(
+    select = sel1,
     after = after,
-    code = paste0(lc, lws, paste0(ind, code, collapse = "\n"), tc, tws)
+    code = paste0(code, collapse = "\n"),
+    leading_comma = at < 1 || (at >= nchdn && nchdn >= 1) || at < nchdn,
+    trailing_comma = at < 1 && nchdn >= 1
   )
 }

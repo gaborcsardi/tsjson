@@ -38,7 +38,7 @@ update_selections <- function(
   }
 
   # keep select nodes to inject the new elements
-  code <- serialize_json(new, collapse = TRUE, format = format)
+  code <- serialize_json(new, collapse = TRUE, format = "compact")
   json$code[select] <- NA_character_
   json$tws[select] <- code
   really_deleted <- setdiff(deleted, select)

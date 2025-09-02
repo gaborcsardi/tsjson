@@ -44,6 +44,13 @@ select <- function(json, ...) {
 
 #' @export
 
+deselect <- function(json) {
+  attr(json, "selection") <- NULL
+  json
+}
+
+#' @export
+
 `[[.tsjson` <- function(x, i, ...) {
   select_refine(x, i, ...)
 }
@@ -82,7 +89,9 @@ select_add <- function(json, ...) {
 
 select_ <- function(json, current, slts) {
   slts <- unlist(
-    lapply(slts, function(x) if (!is.list(x)) list(x) else x),
+    lapply(slts, function(x) {
+      if (inherits(x, "tsjson_selector") || !is.list(x)) list(x) else x
+    }),
     recursive = FALSE
   )
   current <- current %||% get_default_selection(json)
@@ -130,6 +139,9 @@ select1 <- function(json, idx, slt) {
     chdn <- json$children[[idx]]
     chdn <- chdn[!json$type[chdn] %in% c("[", ",", "]", "{", "}", "comment")]
     rev(rev(chdn)[slt$v])
+  } else if (inherits(slt, "tsjson_selector_ids")) {
+    # this is special, select exactly these elements
+    return(slt$ids)
   } else if (is.character(slt)) {
     if (type != "object") {
       integer()
@@ -170,6 +182,13 @@ sel_default <- function() {
   )
 }
 
+sel_ids <- function(ids) {
+  structure(
+    list(ids = ids),
+    class = c("tsjson_selector_ids", "tsjson_selector", "list")
+  )
+}
+
 #' @export
 
 sel_all <- function() {
@@ -181,7 +200,7 @@ sel_all <- function() {
 sel_regex <- function(regex, ignore_case = FALSE, invert = FALSE) {
   structure(
     list(regex = regex, ignore_case = ignore_case, invert = invert),
-    class = c("tsjson_selector_regex", "tsjson_selection_all", "list")
+    class = c("tsjson_selector_regex", "tsjson_selector", "list")
   )
 }
 
@@ -190,7 +209,7 @@ sel_regex <- function(regex, ignore_case = FALSE, invert = FALSE) {
 sel_back <- function(v) {
   structure(
     list(v = v),
-    class = c("tsjson_selector_back", "tsjson_selection_all", "list")
+    class = c("tsjson_selector_back", "tsjson_selector", "list")
   )
 }
 

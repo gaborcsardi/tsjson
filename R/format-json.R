@@ -38,19 +38,18 @@ format_selections <- function(
     }
   }
 
-  deleted <- select
-  while (TRUE) {
-    deleted2 <- unique(c(deleted, unlist(json$children[deleted])))
-    if (length(deleted2) == length(deleted)) {
-      break
-    }
-    deleted <- deleted2
-  }
+  subtrees <- lapply(select, get_subtree, json = json)
+  deleted <- unique(unlist(subtrees))
 
-  really_deleted <- setdiff(deleted, select)
-  json$code[really_deleted] <- NA_character_
-  json$tws[really_deleted] <- NA_character_
-  json$code[select] <- map_chr(fmt, paste, collapse = "\n")
+  # need to keep the trailing ws of the last element
+  lasts <- map_int(subtrees, max)
+  tws <- json$tws[lasts]
+  json$code[deleted] <- NA_character_
+  json$tws[deleted] <- NA_character_
+  json$code[select] <- paste0(
+    map_chr(fmt, paste, collapse = "\n"),
+    ifelse(is.na(tws), "", tws)
+  )
 
   parts <- c(rbind(json$code, json$tws))
   text <- unlist(lapply(na_omit(parts), charToRaw))
@@ -60,6 +59,17 @@ format_selections <- function(
   attr(new, "file") <- attr(json, "file")
 
   new
+}
+
+get_subtree <- function(json, id) {
+  sel <- json$children[[id]]
+  while (TRUE) {
+    sel2 <- unique(c(sel, unlist(json$children[sel])))
+    if (length(sel2) == length(sel)) {
+      return(sel)
+    }
+    sel <- sel2
+  }
 }
 
 format_element <- function(json, id, format) {
