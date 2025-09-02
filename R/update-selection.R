@@ -3,7 +3,7 @@
 update_selections <- function(
   json,
   new,
-  format = c("auto", "pretty", "compact", "oneline")
+  format = c("pretty", "compact", "oneline")
 ) {
   format <- match.arg(format)
   selection <- get_selection(json)
@@ -28,23 +28,37 @@ update_selections <- function(
     return(insert_at_selections(json, new[[1]], key = names(new)))
   }
 
-  deleted <- select
-  while (TRUE) {
-    deleted2 <- unique(c(deleted, unlist(json$children[deleted])))
-    if (length(deleted2) == length(deleted)) {
-      break
+  fmt <- replicate(
+    length(select),
+    serialize_json(new, collapse = FALSE, format = format),
+    simplify = FALSE
+  )
+
+  # keep original indentation at the start row
+  for (i in seq_along(select)) {
+    sel1 <- select[i]
+    prevline <- rev(which(json$end_row == json$start_row[sel1] - 1))[1]
+    ind0 <- sub("^.*\n", "", json$tws[prevline])
+    if (!is.na(prevline)) {
+      fmt[[i]] <- paste0(c("", rep(ind0, length(fmt[[i]]) - 1L)), fmt[[i]])
     }
-    deleted <- deleted2
   }
 
+  subtrees <- lapply(select, get_subtree, json = json, with_root = FALSE)
+  deleted <- unique(unlist(subtrees))
+
+  # need to keep the trailing ws of the last element
+  lasts <- map_int(subtrees, max)
+  tws <- json$tws[lasts]
+  json$code[deleted] <- NA_character_
+  json$tws[deleted] <- NA_character_
+
   # keep select nodes to inject the new elements
-  code <- serialize_json(new, collapse = TRUE, format = "compact")
-  json$code[select] <- NA_character_
-  json$tws[select] <- code
-  really_deleted <- setdiff(deleted, select)
-  if (length(really_deleted)) {
-    json <- json[-really_deleted, ]
-  }
+  json$code[select] <- paste0(
+    map_chr(fmt, paste, collapse = "\n"),
+    ifelse(is.na(tws), "", tws)
+  )
+  json$tws[select] <- NA_character_
 
   parts <- c(rbind(json$code, json$tws))
   text <- unlist(lapply(na_omit(parts), charToRaw))

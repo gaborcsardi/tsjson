@@ -38,7 +38,7 @@ format_selections <- function(
     }
   }
 
-  subtrees <- lapply(select, get_subtree, json = json)
+  subtrees <- lapply(select, get_subtree, json = json, with_root = FALSE)
   deleted <- unique(unlist(subtrees))
 
   # need to keep the trailing ws of the last element
@@ -50,6 +50,7 @@ format_selections <- function(
     map_chr(fmt, paste, collapse = "\n"),
     ifelse(is.na(tws), "", tws)
   )
+  json$tws[select] <- NA_character_
 
   parts <- c(rbind(json$code, json$tws))
   text <- unlist(lapply(na_omit(parts), charToRaw))
@@ -61,8 +62,8 @@ format_selections <- function(
   new
 }
 
-get_subtree <- function(json, id) {
-  sel <- json$children[[id]]
+get_subtree <- function(json, id, with_root = FALSE) {
+  sel <- c(if (with_root) id, json$children[[id]])
   while (TRUE) {
     sel2 <- unique(c(sel, unlist(json$children[sel])))
     if (length(sel2) == length(sel)) {
