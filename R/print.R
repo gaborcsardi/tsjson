@@ -23,7 +23,7 @@ format_tsjson_noselection <- function(x, n = 10, ...) {
   lns <- head(lns, sc)
   num <- cli::col_grey(format(seq_len(sc)))
 
-  sel <- get_selected_nodes(x, default = FALSE)
+  sel <- get_selection(x, default = FALSE)
 
   grey <- cli::col_grey
 
@@ -31,7 +31,7 @@ format_tsjson_noselection <- function(x, n = 10, ...) {
 
   c(
     if (is.null(sel)) {
-      grey(glue("# json ({snf}{nc} line{plural(nc)})"))
+      grey(glue("# json ({sfn}{nc} line{plural(nc)})"))
     } else {
       grey(glue("# json ({sfn}{nc} line{plural(nc)}, 0 selected elements)"))
     },
@@ -143,7 +143,7 @@ format_tsjson_selection <- function(x, n = n, context = 3, ...) {
 }
 
 plural <- function(x) {
-  if (x > 1) {
+  if (x != 1) {
     "s"
   } else {
     ""

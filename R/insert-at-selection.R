@@ -30,7 +30,7 @@ insert_at_selections <- function(
         # if there is no space after children (except the last ], }), compact
         # except if it is the empty array/object
         chdn <- json$children[[sel1]]
-        if (length(chdn) == 2) {
+        if (length(chdn) == 2 || sel1 == 1L) {
           "pretty"
         } else if (all(json$tws[head(chdn, -1)] == "")) {
           "compact"
@@ -41,7 +41,7 @@ insert_at_selections <- function(
     }
     type <- json$type[sel1]
     if (type == "document") {
-      stop(cnd("Inserting into a document element is not implemented yet"))
+      insert_into_document(json, new, format)
     } else if (type == "array") {
       insert_into_array(json, sel1, new, at, format)
     } else if (type == "object") {
@@ -86,6 +86,30 @@ insert_at_selections <- function(
 }
 
 reformat_mark <- "\f"
+
+insert_into_document <- function(json, new, format) {
+  top <- json$children[[1]]
+  notcmt <- top[json$type[top] != "comment"]
+  if (length(notcmt) != 0) {
+    stop(cnd(
+      "Cannot insert JSON element at the document root if the document \\
+       already has other non-comment elements."
+    ))
+  }
+
+  text <- attr(json, "text")
+  nl <- if (length(text) > 0 && text[length(text)] != 0xa) {
+    "\n"
+  }
+
+  list(
+    select = 1L,
+    after = nrow(json),
+    code = paste0(nl, serialize_json(new, collapse = TRUE, format = format)),
+    leading_comma = FALSE,
+    trailing_comma = FALSE
+  )
+}
 
 insert_into_array <- function(json, sel1, new, at, format) {
   if (!is.numeric(at)) {
