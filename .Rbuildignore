@@ -2,3 +2,4 @@
 ^LICENSE\.md$
 ^[\.]?air\.toml$
 ^\.vscode$
+^\.covrignore$

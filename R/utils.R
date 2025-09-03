@@ -35,3 +35,7 @@ max_or_na <- function(x) {
     NA_real_
   }
 }
+
+mkdirp <- function(x) {
+  dir.create(x, showWarnings = FALSE, recursive = TRUE)
+}

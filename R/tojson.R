@@ -141,7 +141,7 @@ tojson <- local({
     } else {
       x[is.na(x) | x == "NA"] <- "null"
       sep <- if (opts$format %in% c("pretty", "oneline")) " " else ""
-      paste0("[", paste(comma(x), collapse = sep), "]")
+      paste0("[", paste(comma(x, opts), collapse = sep), "]")
     }
   }
 
