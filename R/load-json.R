@@ -44,5 +44,6 @@ load_json <- function(file = NULL, text = NULL) {
 
 `[.tsjson` <- function(x, i, j, drop = FALSE) {
   class(x) <- setdiff(class(x), "tsjson")
+  requireNamespace("pillar", quietly = TRUE)
   NextMethod("[")
 }
