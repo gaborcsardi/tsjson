@@ -77,7 +77,7 @@ insert_at_selections <- function(
   attr(new, "file") <- attr(json, "file")
 
   # now reformat the new parts, or the newly non-empty arrays/objects
-  tofmt <- which(startsWith(new$tws, reformat_mark))
+  tofmt <- grep(reformat_mark, new$tws, fixed = TRUE)
   new$tws[tofmt] <- gsub(reformat_mark, "", new$tws[tofmt], fixed = TRUE)
   tofmt2 <- new$parent[tofmt]
   new <- select(new, sel_ids(tofmt2))
