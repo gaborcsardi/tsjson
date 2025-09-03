@@ -1,5 +1,3 @@
-#' @export
-
 unserialize_json <- function(file = NULL, text = NULL) {
   # parse file/text
   # TODO: error on error, get error position

@@ -1,5 +1,3 @@
-#' @export
-
 format_json <- function(
   file = NULL,
   text = NULL,
