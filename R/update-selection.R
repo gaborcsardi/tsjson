@@ -25,7 +25,7 @@ update_selections <- function(
       )
     }
     attr(json, "selection") <- selection[1:(ptr - 1L)]
-    return(insert_at_selections(json, new[[1]], key = names(new)))
+    return(insert_into_selections(json, new[[1]], key = names(new)))
   }
 
   fmt <- replicate(

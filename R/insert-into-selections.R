@@ -7,7 +7,7 @@
 # If no selection then insert into the root element or at top level if
 # none
 
-insert_at_selections <- function(
+insert_into_selections <- function(
   json,
   new,
   key = NULL,
