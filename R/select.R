@@ -76,17 +76,6 @@ select_refine <- function(json, ...) {
   select_(json, current = current, list(...))
 }
 
-#' @export
-
-select_add <- function(json, ...) {
-  stop("defunct, temporarily")
-  # do not use get_selection() here, don't want to add to the whole document
-  current <- attr(json, "selection")
-  json <- select_(json, current = NULL, list(...))
-  attr(json, "selection") <- sort(unique(c(current, attr(json, "selection"))))
-  json
-}
-
 select_ <- function(json, current, slts) {
   slts <- unlist(
     lapply(slts, function(x) {

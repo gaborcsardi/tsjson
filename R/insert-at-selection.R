@@ -75,7 +75,6 @@ insert_at_selections <- function(
   # TODO: update coordinates without reparsing
   new <- load_json(text = text)
   attr(new, "file") <- attr(json, "file")
-  rm(json)
 
   # now reformat the new parts, or the newly non-empty arrays/objects
   tofmt <- which(startsWith(new$tws, reformat_mark))
