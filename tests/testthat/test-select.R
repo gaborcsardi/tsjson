@@ -127,7 +127,7 @@ test_that("[[<-.tsjson deletion", {
   })
 })
 
-test_that("sel_regex", {
+test_that("select regex", {
   json <- load_json(
     text = serialize_json(list(
       a1 = 1,
@@ -138,7 +138,7 @@ test_that("sel_regex", {
   )
 
   expect_snapshot({
-    json[[sel_regex("^a")]]
+    json[[c(regex = "^a")]]
   })
 
   # regex in array selects nothing
@@ -146,7 +146,7 @@ test_that("sel_regex", {
     text = serialize_json(list(1, 2, 3))
   )
   expect_snapshot(
-    json2[[sel_regex(".")]]
+    json2[[c(regex = ".")]]
   )
 })
 

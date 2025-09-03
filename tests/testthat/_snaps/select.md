@@ -359,10 +359,10 @@
       7 |   ]
       8 | }
 
-# sel_regex
+# select regex
 
     Code
-      json[[sel_regex("^a")]]
+      json[[c(regex = "^a")]]
     Output
       [[1]]
       [1] 1
@@ -390,7 +390,7 @@
 ---
 
     Code
-      json2[[sel_regex(".")]]
+      json2[[c(regex = ".")]]
     Output
       list()
 

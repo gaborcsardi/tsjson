@@ -131,7 +131,7 @@ select1 <- function(json, idx, slt) {
   sel <- if (identical(slt, TRUE)) {
     chdn <- json$children[[idx]]
     chdn[!json$type[chdn] %in% c("[", ",", "]", "{", "}", "comment")]
-  } else if (inherits(slt, "tsjson_selector_regex")) {
+  } else if (is.character(slt) && identical(names(slt), "regex")) {
     if (type != "object") {
       integer()
     } else {
@@ -142,12 +142,7 @@ select1 <- function(json, idx, slt) {
         !is.na(json$field_name[chdn]) & json$field_name[chdn] == "key"
       ]
       keyvals <- map_chr(keys, unserialize_string, token_table = json)
-      pairs[grep(
-        slt$regex,
-        keyvals,
-        ignore.case = slt$ignore_case,
-        invert = slt$invert
-      )]
+      pairs[grep(slt, keyvals)]
     }
   } else if (inherits(slt, "tsjson_selector_ids")) {
     # this is special, select exactly these elements
@@ -207,15 +202,6 @@ sel_ids <- function(ids) {
   structure(
     list(ids = ids),
     class = c("tsjson_selector_ids", "tsjson_selector", "list")
-  )
-}
-
-#' @export
-
-sel_regex <- function(regex, ignore_case = FALSE, invert = FALSE) {
-  structure(
-    list(regex = regex, ignore_case = ignore_case, invert = invert),
-    class = c("tsjson_selector_regex", "tsjson_selector", "list")
   )
 }
 
