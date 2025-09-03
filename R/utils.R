@@ -25,3 +25,13 @@ middle <- function(x) {
     x[-c(1, length(x))]
   }
 }
+
+max_or_na <- function(x) {
+  if (length(x)) {
+    max(x)
+  } else if (is.integer(x)) {
+    NA_integer_
+  } else {
+    NA_real_
+  }
+}

@@ -42,7 +42,7 @@ format_selections <- function(
   deleted <- unique(unlist(subtrees))
 
   # need to keep the trailing ws of the last element
-  lasts <- map_int(subtrees, max)
+  lasts <- map_int(subtrees, max_or_na)
   tws <- json$tws[lasts]
   json$code[deleted] <- NA_character_
   json$tws[deleted] <- NA_character_

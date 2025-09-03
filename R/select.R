@@ -52,12 +52,18 @@ deselect <- function(json) {
 #' @export
 
 `[[.tsjson` <- function(x, i, ...) {
+  if (missing(i)) {
+    i <- list()
+  }
   select_refine(x, i, ...)
 }
 
 #' @export
 
 `[[<-.tsjson` <- function(x, i, value) {
+  if (missing(i)) {
+    i <- list()
+  }
   res <- if (inherits(value, "tsjson")) {
     value
   } else if (inherits(value, "tsjson_action_delete")) {
@@ -97,7 +103,12 @@ select_ <- function(json, current, slts) {
     )
     cnodes <- current[[length(current)]]$nodes
   }
-  attr(json, "selection") <- current
+  # if 'document' is selected, that means there is no selection
+  if (identical(current[[1]]$nodes, 1L)) {
+    attr(json, "selection") <- NULL
+  } else {
+    attr(json, "selection") <- current
+  }
   json
 }
 
