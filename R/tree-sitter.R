@@ -1,21 +1,31 @@
 #' @export
 
 s_expr <- function(
-  code,
+  file = NULL,
+  text = NULL,
   ranges = NULL
 ) {
-  if (is.character(code)) {
-    code <- charToRaw(paste(code, collapse = "\n"))
+  if (is.null(text) + is.null(file) != 1) {
+    stop(cnd(
+      "Invalid arguments in `s_expr()`: exactly one of `file` \\
+       and `text` must be given."
+    ))
   }
-  call_with_cleanup(c_s_expr, code, 0L, ranges)
+  if (is.null(text)) {
+    text <- readBin(file, "raw", n = file.size(file))
+  }
+  if (is.character(text)) {
+    text <- charToRaw(paste(text, collapse = "\n"))
+  }
+  call_with_cleanup(c_s_expr, text, 0L, ranges)
 }
 
 #' @export
 
 token_table <- function(
   file = NULL,
-  ranges = NULL,
-  text = NULL
+  text = NULL,
+  ranges = NULL
 ) {
   if (is.null(text) + is.null(file) != 1) {
     stop(cnd(
@@ -44,8 +54,8 @@ token_table <- function(
 
 syntax_tree <- function(
   file = NULL,
-  ranges = NULL,
-  text = NULL
+  text = NULL,
+  ranges = NULL
 ) {
   tokens <- token_table(file, ranges = ranges, text = text)
 
@@ -102,21 +112,28 @@ syntax_tree <- function(
 #' @export
 
 code_query <- function(
-  code = NULL,
-  query,
   file = NULL,
+  text = NULL,
+  query,
   ranges = NULL
 ) {
+  if (is.null(text) + is.null(file) != 1) {
+    stop(cnd(
+      "Invalid arguments in `code_query()`: exactly one of `file` \\
+       and `text` must be given."
+    ))
+  }
+
   qlen <- nchar(query, type = "bytes") + 1L # + \n
   qbeg <- c(1L, cumsum(qlen))
   qnms <- names(query) %||% rep(NA_character_, length(query))
   query1 <- paste0(query, "\n", collapse = "")
 
-  if (!is.null(code)) {
-    if (is.character(code)) {
-      code <- charToRaw(paste(code, collapse = "\n"))
+  if (!is.null(text)) {
+    if (is.character(text)) {
+      text <- charToRaw(paste(text, collapse = "\n"))
     }
-    res <- call_with_cleanup(c_code_query, code, query1, 0L, ranges)
+    res <- call_with_cleanup(c_code_query, text, query1, 0L, ranges)
   } else {
     res <- call_with_cleanup(c_code_query_path, file, query1, 0L, ranges)
   }
