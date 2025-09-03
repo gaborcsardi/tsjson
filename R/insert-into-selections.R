@@ -7,7 +7,7 @@
 # If no selection then insert into the root element or at top level if
 # none
 
-insert_into_selections <- function(
+insert_into_selected <- function(
   json,
   new,
   key = NULL,
@@ -81,7 +81,7 @@ insert_into_selections <- function(
   new$tws[tofmt] <- gsub(reformat_mark, "", new$tws[tofmt], fixed = TRUE)
   tofmt2 <- new$parent[tofmt]
   new <- select(new, sel_ids(tofmt2))
-  deselect(format_selections(new))
+  deselect(format_selected(new))
 }
 
 reformat_mark <- "\f"

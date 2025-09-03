@@ -1,3 +1,5 @@
+#' @export
+
 serialize_json <- function(
   obj,
   file = NULL,

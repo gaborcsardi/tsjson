@@ -17,7 +17,7 @@ test_that("save_json", {
     save_json(json)
   })
 
-  save_json(delete_selections(load_json(tmp)[["a"]]))
+  save_json(delete_selected(load_json(tmp)[["a"]]))
   expect_snapshot({
     load_json(tmp)
   })

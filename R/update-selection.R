@@ -1,6 +1,17 @@
+#' Replace selected JSON elements with a new element
+#'
+#' TODO
+#'
+#' @param json tsjson object.
+#' @param new R object that will be serialized to JSON (using
+#'   [serialize_json()]) and inserted in place of the selected JSON
+#'   elements.
+#' @param format How to format `new`. See [format_selected()].
+#' @return The updated tsjson object
+#'
 #' @export
 
-update_selections <- function(
+update_selected <- function(
   json,
   new,
   format = c("pretty", "compact", "oneline")
@@ -25,7 +36,7 @@ update_selections <- function(
       )
     }
     attr(json, "selection") <- selection[1:(ptr - 1L)]
-    return(insert_into_selections(json, new[[1]], key = names(new)))
+    return(insert_into_selected(json, new[[1]], key = names(new)))
   }
 
   fmt <- replicate(

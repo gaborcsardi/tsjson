@@ -1,3 +1,5 @@
+#' @export
+
 unserialize_json <- function(file = NULL, text = NULL) {
   # parse file/text
   # TODO: error on error, get error position
@@ -18,7 +20,7 @@ unserialize_json <- function(file = NULL, text = NULL) {
 
 #' @export
 
-unserialize_selections <- function(json) {
+unserialize_selected <- function(json) {
   sel <- get_selected_nodes(json)
   lapply(sel, unserialize_element, token_table = json)
 }

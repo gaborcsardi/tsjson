@@ -18,9 +18,17 @@ format_json <- function(
   format_element(json, top, format = format)
 }
 
+#' Format the selected JSON elements
+#'
+#' TODO
+#'
+#' @param json tsjson object.
+#' @param format How to format `new`. See [format_selected()].
+#' @return The updated tsjson object.
+#'
 #' @export
 
-format_selections <- function(
+format_selected <- function(
   json,
   format = c("pretty", "oneline", "compact")
 ) {

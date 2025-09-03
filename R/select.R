@@ -67,9 +67,9 @@ deselect <- function(json) {
   res <- if (inherits(value, "tsjson")) {
     value
   } else if (inherits(value, "tsjson_action_delete")) {
-    delete_selections(select_refine(x, i))
+    delete_selected(select_refine(x, i))
   } else {
-    update_selections(select_refine(x, i), value)
+    update_selected(select_refine(x, i), value)
   }
   attr(res, "selection") <- NULL
   res

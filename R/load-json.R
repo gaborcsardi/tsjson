@@ -1,3 +1,10 @@
+#' Parse a JSON file or string into a tsjson object
+#'
+#' TODO
+#'
+#' @param file Path of a JSON file. Use either `file` or `text`.
+#' @param text JSON string. Use either `file` or `text`.
+#' @return A tsjson object.
 #' @export
 
 load_json <- function(file = NULL, text = NULL) {
