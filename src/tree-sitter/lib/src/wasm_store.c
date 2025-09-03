@@ -17,11 +17,11 @@
 #include <wasmtime.h>
 
 #ifdef _MSC_VER
-#pragma warning(push)
-#pragma warning(disable : 4100)
+# pragma warning(push)
+# pragma warning(disable : 4100)
 #elif defined(__GNUC__) || defined(__clang__)
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wunused-parameter"
+# pragma GCC diagnostic push
+# pragma GCC diagnostic ignored "-Wunused-parameter"
 #endif
 
 #define array_len(a) (sizeof(a) / sizeof(a[0]))
@@ -1826,9 +1826,9 @@ void ts_wasm_language_release(const TSLanguage *self) {
 }
 
 #ifdef _MSC_VER
-#pragma warning(pop)
+# pragma warning(pop)
 #elif defined(__GNUC__) || defined(__clang__)
-#pragma GCC diagnostic pop
+# pragma GCC diagnostic pop
 #endif
 
 #else
