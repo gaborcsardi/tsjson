@@ -60,6 +60,20 @@ deselect <- function(json) {
 
 #' @export
 
+`select<-` <- function(x, ..., value) {
+  res <- if (inherits(value, "tsjson")) {
+    value
+  } else if (inherits(value, "tsjson_action_delete")) {
+    delete_selected(select_refine(x, ...))
+  } else {
+    update_selected(select_refine(x, ...), value)
+  }
+  attr(res, "selection") <- NULL
+  res
+}
+
+#' @export
+
 `[[<-.tsjson` <- function(x, i, value) {
   if (missing(i)) {
     i <- list()
