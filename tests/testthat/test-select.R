@@ -32,7 +32,7 @@ test_that("select", {
     select(json, "b", "b1")
     select(json, list("b", "b1"))
     select(json, "d", 1)
-    select(json, "d", sel_all())
+    select(json, "d", TRUE)
   })
 
   expect_snapshot(error = TRUE, {
@@ -67,7 +67,7 @@ test_that("[[.tdjson", {
     json[["b", "b1"]]
     json[[list("b", "b1")]]
     json[["d", 1]]
-    json[["d", sel_all()]]
+    json[["d", TRUE]]
   })
 
   expect_snapshot({
@@ -150,7 +150,7 @@ test_that("sel_regex", {
   )
 })
 
-test_that("sel_back", {
+test_that("select from the back", {
   json <- load_json(
     text = serialize_json(list(
       a = 1,
@@ -161,7 +161,8 @@ test_that("sel_back", {
   )
 
   expect_snapshot({
-    json[[sel_back(1), sel_back(2)]]
+    json[[-1, -2]]
+    json[[-1, c(1, -2)]]
   })
 })
 

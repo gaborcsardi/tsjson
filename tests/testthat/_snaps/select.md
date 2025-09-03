@@ -137,7 +137,7 @@
         12  |   ]
         ...   
     Code
-      select(json, "d", sel_all())
+      select(json, "d", TRUE)
     Output
       # json (13 lines, 3 selected elements)
         ...   
@@ -248,7 +248,7 @@
       [1] 1
       
     Code
-      json[["d", sel_all()]]
+      json[["d", TRUE]]
     Output
       [[1]]
       [1] 1
@@ -394,12 +394,21 @@
     Output
       list()
 
-# sel_back
+# select from the back
 
     Code
-      json[[sel_back(1), sel_back(2)]]
+      json[[-1, -2]]
     Output
       [[1]]
+      [1] 2
+      
+    Code
+      json[[-1, c(1, -2)]]
+    Output
+      [[1]]
+      [1] 1
+      
+      [[2]]
       [1] 2
       
 

@@ -128,7 +128,7 @@ select_ <- function(json, current, slts) {
 
 select1 <- function(json, idx, slt) {
   type <- json$type[idx]
-  sel <- if (inherits(slt, "tsjson_selector_all")) {
+  sel <- if (identical(slt, TRUE)) {
     chdn <- json$children[[idx]]
     chdn[!json$type[chdn] %in% c("[", ",", "]", "{", "}", "comment")]
   } else if (inherits(slt, "tsjson_selector_regex")) {
@@ -149,10 +149,6 @@ select1 <- function(json, idx, slt) {
         invert = slt$invert
       )]
     }
-  } else if (inherits(slt, "tsjson_selector_back")) {
-    chdn <- json$children[[idx]]
-    chdn <- chdn[!json$type[chdn] %in% c("[", ",", "]", "{", "}", "comment")]
-    rev(rev(chdn)[slt$v])
   } else if (inherits(slt, "tsjson_selector_ids")) {
     # this is special, select exactly these elements
     return(slt$ids)
@@ -170,9 +166,20 @@ select1 <- function(json, idx, slt) {
       pairs[keyvals %in% slt]
     }
   } else if (is.numeric(slt)) {
+    if (any(slt == 0)) {
+      stop(cnd("Zero indices are not allowed in JSON selectors."))
+    }
     chdn <- json$children[[idx]]
     chdn <- chdn[!json$type[chdn] %in% c("[", ",", "]", "{", "}", "comment")]
-    chdn[slt]
+    res <- integer(length(slt))
+    pos <- slt >= 0
+    if (any(pos)) {
+      res[pos] <- chdn[slt[pos]]
+    }
+    if (any(!pos)) {
+      res[!pos] <- rev(rev(chdn)[abs(slt[!pos])])
+    }
+    res
   } else {
     stop("Invalid JSON selector")
   }
@@ -205,25 +212,10 @@ sel_ids <- function(ids) {
 
 #' @export
 
-sel_all <- function() {
-  structure(list(), class = c("tsjson_selector_all", "tsjson_selector", "list"))
-}
-
-#' @export
-
 sel_regex <- function(regex, ignore_case = FALSE, invert = FALSE) {
   structure(
     list(regex = regex, ignore_case = ignore_case, invert = invert),
     class = c("tsjson_selector_regex", "tsjson_selector", "list")
-  )
-}
-
-#' @export
-
-sel_back <- function(v) {
-  structure(
-    list(v = v),
-    class = c("tsjson_selector_back", "tsjson_selector", "list")
   )
 }
 
