@@ -39,14 +39,13 @@ get_default_selection <- function(json) {
 #' @export
 
 select <- function(json, ...) {
-  select_(json, current = NULL, list(...))
-}
-
-#' @export
-
-deselect <- function(json) {
-  attr(json, "selection") <- NULL
-  json
+  slts <- list(...)
+  if (length(slts) == 1 && is.null(slts[[1]])) {
+    attr(json, "selection") <- NULL
+    json
+  } else {
+    select_(json, current = NULL, slts)
+  }
 }
 
 #' @export

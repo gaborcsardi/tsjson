@@ -158,7 +158,7 @@
       Error in `select1()`:
       ! Invalid JSON selector
 
-# deselect
+# deselect with NULL
 
     Code
       select(json, "a")
@@ -169,7 +169,7 @@
         3 |   "c": 3
         4 | }
     Code
-      deselect(select(json, "a"))
+      select(select(json, "a"), NULL)
     Output
       # json (4 lines)
       1 | {

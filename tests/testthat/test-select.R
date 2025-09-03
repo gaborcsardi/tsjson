@@ -40,13 +40,13 @@ test_that("select", {
   })
 })
 
-test_that("deselect", {
+test_that("deselect with NULL", {
   json <- load_json(
     text = serialize_json(list(a = 1, c = 3))
   )
   expect_snapshot({
     select(json, "a")
-    deselect(select(json, "a"))
+    select(select(json, "a"), NULL)
   })
 })
 
