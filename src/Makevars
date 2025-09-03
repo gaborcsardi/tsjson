@@ -9,11 +9,21 @@ tree-sitter-files = \
 lib-files = \
         init.o tree-sitter.o cleancall.o glue.o
 
-OBJECTS = $(tree-sitter-files) $(lib-files)
+PKG_LIBS = -L. tree-sitter.a
 
-all: $(SHLIB)
+OBJECTS =  $(lib-files)
+
+all: $(SHLIB) mrproper
+
+$(SHLIB): tree-sitter.a
+
+tree-sitter.a: $(tree-sitter-files)
+	$(AR) rs tree-sitter.a $^
 
 clean:
 	rm -rf $(SHLIB) $(OBJECTS)
+
+mrproper: $(SHLIB)
+	@rm -rf *.a
 
 .PHONY: all clean
