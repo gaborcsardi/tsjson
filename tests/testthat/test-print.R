@@ -10,7 +10,7 @@ test_that("format_tsjson_noselection", {
     text = serialize_json(list(a = list(1, 2, 3), b = list(b1 = "foo")))
   )
   expect_snapshot({
-    json[["no-such-element"]]
+    select(json, "no-such-element")
   })
 })
 
@@ -28,9 +28,9 @@ test_that("format_tsjson_selection", {
     text = serialize_json(list(a = list(1, 2, 3), b = list(b1 = "foo")))
   )
   expect_snapshot({
-    json[["a"]]
-    json[["a"]][[1:2]]
-    json[[list("b", "b1")]]
+    select(json, "a")
+    select(json, "a", 1:2)
+    select(json, "b", "b1")
   })
 })
 
@@ -39,6 +39,6 @@ test_that("many selections", {
     text = serialize_json(list(a = as.list(1:100)))
   )
   expect_snapshot({
-    json[["a"]][[seq(2, 30, by = 2)]]
+    select(json, "a", seq(2, 30, by = 2))
   })
 })

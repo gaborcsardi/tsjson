@@ -56,47 +56,6 @@
     Output
       integer(0)
 
----
-
-    Code
-      json
-    Output
-      # json (1 line)
-      1 | [1,2,3]
-    Code
-      json[[sel_all()]]
-    Output
-      # json (1 line, 3 selected elements)
-      > 1 | [1,2,3]
-    Code
-      get_selection(json[[sel_all()]])
-    Output
-      [[1]]
-      [[1]]$selector
-      list()
-      attr(,"class")
-      [1] "tsjson_selector_default" "tsjson_selector"        
-      [3] "list"                   
-      
-      [[1]]$nodes
-      [1] 2
-      
-      
-      [[2]]
-      [[2]]$selector
-      list()
-      attr(,"class")
-      [1] "tsjson_selector_all" "tsjson_selector"     "list"               
-      
-      [[2]]$nodes
-      [1] 4 6 8
-      
-      
-    Code
-      get_selected_nodes(json[[sel_all()]])
-    Output
-      [1] 4 6 8
-
 # select
 
     Code
@@ -223,113 +182,90 @@
     Code
       json[[]]
     Output
-      # json (13 lines, 1 selected element)
-      >  1 | {
-      >  2 |   "a": 1,
-      >  3 |   "b": {
-      >  4 |     "b1": 21,
-      >  5 |     "b2": 22
-      >  6 |   },
-      >  7 |   "c": 3,
-      >  8 |   "d": [
-      >  9 |     1,
-      > 10 |     2,
-      > 11 |     3
-      > 12 |   ]
-      > 13 | }
+      [[1]]
+      [[1]]$a
+      [1] 1
+      
+      [[1]]$b
+      [[1]]$b$b1
+      [1] 21
+      
+      [[1]]$b$b2
+      [1] 22
+      
+      
+      [[1]]$c
+      [1] 3
+      
+      [[1]]$d
+      [[1]]$d[[1]]
+      [1] 1
+      
+      [[1]]$d[[2]]
+      [1] 2
+      
+      [[1]]$d[[3]]
+      [1] 3
+      
+      
+      
     Code
       json[["a"]]
     Output
-      # json (13 lines, 1 selected element)
-        1   | {
-      > 2   |   "a": 1,
-        3   |   "b": {
-        4   |     "b1": 21,
-        5   |     "b2": 22
-        ...   
+      [[1]]
+      [1] 1
+      
     Code
       json[[c("a", "b")]]
     Output
-      # json (13 lines, 2 selected elements)
-         1  | {
-      >  2  |   "a": 1,
-      >  3  |   "b": {
-      >  4  |     "b1": 21,
-      >  5  |     "b2": 22
-      >  6  |   },
-         7  |   "c": 3,
-         8  |   "d": [
-         9  |     1,
-        ...   
+      [[1]]
+      [1] 1
+      
+      [[2]]
+      [[2]]$b1
+      [1] 21
+      
+      [[2]]$b2
+      [1] 22
+      
+      
     Code
-      json[["b"]][["b1"]]
+      json[["b", "b1"]]
     Output
-      # json (13 lines, 1 selected element)
-        1   | {
-        2   |   "a": 1,
-        3   |   "b": {
-      > 4   |     "b1": 21,
-        5   |     "b2": 22
-        6   |   },
-        7   |   "c": 3,
-        ...   
+      [[1]]
+      [1] 21
+      
     Code
       json[[list("b", "b1")]]
     Output
-      # json (13 lines, 1 selected element)
-        1   | {
-        2   |   "a": 1,
-        3   |   "b": {
-      > 4   |     "b1": 21,
-        5   |     "b2": 22
-        6   |   },
-        7   |   "c": 3,
-        ...   
+      [[1]]
+      [1] 21
+      
     Code
-      json[["d"]][[1]]
+      json[["d", 1]]
     Output
-      # json (13 lines, 1 selected element)
-        ...   
-         6  |   },
-         7  |   "c": 3,
-         8  |   "d": [
-      >  9  |     1,
-        10  |     2,
-        11  |     3
-        12  |   ]
-        ...   
+      [[1]]
+      [1] 1
+      
     Code
-      json[["d"]][[sel_all()]]
+      json[["d", sel_all()]]
     Output
-      # json (13 lines, 3 selected elements)
-        ...   
-         6  |   },
-         7  |   "c": 3,
-         8  |   "d": [
-      >  9  |     1,
-      > 10  |     2,
-      > 11  |     3
-        12  |   ]
-        13  | }
+      [[1]]
+      [1] 1
+      
+      [[2]]
+      [1] 2
+      
+      [[3]]
+      [1] 3
+      
 
 ---
 
     Code
       json[["d"]][["nothing"]]
     Output
-      # json (13 lines, 0 selected elements)
-       1 | {
-       2 |   "a": 1,
-       3 |   "b": {
-       4 |     "b1": 21,
-       5 |     "b2": 22
-       6 |   },
-       7 |   "c": 3,
-       8 |   "d": [
-       9 |     1,
-      10 |     2,
-      i 3 more lines
-      i Use `print(n = ...)` to see more lines
+      NULL
 
 # [[<-.tsjson
 
@@ -362,26 +298,6 @@
        2 |   "a": true,
        3 |   "b": {
        4 |     "b1": 21,
-       5 |     "b2": 22
-       6 |   },
-       7 |   "c": true,
-       8 |   "d": [
-       9 |     1,
-      10 |     2,
-      i 3 more lines
-      i Use `print(n = ...)` to see more lines
-
----
-
-    Code
-      json[["b"]][["b1"]] <- 100
-      json
-    Output
-      # json (13 lines)
-       1 | {
-       2 |   "a": true,
-       3 |   "b": {
-       4 |     "b1": 100,
        5 |     "b2": 22
        6 |   },
        7 |   "c": true,
@@ -448,60 +364,51 @@
     Code
       json[[sel_regex("^a")]]
     Output
-      # json (13 lines, 3 selected elements)
-         1 | {
-      >  2 |   "a1": 1,
-      >  3 |   "a2": {
-      >  4 |     "b1": 21,
-      >  5 |     "b2": 22
-      >  6 |   },
-         7 |   "c": 3,
-      >  8 |   "a3": [
-      >  9 |     1,
-      > 10 |     2,
-      > 11 |     3
-      > 12 |   ]
-        13 | }
+      [[1]]
+      [1] 1
+      
+      [[2]]
+      [[2]]$b1
+      [1] 21
+      
+      [[2]]$b2
+      [1] 22
+      
+      
+      [[3]]
+      [[3]][[1]]
+      [1] 1
+      
+      [[3]][[2]]
+      [1] 2
+      
+      [[3]][[3]]
+      [1] 3
+      
+      
 
 ---
 
     Code
       json2[[sel_regex(".")]]
     Output
-      # json (5 lines, 0 selected elements)
-      1 | [
-      2 |   1,
-      3 |   2,
-      4 |   3
-      5 | ]
+      list()
 
 # sel_back
 
     Code
-      json[[sel_back(1)]][[sel_back(2)]]
+      json[[sel_back(1), sel_back(2)]]
     Output
-      # json (13 lines, 1 selected element)
-        ...   
-         7  |   "c": 3,
-         8  |   "d": [
-         9  |     1,
-      > 10  |     2,
-        11  |     3
-        12  |   ]
-        13  | }
+      [[1]]
+      [1] 2
+      
 
 # sel_ids
 
     Code
       json[[sel_ids(26)]]
     Output
-      # json (13 lines, 1 selected element)
-        1   | {
-        2   |   "a": 1,
-        3   |   "b": {
-      > 4   |     "b1": 21,
-        5   |     "b2": 22
-        6   |   },
-        7   |   "c": 3,
-        ...   
+      [[1]]
+      [1] 21
+      
 

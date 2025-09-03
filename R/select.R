@@ -55,7 +55,7 @@ deselect <- function(json) {
   if (missing(i)) {
     i <- list()
   }
-  select_refine(x, i, ...)
+  unserialize_selected(select(x, i, ...))
 }
 
 #' @export

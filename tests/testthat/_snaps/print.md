@@ -18,7 +18,7 @@
 # format_tsjson_noselection
 
     Code
-      json[["no-such-element"]]
+      select(json, "no-such-element")
     Output
       # json (10 lines, 0 selected elements)
        1 | {
@@ -54,7 +54,7 @@
 # format_tsjson_selection
 
     Code
-      json[["a"]]
+      select(json, "a")
     Output
       # json (10 lines, 1 selected element)
          1  | {
@@ -68,7 +68,7 @@
          9  |   }
         ...   
     Code
-      json[["a"]][[1:2]]
+      select(json, "a", 1:2)
     Output
       # json (10 lines, 2 selected elements)
         1   | {
@@ -80,7 +80,7 @@
         7   |   "b": {
         ...   
     Code
-      json[[list("b", "b1")]]
+      select(json, "b", "b1")
     Output
       # json (10 lines, 1 selected element)
         ...   
@@ -94,7 +94,7 @@
 # many selections
 
     Code
-      json[["a"]][[seq(2, 30, by = 2)]]
+      select(json, "a", seq(2, 30, by = 2))
     Output
       # json (104 lines, 15 selected elements)
          1  | {

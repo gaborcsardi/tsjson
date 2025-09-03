@@ -14,14 +14,6 @@ test_that("get_selection, get_selected_nodes", {
     get_selected_nodes(json)
     get_selected_nodes(json, default = FALSE)
   })
-
-  json <- load_json(text = "[1,2,3]")
-  expect_snapshot({
-    json
-    json[[sel_all()]]
-    get_selection(json[[sel_all()]])
-    get_selected_nodes(json[[sel_all()]])
-  })
 })
 
 test_that("select", {
@@ -67,14 +59,15 @@ test_that("[[.tdjson", {
       d = list(1, 2, 3)
     ))
   )
+
   expect_snapshot({
     json[[]]
     json[["a"]]
     json[[c("a", "b")]]
-    json[["b"]][["b1"]]
+    json[["b", "b1"]]
     json[[list("b", "b1")]]
-    json[["d"]][[1]]
-    json[["d"]][[sel_all()]]
+    json[["d", 1]]
+    json[["d", sel_all()]]
   })
 
   expect_snapshot({
@@ -99,11 +92,6 @@ test_that("[[<-.tsjson", {
 
   expect_snapshot({
     json[[c("a", "c")]] <- TRUE
-    json
-  })
-
-  expect_snapshot({
-    json[["b"]][["b1"]] <- 100
     json
   })
 
@@ -173,7 +161,7 @@ test_that("sel_back", {
   )
 
   expect_snapshot({
-    json[[sel_back(1)]][[sel_back(2)]]
+    json[[sel_back(1), sel_back(2)]]
   })
 })
 

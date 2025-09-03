@@ -22,7 +22,7 @@ unserialize_json <- function(file = NULL, text = NULL) {
 
 unserialize_selected <- function(json) {
   sel <- get_selected_nodes(json)
-  lapply(sel, unserialize_element, token_table = json)
+  as.list(lapply(sel, unserialize_element, token_table = json))
 }
 
 unserialize_element <- function(token_table, id) {
