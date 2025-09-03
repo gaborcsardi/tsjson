@@ -1,5 +1,3 @@
-#' @export
-
 s_expr <- function(
   file = NULL,
   text = NULL,
@@ -19,8 +17,6 @@ s_expr <- function(
   }
   call_with_cleanup(c_s_expr, text, 0L, ranges)
 }
-
-#' @export
 
 token_table <- function(
   file = NULL,
@@ -49,8 +45,6 @@ token_table <- function(
 
   tab
 }
-
-#' @export
 
 syntax_tree <- function(
   file = NULL,
@@ -108,8 +102,6 @@ syntax_tree <- function(
 
   tree
 }
-
-#' @export
 
 code_query <- function(
   file = NULL,
