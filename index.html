@@ -13,8 +13,8 @@
 <link href="deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
 <link href="deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
 <script src="deps/headroom-0.11.0/headroom.min.js"></script><script src="deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="deps/search-1.0.0/fuse.min.js"></script><script src="deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="pkgdown.js"></script><meta property="og:title" content="Edit JSON Files">
-<meta name="description" content="Extract and manipulate parts of JSON files while keeping the formatting and comments or other parts.">
-<meta property="og:description" content="Extract and manipulate parts of JSON files while keeping the formatting and comments or other parts.">
+<meta name="description" content="Extract and manipulate parts of JSON files without touching the formatting and comments in other parts.">
+<meta property="og:description" content="Extract and manipulate parts of JSON files without touching the formatting and comments in other parts.">
 </head>
 <body>
     <a href="#container" class="visually-hidden-focusable">Skip to content</a>
@@ -46,8 +46,251 @@
   </div>
 </nav><div class="container template-home" id="container">
 <div class="row">
-  <main id="main" class="col-md-9">
-Extract and manipulate parts of JSON files while keeping the formatting and comments or other parts.
+  <main id="main" class="col-md-9"><div class="section level1">
+<div class="page-header"><h1 id="tsjson">tsjson<a class="anchor" aria-label="anchor" href="#tsjson"></a>
+</h1></div>
+<!-- badges: start -->
+<!-- badges: end -->
+<p>Extract and manipulate parts of JSON files without touching the formatting and comments in other parts.</p>
+<div class="section level2">
+<h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
+</h2>
+<p>You can install the development version of tsjson from <a href="https://github.com/" class="external-link">GitHub</a> with:</p>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># install.packages("pak")</span></span>
+<span><span class="fu">pak</span><span class="fu">::</span><span class="fu"><a href="https://pak.r-lib.org/reference/pak.html" class="external-link">pak</a></span><span class="op">(</span><span class="st">"gaborcsardi/tsjson"</span><span class="op">)</span></span></code></pre></div>
+</div>
+<div class="section level2">
+<h2 id="documentation">Documentation<a class="anchor" aria-label="anchor" href="#documentation"></a>
+</h2>
+<p>See at <a href="https://gaborcsardi.github.io/tsjson/reference/index.html/" class="external-link"><code>https://gaborcsardi.github.io/tsjson/</code></a> and also in the installed package: <code><a href="https://rdrr.io/pkg/tsjson/man" class="external-link">help(package = "tsjson")</a></code>.</p>
+</div>
+<div class="section level2">
+<h2 id="quickstart">Quickstart<a class="anchor" aria-label="anchor" href="#quickstart"></a>
+</h2>
+<div class="section level3">
+<h3 id="create-a-tjson-object">Create a tjson object<a class="anchor" aria-label="anchor" href="#create-a-tjson-object"></a>
+</h3>
+<p>Create a tsjson object from a string:</p>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/getwd.html" class="external-link">getwd</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="va">txt</span> <span class="op">&lt;-</span> <span class="st">r"(</span></span>
+<span><span class="st">// this is a comment</span></span>
+<span><span class="st">{</span></span>
+<span><span class="st">  "a": {</span></span>
+<span><span class="st">    "a1": [1, 2, 3],</span></span>
+<span><span class="st">    // comment</span></span>
+<span><span class="st">    "a2": "string"</span></span>
+<span><span class="st">  },</span></span>
+<span><span class="st">  "b": [</span></span>
+<span><span class="st">    {</span></span>
+<span><span class="st">      "b11": true,</span></span>
+<span><span class="st">      "b12": false</span></span>
+<span><span class="st">    },</span></span>
+<span><span class="st">    {</span></span>
+<span><span class="st">      "b21": false,</span></span>
+<span><span class="st">      "b22": false</span></span>
+<span><span class="st">    }</span></span>
+<span><span class="st">  ]</span></span>
+<span><span class="st">}</span></span>
+<span><span class="st">)"</span></span>
+<span><span class="va">json</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/load_json.html">load_json</a></span><span class="op">(</span>text <span class="op">=</span> <span class="va">txt</span><span class="op">)</span></span></code></pre></div>
+<p>Pretty print a tsjson object:</p>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">json</span></span></code></pre></div>
+<div class="asciicast" style="color: #172431;font-family: 'Fira Code',Monaco,Consolas,Menlo,'Bitstream Vera Sans Mono','Powerline Symbols',monospace;line-height: 1.300000">
+<pre>
+#&gt; <span style="color: #525252;"># json (19 lines)</span>
+#&gt; <span style="color: #525252;"> 1 | </span>
+#&gt; <span style="color: #525252;"> 2 | </span>// this is a comment
+#&gt; <span style="color: #525252;"> 3 | </span>{
+#&gt; <span style="color: #525252;"> 4 | </span>  "a": {
+#&gt; <span style="color: #525252;"> 5 | </span>    "a1": [1, 2, 3],
+#&gt; <span style="color: #525252;"> 6 | </span>    // comment
+#&gt; <span style="color: #525252;"> 7 | </span>    "a2": "string"
+#&gt; <span style="color: #525252;"> 8 | </span>  },
+#&gt; <span style="color: #525252;"> 9 | </span>  "b": [
+#&gt; <span style="color: #525252;">10 | </span>    {
+#&gt; <span style="color: #525252;">ℹ 9 more lines</span>
+#&gt; <span style="color: #525252;">ℹ Use `print(n = ...)` to see more lines</span>
+</pre>
+</div>
+</div>
+<div class="section level3">
+<h3 id="select-elements-in-a-tsjson-object">Select elements in a tsjson object<a class="anchor" aria-label="anchor" href="#select-elements-in-a-tsjson-object"></a>
+</h3>
+<p>Select element by objects key:</p>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="reference/select.html">select</a></span><span class="op">(</span><span class="va">json</span>, <span class="st">"a"</span><span class="op">)</span></span></code></pre></div>
+<div class="asciicast" style="color: #172431;font-family: 'Fira Code',Monaco,Consolas,Menlo,'Bitstream Vera Sans Mono','Powerline Symbols',monospace;line-height: 1.300000">
+<pre>
+#&gt; <span style="color: #525252;"># json (19 lines, 1 selected element)</span>
+#&gt;   <span style="color: #525252;"> 1  | </span>
+#&gt;   <span style="color: #525252;"> 2  | </span>// this is a comment
+#&gt;   <span style="color: #525252;"> 3  | </span>{
+#&gt; <span style="background-color: #2AA198;">&gt;</span> <span style="color: #525252;"> 4  | </span>  "a": <span style="color: #2AA198;">{</span>
+#&gt; <span style="background-color: #2AA198;">&gt;</span> <span style="color: #525252;"> 5  | </span><span style="color: #2AA198;">    "a1": [1, 2, 3],</span>
+#&gt; <span style="background-color: #2AA198;">&gt;</span> <span style="color: #525252;"> 6  | </span><span style="color: #2AA198;">    // comment</span>
+#&gt; <span style="background-color: #2AA198;">&gt;</span> <span style="color: #525252;"> 7  | </span><span style="color: #2AA198;">    "a2": "string"</span>
+#&gt; <span style="background-color: #2AA198;">&gt;</span> <span style="color: #525252;"> 8  | </span><span style="color: #2AA198;">  }</span>,
+#&gt;   <span style="color: #525252;"> 9  | </span>  "b": [
+#&gt;   <span style="color: #525252;">10  | </span>    {
+#&gt;   <span style="color: #525252;">11  | </span>      "b11": true,
+#&gt;   <span style="color: #525252;">...</span>
+</pre>
+</div>
+<p>Select element inside element:</p>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="reference/select.html">select</a></span><span class="op">(</span><span class="va">json</span>, <span class="st">"a"</span>, <span class="st">"a1"</span><span class="op">)</span></span></code></pre></div>
+<div class="asciicast" style="color: #172431;font-family: 'Fira Code',Monaco,Consolas,Menlo,'Bitstream Vera Sans Mono','Powerline Symbols',monospace;line-height: 1.300000">
+<pre>
+#&gt; <span style="color: #525252;"># json (19 lines, 1 selected element)</span>
+#&gt;   <span style="color: #525252;">2   | </span>// this is a comment
+#&gt;   <span style="color: #525252;">3   | </span>{
+#&gt;   <span style="color: #525252;">4   | </span>  "a": {
+#&gt; <span style="background-color: #2AA198;">&gt;</span> <span style="color: #525252;">5   | </span>    "a1": <span style="color: #2AA198;">[1, 2, 3]</span>,
+#&gt;   <span style="color: #525252;">6   | </span>    // comment
+#&gt;   <span style="color: #525252;">7   | </span>    "a2": "string"
+#&gt;   <span style="color: #525252;">8   | </span>  },
+#&gt;   <span style="color: #525252;">...</span>
+</pre>
+</div>
+<p>Select element(s) of an array:</p>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="reference/select.html">select</a></span><span class="op">(</span><span class="va">json</span>, <span class="st">"a"</span>, <span class="st">"a1"</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">2</span><span class="op">)</span></span></code></pre></div>
+<div class="asciicast" style="color: #172431;font-family: 'Fira Code',Monaco,Consolas,Menlo,'Bitstream Vera Sans Mono','Powerline Symbols',monospace;line-height: 1.300000">
+<pre>
+#&gt; <span style="color: #525252;"># json (19 lines, 2 selected elements)</span>
+#&gt;   <span style="color: #525252;">2   | </span>// this is a comment
+#&gt;   <span style="color: #525252;">3   | </span>{
+#&gt;   <span style="color: #525252;">4   | </span>  "a": {
+#&gt; <span style="background-color: #2AA198;">&gt;</span> <span style="color: #525252;">5   | </span>    "a1": [<span style="color: #2AA198;">1</span>, <span style="color: #2AA198;">2</span>, 3],
+#&gt;   <span style="color: #525252;">6   | </span>    // comment
+#&gt;   <span style="color: #525252;">7   | </span>    "a2": "string"
+#&gt;   <span style="color: #525252;">8   | </span>  },
+#&gt;   <span style="color: #525252;">...</span>
+</pre>
+</div>
+<p>Select multiple keys from an object:</p>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="reference/select.html">select</a></span><span class="op">(</span><span class="va">json</span>, <span class="st">"a"</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"a1"</span>, <span class="st">"a2"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<div class="asciicast" style="color: #172431;font-family: 'Fira Code',Monaco,Consolas,Menlo,'Bitstream Vera Sans Mono','Powerline Symbols',monospace;line-height: 1.300000">
+<pre>
+#&gt; <span style="color: #525252;"># json (19 lines, 2 selected elements)</span>
+#&gt;   <span style="color: #525252;"> 2  | </span>// this is a comment
+#&gt;   <span style="color: #525252;"> 3  | </span>{
+#&gt;   <span style="color: #525252;"> 4  | </span>  "a": {
+#&gt; <span style="background-color: #2AA198;">&gt;</span> <span style="color: #525252;"> 5  | </span>    "a1": <span style="color: #2AA198;">[1, 2, 3]</span>,
+#&gt;   <span style="color: #525252;"> 6  | </span>    // comment
+#&gt; <span style="background-color: #2AA198;">&gt;</span> <span style="color: #525252;"> 7  | </span>    "a2": <span style="color: #2AA198;">"string"</span>
+#&gt;   <span style="color: #525252;"> 8  | </span>  },
+#&gt;   <span style="color: #525252;"> 9  | </span>  "b": [
+#&gt;   <span style="color: #525252;">10  | </span>    {
+#&gt;   <span style="color: #525252;">...</span>
+</pre>
+</div>
+</div>
+<div class="section level3">
+<h3 id="delete-elements">Delete elements<a class="anchor" aria-label="anchor" href="#delete-elements"></a>
+</h3>
+<p>Delete selected elements:</p>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="reference/select.html">select</a></span><span class="op">(</span><span class="va">json</span>, <span class="st">"a"</span>, <span class="st">"a1"</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="reference/delete_selected.html">delete_selected</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<div class="asciicast" style="color: #172431;font-family: 'Fira Code',Monaco,Consolas,Menlo,'Bitstream Vera Sans Mono','Powerline Symbols',monospace;line-height: 1.300000">
+<pre>
+#&gt; <span style="color: #525252;"># json (18 lines)</span>
+#&gt; <span style="color: #525252;"> 1 | </span>
+#&gt; <span style="color: #525252;"> 2 | </span>// this is a comment
+#&gt; <span style="color: #525252;"> 3 | </span>{
+#&gt; <span style="color: #525252;"> 4 | </span>  "a": {
+#&gt; <span style="color: #525252;"> 5 | </span>    // comment
+#&gt; <span style="color: #525252;"> 6 | </span>    "a2": "string"
+#&gt; <span style="color: #525252;"> 7 | </span>  },
+#&gt; <span style="color: #525252;"> 8 | </span>  "b": [
+#&gt; <span style="color: #525252;"> 9 | </span>    {
+#&gt; <span style="color: #525252;">10 | </span>      "b11": true,
+#&gt; <span style="color: #525252;">ℹ 8 more lines</span>
+#&gt; <span style="color: #525252;">ℹ Use `print(n = ...)` to see more lines</span>
+</pre>
+</div>
+</div>
+<div class="section level3">
+<h3 id="insert-elements">Insert elements<a class="anchor" aria-label="anchor" href="#insert-elements"></a>
+</h3>
+<p>Insert element into an array:</p>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="reference/select.html">select</a></span><span class="op">(</span><span class="va">json</span>, <span class="st">"a"</span>, <span class="st">"a1"</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="reference/insert_into_selected.html">insert_into_selected</a></span><span class="op">(</span>at <span class="op">=</span> <span class="fl">2</span>, <span class="st">"new"</span><span class="op">)</span></span></code></pre></div>
+<div class="asciicast" style="color: #172431;font-family: 'Fira Code',Monaco,Consolas,Menlo,'Bitstream Vera Sans Mono','Powerline Symbols',monospace;line-height: 1.300000">
+<pre>
+#&gt; <span style="color: #525252;"># json (24 lines)</span>
+#&gt; <span style="color: #525252;"> 1 | </span>
+#&gt; <span style="color: #525252;"> 2 | </span>// this is a comment
+#&gt; <span style="color: #525252;"> 3 | </span>{
+#&gt; <span style="color: #525252;"> 4 | </span>  "a": {
+#&gt; <span style="color: #525252;"> 5 | </span>    "a1": [
+#&gt; <span style="color: #525252;"> 6 | </span>      1,
+#&gt; <span style="color: #525252;"> 7 | </span>      2,
+#&gt; <span style="color: #525252;"> 8 | </span>      "new",
+#&gt; <span style="color: #525252;"> 9 | </span>      3
+#&gt; <span style="color: #525252;">10 | </span>    ],
+#&gt; <span style="color: #525252;">ℹ 14 more lines</span>
+#&gt; <span style="color: #525252;">ℹ Use `print(n = ...)` to see more lines</span>
+</pre>
+</div>
+<p>Inserting into an array reformats the array.</p>
+<p>Insert element into an object, at the specified key:</p>
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="reference/select.html">select</a></span><span class="op">(</span><span class="va">json</span>, <span class="st">"a"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="reference/insert_into_selected.html">insert_into_selected</a></span><span class="op">(</span>key <span class="op">=</span> <span class="st">"a0"</span>, at <span class="op">=</span> <span class="fl">0</span>, <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="st">"new"</span>, <span class="st">"element"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<div class="asciicast" style="color: #172431;font-family: 'Fira Code',Monaco,Consolas,Menlo,'Bitstream Vera Sans Mono','Powerline Symbols',monospace;line-height: 1.300000">
+<pre>
+#&gt; <span style="color: #525252;"># json (27 lines)</span>
+#&gt; <span style="color: #525252;"> 1 | </span>
+#&gt; <span style="color: #525252;"> 2 | </span>// this is a comment
+#&gt; <span style="color: #525252;"> 3 | </span>{
+#&gt; <span style="color: #525252;"> 4 | </span>  "a": {
+#&gt; <span style="color: #525252;"> 5 | </span>    "a0": [
+#&gt; <span style="color: #525252;"> 6 | </span>      "new",
+#&gt; <span style="color: #525252;"> 7 | </span>      "element"
+#&gt; <span style="color: #525252;"> 8 | </span>    ],
+#&gt; <span style="color: #525252;"> 9 | </span>    "a1": [
+#&gt; <span style="color: #525252;">10 | </span>      1,
+#&gt; <span style="color: #525252;">ℹ 17 more lines</span>
+#&gt; <span style="color: #525252;">ℹ Use `print(n = ...)` to see more lines</span>
+</pre>
+</div>
+</div>
+<div class="section level3">
+<h3 id="update-elements">Update elements<a class="anchor" aria-label="anchor" href="#update-elements"></a>
+</h3>
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="reference/select.html">select</a></span><span class="op">(</span><span class="va">json</span>, <span class="st">"a"</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"a1"</span>, <span class="st">"a2"</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="reference/update_selected.html">update_selected</a></span><span class="op">(</span><span class="st">"completely new"</span><span class="op">)</span></span></code></pre></div>
+<div class="asciicast" style="color: #172431;font-family: 'Fira Code',Monaco,Consolas,Menlo,'Bitstream Vera Sans Mono','Powerline Symbols',monospace;line-height: 1.300000">
+<pre>
+#&gt; <span style="color: #525252;"># json (19 lines)</span>
+#&gt; <span style="color: #525252;"> 1 | </span>
+#&gt; <span style="color: #525252;"> 2 | </span>// this is a comment
+#&gt; <span style="color: #525252;"> 3 | </span>{
+#&gt; <span style="color: #525252;"> 4 | </span>  "a": {
+#&gt; <span style="color: #525252;"> 5 | </span>    "a1": "completely new",
+#&gt; <span style="color: #525252;"> 6 | </span>    // comment
+#&gt; <span style="color: #525252;"> 7 | </span>    "a2": "completely new"
+#&gt; <span style="color: #525252;"> 8 | </span>  },
+#&gt; <span style="color: #525252;"> 9 | </span>  "b": [
+#&gt; <span style="color: #525252;">10 | </span>    {
+#&gt; <span style="color: #525252;">ℹ 9 more lines</span>
+#&gt; <span style="color: #525252;">ℹ Use `print(n = ...)` to see more lines</span>
+</pre>
+</div>
+</div>
+</div>
+</div>
+<div class="section level1">
+<h1 id="license">License<a class="anchor" aria-label="anchor" href="#license"></a>
+</h1>
+<p>MIT © Posit Software, PBC</p>
+</div>
+
   </main><aside class="col-md-3"><div class="license">
 <h2 data-toc-skip>License</h2>
 <ul class="list-unstyled">
