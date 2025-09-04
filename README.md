@@ -65,8 +65,8 @@ json
 ```
 
 <picture>
-<source media="(prefers-color-scheme: dark)" srcset="/Users/gaborcsardi/works/tsjson/man/figures/print-json-dark.svg">
-<img src="/Users/gaborcsardi/works/tsjson/man/figures/print-json.svg" />
+<source media="(prefers-color-scheme: dark)" srcset="man/figures/print-json-dark.svg">
+<img src="man/figures/print-json.svg" />
 </picture>
 
 ### Select elements in a tsjson object
@@ -78,8 +78,8 @@ select(json, "a")
 ```
 
 <picture>
-<source media="(prefers-color-scheme: dark)" srcset="/Users/gaborcsardi/works/tsjson/man/figures/select-key-dark.svg">
-<img src="/Users/gaborcsardi/works/tsjson/man/figures/select-key.svg" />
+<source media="(prefers-color-scheme: dark)" srcset="man/figures/select-key-dark.svg">
+<img src="man/figures/select-key.svg" />
 </picture>
 
 Select element inside element:
@@ -89,8 +89,8 @@ select(json, "a", "a1")
 ```
 
 <picture>
-<source media="(prefers-color-scheme: dark)" srcset="/Users/gaborcsardi/works/tsjson/man/figures/select-select-dark.svg">
-<img src="/Users/gaborcsardi/works/tsjson/man/figures/select-select.svg" />
+<source media="(prefers-color-scheme: dark)" srcset="man/figures/select-select-dark.svg">
+<img src="man/figures/select-select.svg" />
 </picture>
 
 Select element(s) of an array:
@@ -100,8 +100,8 @@ select(json, "a", "a1", 1:2)
 ```
 
 <picture>
-<source media="(prefers-color-scheme: dark)" srcset="/Users/gaborcsardi/works/tsjson/man/figures/select-array-dark.svg">
-<img src="/Users/gaborcsardi/works/tsjson/man/figures/select-array.svg" />
+<source media="(prefers-color-scheme: dark)" srcset="man/figures/select-array-dark.svg">
+<img src="man/figures/select-array.svg" />
 </picture>
 
 Select multiple keys from an object:
@@ -111,8 +111,8 @@ select(json, "a", c("a1", "a2"))
 ```
 
 <picture>
-<source media="(prefers-color-scheme: dark)" srcset="/Users/gaborcsardi/works/tsjson/man/figures/select-multiple-dark.svg">
-<img src="/Users/gaborcsardi/works/tsjson/man/figures/select-multiple.svg" />
+<source media="(prefers-color-scheme: dark)" srcset="man/figures/select-multiple-dark.svg">
+<img src="man/figures/select-multiple.svg" />
 </picture>
 
 ### Delete elements
@@ -124,8 +124,8 @@ select(json, "a", "a1") |> delete_selected()
 ```
 
 <picture>
-<source media="(prefers-color-scheme: dark)" srcset="/Users/gaborcsardi/works/tsjson/man/figures/delete-dark.svg">
-<img src="/Users/gaborcsardi/works/tsjson/man/figures/delete.svg" />
+<source media="(prefers-color-scheme: dark)" srcset="man/figures/delete-dark.svg">
+<img src="man/figures/delete.svg" />
 </picture>
 
 ### Insert elements
@@ -137,8 +137,8 @@ select(json, "a", "a1") |> insert_into_selected(at = 2, "new")
 ```
 
 <picture>
-<source media="(prefers-color-scheme: dark)" srcset="/Users/gaborcsardi/works/tsjson/man/figures/insert-array-dark.svg">
-<img src="/Users/gaborcsardi/works/tsjson/man/figures/insert-array.svg" />
+<source media="(prefers-color-scheme: dark)" srcset="man/figures/insert-array-dark.svg">
+<img src="man/figures/insert-array.svg" />
 </picture>
 
 Inserting into an array reformats the array.
@@ -151,8 +151,8 @@ select(json, "a") |>
 ```
 
 <picture>
-<source media="(prefers-color-scheme: dark)" srcset="/Users/gaborcsardi/works/tsjson/man/figures/insert-object-dark.svg">
-<img src="/Users/gaborcsardi/works/tsjson/man/figures/insert-object.svg" />
+<source media="(prefers-color-scheme: dark)" srcset="man/figures/insert-object-dark.svg">
+<img src="man/figures/insert-object.svg" />
 </picture>
 
 ### Update elements
@@ -164,8 +164,8 @@ select(json, "a", c("a1", "a2")) |> update_selected("new value")
 ```
 
 <picture>
-<source media="(prefers-color-scheme: dark)" srcset="/Users/gaborcsardi/works/tsjson/man/figures/update-dark.svg">
-<img src="/Users/gaborcsardi/works/tsjson/man/figures/update.svg" />
+<source media="(prefers-color-scheme: dark)" srcset="man/figures/update-dark.svg">
+<img src="man/figures/update.svg" />
 </picture>
 
 Inserts the element if some parents are missing:
@@ -176,8 +176,8 @@ json
 ```
 
 <picture>
-<source media="(prefers-color-scheme: dark)" srcset="/Users/gaborcsardi/works/tsjson/man/figures/update-insert-dark.svg">
-<img src="/Users/gaborcsardi/works/tsjson/man/figures/update-insert.svg" />
+<source media="(prefers-color-scheme: dark)" srcset="man/figures/update-insert-dark.svg">
+<img src="man/figures/update-insert.svg" />
 </picture>
 
 ``` r
@@ -185,8 +185,8 @@ select(json, "a", "x", "y") |> update_selected(list(1,2,3))
 ```
 
 <picture>
-<source media="(prefers-color-scheme: dark)" srcset="/Users/gaborcsardi/works/tsjson/man/figures/update-insert-2-dark.svg">
-<img src="/Users/gaborcsardi/works/tsjson/man/figures/update-insert-2.svg" />
+<source media="(prefers-color-scheme: dark)" srcset="man/figures/update-insert-2-dark.svg">
+<img src="man/figures/update-insert-2.svg" />
 </picture>
 
 # License
