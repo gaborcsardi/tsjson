@@ -8,6 +8,14 @@
 \description{
 Extract and manipulate parts of JSON files without touching the formatting and comments in other parts.
 }
+\seealso{
+Useful links:
+\itemize{
+  \item \url{https://github.com/gaborcsardi/tsjson}
+  \item Report bugs at \url{https://github.com/gaborcsardi/tsjson/issues}
+}
+
+}
 \author{
 \strong{Maintainer}: Gábor Csárdi \email{csardi.gabor@gmail.com}
 
