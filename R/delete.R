@@ -1,11 +1,23 @@
 #' Delete selected elements from a tsjson object
 #'
-#' TODO
+#' The formatting of the rest of JSON document is kept as is. Comments
+#' appearing inside the deleted elements are also deleted. Other comments
+#' are left as is.
+#'
+#' @details
+#' If `json` has no selection then the the whole document is deleted.
+#' If `json` has an empty selection, then nothing is delted.
 #'
 #' @param json tsjson object.
 #' @return Modified tsjson object.
 #'
 #' @export
+#' @examples
+#' json <- load_json(text = "{ \"a\": //comment\ntrue, \"b\": [1, 2, 3] }")
+#' json
+#'
+#' json |> select("a")
+#' json |> select("a") |> delete_selected()
 
 delete_selected <- function(json) {
   select <- get_selected_nodes(json)

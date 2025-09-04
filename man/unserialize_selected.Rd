@@ -11,10 +11,24 @@ unserialize_selected(json)
 }
 \value{
 List of R objects, each the unserialization of a selected element
-in tsjson. If \code{json} does not have a selection, then all of it is
-unserialized. If \code{json} has an empty selectedion, then an empty list
-is returned.
+in tsjson.
 }
 \description{
-TODO
+Uses \code{\link[=unserialize_json]{unserialize_json()}} on the selected elements.
+}
+\details{
+If \code{json} does not have a selection, then all of it is unserialized.
+If \code{json} has an empty selection, then an empty list is returned.
+}
+\examples{
+json <- load_json(text = serialize_json(list(
+  a = list(a1 = list(1,2,3), a2 = "string"),
+  b = list(4, 5, 6),
+  c = list(c1 = list("a", "b"))
+)))
+json |> select(c("b", "c")) |> unserialize_selected()
+}
+\seealso{
+\code{\link[=unserialize_json]{unserialize_json()}} to unserialize a JSON document from a
+file or string. \code{\link[=serialize_json]{serialize_json()}} to create JSON from R objects.
 }

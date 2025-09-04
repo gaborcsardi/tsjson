@@ -1,13 +1,13 @@
 #' Show the syntax tree structure of a JSON file or string
 #'
-#' TODO
-#'
 #' @param file Path of a JSON file. Use either `file` or `text`.
 #' @param text JSON string. Use either `file` or `text`.
 #' @param ranges Optionally a list of integer pairs defining ranges within
 #'   `file` or `text` to parse.
 #'
 #' @export
+#' @examples
+#' sexpr_json(text = "{ \"a\": true, \"b\": [1, 2, 3] }")
 
 sexpr_json <- function(
   file = NULL,
@@ -60,6 +60,8 @@ token_table <- function(
 #' Show the annotated syntax tree of a JSON file or string
 #' @inheritParams sexpr_json
 #' @export
+#' @examples
+#' syntax_tree_json(text = "{ \"a\": true, \"b\": [1, 2, 3] }")
 
 syntax_tree_json <- function(
   file = NULL,
@@ -120,14 +122,29 @@ syntax_tree_json <- function(
 
 #' Run tree-sitter queries on a JSON file or string
 #'
-#' TODO
+#' See https://tree-sitter.github.io/tree-sitter/ on writing tree-sitter
+#' queries.
 #'
 #' @param query Character string, the tree-sitter query to run.
 #' @inheritParams sexpr_json
 #' @return A list with entries `patterns` and `matched_captures`.
-#'   TODO
+#'   `patterns` contains information about all patterns in the queries and
+#'   it is a data frame with columns: `id`, `name`, `pattern`, `match_count`.
+#'   `matched_captures` contains information about all matches, and it has
+#'   columns `id`, `pattern`, `match`, `start_byte`, `end_byte`, `start_row`,
+#'   `start_column`, `end_row`, `end_column`, `name`, `code`. The `pattern`
+#'   column of `matched_captured` refers to the `id` column of `patterns`.
 #'
 #' @export
+#' @examples
+#' # A very simple JSON document
+#' txt <- "{ \"a\": 1, \"b\": \"foo\", \"c\": 20 }"
+#'
+#' # Take a look at it
+#' load_json(text = txt) |> format_selected()
+#'
+#' # Select all pairs where the value is a number
+#' query_json(text = txt, query = "((pair value: (number) @num))")
 
 query_json <- function(
   file = NULL,

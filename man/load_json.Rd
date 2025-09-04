@@ -18,5 +18,29 @@ load_json(file = NULL, text = NULL, ranges = NULL)
 A tsjson object.
 }
 \description{
-TODO
+Parse a JSON file or string and create a tsjson object that represents
+its document. This object can then be queried and manipulated.
+}
+\details{
+tsjson objects have \code{\link[=format.tsjson]{format()}} and
+\code{\link[=print.tsjson]{print()}} methods to pretty-print them to the screen.
+
+They can be converted to a data frame using the
+\link[=tsjson-brackets]{single bracket} operator.
+}
+\examples{
+json <- load_json(text = serialize_json(list(
+  a = list(a1 = list(1,2,3), a2 = "string"),
+  b = list(4, 5, 6),
+  c = list(c1 = list("a", "b"))
+)))
+json
+}
+\seealso{
+\code{\link[=select]{select()}} to select part(s) of a tsjson object,
+\code{\link[=unserialize_selected]{unserialize_selected()}} to extract the selected part(s),
+\code{\link[=format_selected]{format_selected()}} to format the selected part(s),
+\code{\link[=delete_selected]{delete_selected()}}, \code{\link[=insert_into_selected]{insert_into_selected()}} and
+\code{\link[=update_selected]{update_selected()}} to manipulate it. \code{\link[=save_json]{save_json()}} to save
+the JSON document to a file.
 }

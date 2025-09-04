@@ -33,5 +33,46 @@ If \code{file} is \code{NULL} then a character scalar (\code{collapse} = TRUE)
 or vector (\code{collapse} = FALSE). If \code{file} is not \code{NULL} then nothing.
 }
 \description{
-TODO
+Create JSON from an R object.
+Note that this function is not a generic serializer that can represent
+any R object in JSON. Also, you cannot expect that \code{\link[=unserialize_json]{unserialize_json()}}
+will do the exact inverse of \code{\link[=serialize_json]{serialize_json()}}.
+}
+\details{
+tsjson functions \code{\link[=update_selected]{update_selected()}} and \code{\link[=insert_into_selected]{insert_into_selected()}} use
+\code{\link[=serialize_json]{serialize_json()}} to create new JSON code.
+
+See example below on how to create all possible JSON elements with
+\code{\link[=serialize_json]{serialize_json()}}.
+}
+\examples{
+# null
+serialize_json(NULL)
+
+# true, false, use a logical scalar
+serialize_json(TRUE)
+serialize_json(FALSE)
+
+# strings, use a character scalar
+serialize_json("string with escapes: \b \ud020")
+
+# number, use a numeric scalar
+serialize_json(42.25)
+
+# array, use an unnamed list, i.e. _not_ an atomic vector
+txt <- serialize_json(list(1, 2, 3,"x", "y"))
+load_json(text = txt)
+
+# empty array
+serialize_json(list())
+
+# object, use a named (or partially named) list, i.e. _not_ an atomic vector
+txt <- serialize_json(list(a = 1, b = 2))
+load_json(text = txt)
+
+# empty object, use a named empty list
+serialize_json(structure(list(), names = character()))
+}
+\seealso{
+\code{\link[=unserialize_json]{unserialize_json()}} for the opposite.
 }

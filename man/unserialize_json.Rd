@@ -18,5 +18,35 @@ unserialize_json(file = NULL, text = NULL, ranges = NULL)
 R object.
 }
 \description{
-TODO
+The purpose of this function is to convert a JSON file or string into
+an R object reliably.
+}
+\details{
+See examples below on how the different JSON elements are mapped to
+R objects.
+}
+\examples{
+# null -> NULL
+unserialize_json(text = "null")
+
+# true, false -> TRUE, FALSE
+unserialize_json(text = "true")
+unserialize_json(text = "false")
+
+# string -> character scalar
+unserialize_json(text = "\"string with escapes: \\\\b \\\\ud020\"")
+
+# number -> double scalar
+unserialize_json(text = "42.25")
+
+# array -> unnamed list
+unserialize_json(text = "[1, 2, 3]")
+
+# object -> named list
+unserialize_json(text = "{\"a\": 1, \"b\": 2 }")
+}
+\seealso{
+\code{\link[=serialize_json]{serialize_json()}} for the opposite, \code{\link[=select]{select()}} and
+\code{\link[=unserialize_selected]{unserialize_selected()}} to unserialize part(s) of a JSON document.
+\code{\link[=load_json]{load_json()}} to load a JSON document and then manipulate it.
 }

@@ -19,5 +19,13 @@ elements.}
 The updated tsjson object
 }
 \description{
-TODO
+Replace all selected elements with a new element. If \code{json} has no
+selection then the whole document is replaced. If \code{json} has an empty
+selection, then nothing happens.
+}
+\examples{
+json <- load_json(text = "{ \"a\": true, \"b\": [1, 2, 3] }")
+json
+
+json |> select("a") |> update_selected(list("new", "element"))
 }

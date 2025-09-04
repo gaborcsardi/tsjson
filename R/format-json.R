@@ -20,13 +20,27 @@ format_json <- function(
 
 #' Format the selected JSON elements
 #'
-#' TODO
+#' @details
+#' If `json` does not have a selection, then all of it is formatted.
+#' If `json` has an empty selection, then nothing happens.
 #'
 #' @param json tsjson object.
-#' @param format How to format `new`. See [format_selected()].
+#' @param format Formatting, one of:
+#'   - `"pretty"`: arrays and objects are formatted in multiple lines,
+#'   - `"compact"`: format everything without whitespace,
+#'   - `"oneline"`: format everything without newlines, but include
+#'     whitespace after commas, colons, opening brackets and braces, and
+#'     before closing brackets and braces.
 #' @return The updated tsjson object.
 #'
 #' @export
+#' @examples
+#' json <- load_json(text = "{ \"a\": [1,2,3] }")
+#' json
+#'
+#' json |> format_selected()
+#'
+#' json |> select("a") |> format_selected()
 
 format_selected <- function(
   json,

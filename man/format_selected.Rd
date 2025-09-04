@@ -9,11 +9,30 @@ format_selected(json, format = c("pretty", "oneline", "compact"))
 \arguments{
 \item{json}{tsjson object.}
 
-\item{format}{How to format \code{new}. See \code{\link[=format_selected]{format_selected()}}.}
+\item{format}{Formatting, one of:
+\itemize{
+\item \code{"pretty"}: arrays and objects are formatted in multiple lines,
+\item \code{"compact"}: format everything without whitespace,
+\item \code{"oneline"}: format everything without newlines, but include
+whitespace after commas, colons, opening brackets and braces, and
+before closing brackets and braces.
+}}
 }
 \value{
 The updated tsjson object.
 }
 \description{
-TODO
+Format the selected JSON elements
+}
+\details{
+If \code{json} does not have a selection, then all of it is formatted.
+If \code{json} has an empty selection, then nothing happens.
+}
+\examples{
+json <- load_json(text = "{ \"a\": [1,2,3] }")
+json
+
+json |> format_selected()
+
+json |> select("a") |> format_selected()
 }

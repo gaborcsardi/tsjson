@@ -7,7 +7,10 @@
 
 #' Insert a new element into the selected ones in a tsjson object
 #'
-#' TODO
+#' Insert a new element into each selected array or object.
+#'
+#' It is an error trying to insert into an element that is not an array and
+#' not an object.
 #'
 #' @param json tsjson object
 #' @param new New element to insert. Will be serialized with
@@ -16,12 +19,20 @@
 #' @param at What position to insert the new element at:
 #'   - `0`: at the beginning,
 #'   - `Inf`: at the end,
-#'   - other numbers: after the specified element.
+#'   - other numbers: after the specified element,
+#'   - a character scalar, the key after which the new element is inserted,
+#'     if that key exists, when inserting into an object. If this key does
+#'     not exist, then the new element is inserted at the end of the object.
 #' @param format Formatting of the `new` element, passed to
 #'  [serialize_json()].
 #' @return The modified tsjson object.
 #'
 #' @export
+#' @examples
+#' json <- load_json(text = "{ \"a\": true, \"b\": [1, 2, 3] }")
+#' json
+#'
+#' json |> select("b") |> insert_into_selected("foo", at = 1)
 
 insert_into_selected <- function(
   json,

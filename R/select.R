@@ -38,17 +38,74 @@ get_default_selection <- function(json) {
 
 #' Select elements in a tsjson object
 #'
-#' TODO
+#' This function is the heart of tsjson. To delete or manipulate parts of
+#' a JSON document, you need to [select()] those parts first. To insert new
+#' elements into a JSON document, you need to select the arrays or objects
+#' the elements will be inserted into.
 #'
 #' ## Selectors
 #'
-#' TODO
+#' You can use a list of selectors to iteratively refine the selection
+#' of JSON elements, starting from the document element (the default
+#' selection).
 #'
-#' @param json tsjson object.
-#' @param ... Selectors, see below.
+#' For [select()] the list of selectors may be specified in a single list
+#' argument, or as multiple arguments.
+#'
+#' Available selectors:
+#' - `TRUE` selects all child elements of the current selections.
+#' - A character vector selects the named child elements from selected
+#'   objects. Selects nothing from arrays.
+#' - A numeric vector selectes the listed child elements from selected
+#'   arrays or objects. Positive (1-based) indices are counted from the
+#'   beginning, negative indices are counted from the end of the array or
+#'   object. E.g. -1 is the last element (if any).
+#' - A character scalar named `"regex"`, with a regular expression.
+#'   It selects the child elements whose keys match the regular expression.
+#'   Selects nothing from arrays.
+#'
+#' ## Refining selections
+#'
+#' [select_refine()] is similar to [select()], but it starts from the
+#' already selected elements (all of them simultanously), instead of
+#' starting from the document element.
+#'
+#' ## The `[[` and `[[<-` operators
+#'
+#' The `[[` operator works similarly to [select_refine()] on tsjson objects,
+#' but it might be more readable.
+#'
+#' The `[[<-` operator works similarly to [select<-()], but it might be
+#' more readable.
+#'
+#' @param x,json tsjson object.
+#' @param i,... Selectors, see below.
 #' @return A tsjson object, potentially with some elements selected.
 #'
 #' @export
+#' @examples
+#' json <- load_json(text = serialize_json(list(
+#'   a = list(a1 = list(1,2,3), a2 = "string"),
+#'   b = list(4, 5, 6),
+#'   c = list(c1 = list("a", "b"))
+#' )))
+#'
+#' json
+#'
+#' # Select object by key
+#' json |> select("a")
+#'
+#' # Select within select, these are the same
+#' json |> select("a", "a1")
+#' json |> select(list("a", "a1"))
+#'
+#' # Select elements of an array
+#' json |> select("b", TRUE)           # all elements
+#' json |> select("b", 1:2)            # first two elements
+#' json |> select("b", c(1, -1))       # first and last elements
+#'
+#' # Regular expressions
+#' json |> select(c("a", "c"), c(regex = "1$"))
 
 select <- function(json, ...) {
   slts <- list(...)
@@ -60,12 +117,7 @@ select <- function(json, ...) {
   }
 }
 
-#' Extract elements from a tsjson object
-#'
-#' TODO
-#'
-#' @param x tsjson object
-#' @param i,... Selectors, see [select()].
+#' @rdname select
 #' @export
 
 `[[.tsjson` <- function(x, i, ...) {
@@ -77,7 +129,11 @@ select <- function(json, ...) {
 
 #' Update selected elements in a tsjson object
 #'
-#' TODO
+#' Update the selected elements of a JSON document, using the replacement
+#' function syntax.
+#'
+#' Technically [select<-()] is equivalent to [select_refine()] plus
+#' [update_selected()]. In case when `value` is
 #'
 #' @param x,json tsjson object. Create a tsjson object with [load_json()].
 #' @param i,... Selectors, see [select()].
@@ -86,6 +142,7 @@ select <- function(json, ...) {
 #'
 #' @seealso Save the updated tjson object to a file with [save_json()].
 #'
+#' @name select-set
 #' @export
 
 `select<-` <- function(json, ..., value) {
@@ -235,15 +292,30 @@ sel_ids <- function(ids) {
   )
 }
 
-#' Special marker to delete elements from a tsjson object
+#' @rdname select-set
+#' @usage NULL
+#' @details
+#' [deleted()] is a special marker to delete elements from a tsjson object
+#' with [select<-()] or the double bracket operator.
 #'
-#' TODO
-#' @return A marker object to be used at the right hand side of a tsjson
-#'   "selection assignment", see examples below.
+#' @return [deleted()] returns a marker object to be used at the right
+#'   hand side of the [select<-()] or the double bracket replacement
+#'   functions, see examples below.
 #'
 #' @export
 #' @examples
-#' # TODO
+#' # Using `deleted()` to delete elements
+#' json <- load_json(text = serialize_json(list(
+#'   a = list(a1 = list(1,2,3), a2 = "string"),
+#'   b = list(4, 5, 6),
+#'   c = list(c1 = list("a", "b"))
+#' )))
+#'
+#' select(json, list("a", "a1")) <- deleted()
+#' json
+#'
+#' json[[list("a", "a2")]] <- deleted()
+#' json
 
 deleted <- function() {
   structure(

@@ -21,3 +21,12 @@ Calls \code{\link[=format.tsjson]{format.tsjson()}} to format the tsjson object,
 formatted object to the standard output, and returns the original object
 invisibly.
 }
+\examples{
+json <- load_json(text = serialize_json(list(
+  a = list(a1 = list(1,2,3), a2 = "string"),
+  b = list(4, 5, 6),
+  c = list(c1 = list("a", "b"))
+)))
+
+json
+}

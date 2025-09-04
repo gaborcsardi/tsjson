@@ -1,6 +1,8 @@
 #' Replace selected JSON elements with a new element
 #'
-#' TODO
+#' Replace all selected elements with a new element. If `json` has no
+#' selection then the whole document is replaced. If `json` has an empty
+#' selection, then nothing happens.
 #'
 #' @param json tsjson object.
 #' @param new R object that will be serialized to JSON (using
@@ -10,6 +12,11 @@
 #' @return The updated tsjson object
 #'
 #' @export
+#' @examples
+#' json <- load_json(text = "{ \"a\": true, \"b\": [1, 2, 3] }")
+#' json
+#'
+#' json |> select("a") |> update_selected(list("new", "element"))
 
 update_selected <- function(
   json,

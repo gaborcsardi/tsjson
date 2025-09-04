@@ -39,3 +39,7 @@ max_or_na <- function(x) {
 mkdirp <- function(x) {
   dir.create(x, showWarnings = FALSE, recursive = TRUE)
 }
+
+doclist <- function(x) {
+  paste0("`", x, "`", collapse = ", ")
+}

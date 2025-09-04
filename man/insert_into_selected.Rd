@@ -24,7 +24,10 @@ insert_into_selected(
 \itemize{
 \item \code{0}: at the beginning,
 \item \code{Inf}: at the end,
-\item other numbers: after the specified element.
+\item other numbers: after the specified element,
+\item a character scalar, the key after which the new element is inserted,
+if that key exists, when inserting into an object. If this key does
+not exist, then the new element is inserted at the end of the object.
 }}
 
 \item{format}{Formatting of the \code{new} element, passed to
@@ -34,5 +37,15 @@ insert_into_selected(
 The modified tsjson object.
 }
 \description{
-TODO
+Insert a new element into each selected array or object.
+}
+\details{
+It is an error trying to insert into an element that is not an array and
+not an object.
+}
+\examples{
+json <- load_json(text = "{ \"a\": true, \"b\": [1, 2, 3] }")
+json
+
+json |> select("b") |> insert_into_selected("foo", at = 1)
 }

@@ -1,12 +1,13 @@
 #' Write a tsjson object to a file
 #'
-#' TODO
-#'
 #' @param json tsjson object.
 #' @param file File or connection to write to. Both binary and text
-#'   connections are supported.
+#'   connections are supported. Use `stdout()` to output to the screen.
 #' @return Nothing.
 #'
+#' @seealso [load_json()] to create a tsjson object from a JSON file or
+#'   string. [unserialize_selected()] obtain a JSON string for a tsjson
+#'   object.
 #' @export
 
 save_json <- function(json, file = NULL) {

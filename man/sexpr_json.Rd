@@ -15,5 +15,8 @@ sexpr_json(file = NULL, text = NULL, ranges = NULL)
 \code{file} or \code{text} to parse.}
 }
 \description{
-TODO
+Show the syntax tree structure of a JSON file or string
+}
+\examples{
+sexpr_json(text = "{ \"a\": true, \"b\": [1, 2, 3] }")
 }

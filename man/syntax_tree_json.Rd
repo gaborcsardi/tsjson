@@ -17,3 +17,6 @@ syntax_tree_json(file = NULL, text = NULL, ranges = NULL)
 \description{
 Show the annotated syntax tree of a JSON file or string
 }
+\examples{
+syntax_tree_json(text = "{ \"a\": true, \"b\": [1, 2, 3] }")
+}

@@ -18,8 +18,24 @@ query_json(file = NULL, text = NULL, query, ranges = NULL)
 }
 \value{
 A list with entries \code{patterns} and \code{matched_captures}.
-TODO
+\code{patterns} contains information about all patterns in the queries and
+it is a data frame with columns: \code{id}, \code{name}, \code{pattern}, \code{match_count}.
+\code{matched_captures} contains information about all matches, and it has
+columns \code{id}, \code{pattern}, \code{match}, \code{start_byte}, \code{end_byte}, \code{start_row},
+\code{start_column}, \code{end_row}, \code{end_column}, \code{name}, \code{code}. The \code{pattern}
+column of \code{matched_captured} refers to the \code{id} column of \code{patterns}.
 }
 \description{
-TODO
+See https://tree-sitter.github.io/tree-sitter/ on writing tree-sitter
+queries.
+}
+\examples{
+# A very simple JSON document
+txt <- "{ \"a\": 1, \"b\": \"foo\", \"c\": 20 }"
+
+# Take a look at it
+load_json(text = txt) |> format_selected()
+
+# Select all pairs where the value is a number
+query_json(text = txt, query = "((pair value: (number) @num))")
 }

@@ -17,5 +17,18 @@
 Character vector.
 }
 \description{
-TODO
+Format a tsjson object for printing.
+}
+\details{
+This is the engine of \code{\link[=print.tsjson]{print.tsjson()}}, possibly useful to obtain a
+printed representation without doing the actual printing.
+}
+\examples{
+json <- load_json(text = serialize_json(list(
+  a = list(a1 = list(1,2,3), a2 = "string"),
+  b = list(4, 5, 6),
+  c = list(c1 = list("a", "b"))
+)))
+
+json
 }

@@ -10,11 +10,16 @@ save_json(json, file = NULL)
 \item{json}{tsjson object.}
 
 \item{file}{File or connection to write to. Both binary and text
-connections are supported.}
+connections are supported. Use \code{stdout()} to output to the screen.}
 }
 \value{
 Nothing.
 }
 \description{
-TODO
+Write a tsjson object to a file
+}
+\seealso{
+\code{\link[=load_json]{load_json()}} to create a tsjson object from a JSON file or
+string. \code{\link[=unserialize_selected]{unserialize_selected()}} obtain a JSON string for a tsjson
+object.
 }

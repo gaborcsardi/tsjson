@@ -10,6 +10,14 @@
 #' @return `x`, invisibly.
 #'
 #' @export
+#' @examples
+#' json <- load_json(text = serialize_json(list(
+#'   a = list(a1 = list(1,2,3), a2 = "string"),
+#'   b = list(4, 5, 6),
+#'   c = list(c1 = list("a", "b"))
+#' )))
+#'
+#' json
 
 print.tsjson <- function(x, n = 10, ...) {
   writeLines(format(x, n = n, ...))
@@ -18,7 +26,10 @@ print.tsjson <- function(x, n = 10, ...) {
 
 #' Format a tsjson object
 #'
-#' TODO
+#' Format a tsjson object for printing.
+#'
+#' This is the engine of [print.tsjson()], possibly useful to obtain a
+#' printed representation without doing the actual printing.
 #'
 #' @param x tsjson object.
 #' @param n Number of lines, or number of selections to print.
@@ -26,6 +37,14 @@ print.tsjson <- function(x, n = 10, ...) {
 #' @return Character vector.
 #'
 #' @export
+#' @examples
+#' json <- load_json(text = serialize_json(list(
+#'   a = list(a1 = list(1,2,3), a2 = "string"),
+#'   b = list(4, 5, 6),
+#'   c = list(c1 = list("a", "b"))
+#' )))
+#'
+#' json
 
 format.tsjson <- function(x, n = 10, ...) {
   sel <- get_selected_nodes(x, default = FALSE)

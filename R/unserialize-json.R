@@ -1,11 +1,37 @@
 #' Unserialize a JSON file or string into an R object
 #'
-#' TODO
+#' The purpose of this function is to convert a JSON file or string into
+#' an R object reliably.
+#'
+#' See examples below on how the different JSON elements are mapped to
+#' R objects.
 #'
 #' @inheritParams sexpr_json
 #' @return R object.
 #'
 #' @export
+#' @seealso [serialize_json()] for the opposite, [select()] and
+#' [unserialize_selected()] to unserialize part(s) of a JSON document.
+#' [load_json()] to load a JSON document and then manipulate it.
+#' @examples
+#' # null -> NULL
+#' unserialize_json(text = "null")
+#'
+#' # true, false -> TRUE, FALSE
+#' unserialize_json(text = "true")
+#' unserialize_json(text = "false")
+#'
+#' # string -> character scalar
+#' unserialize_json(text = "\"string with escapes: \\b \\ud020\"")
+#'
+#' # number -> double scalar
+#' unserialize_json(text = "42.25")
+#'
+#' # array -> unnamed list
+#' unserialize_json(text = "[1, 2, 3]")
+#'
+#' # object -> named list
+#' unserialize_json(text = "{\"a\": 1, \"b\": 2 }")
 
 unserialize_json <- function(file = NULL, text = NULL, ranges = NULL) {
   # parse file/text
@@ -27,15 +53,25 @@ unserialize_json <- function(file = NULL, text = NULL, ranges = NULL) {
 
 #' Unserialize selected elements from a tsjson object
 #'
-#' TODO
+#' Uses [unserialize_json()] on the selected elements.
+#'
+#' If `json` does not have a selection, then all of it is unserialized.
+#' If `json` has an empty selection, then an empty list is returned.
 #'
 #' @param json tsjson object.
 #' @return List of R objects, each the unserialization of a selected element
-#'   in tsjson. If `json` does not have a selection, then all of it is
-#'   unserialized. If `json` has an empty selectedion, then an empty list
-#'   is returned.
+#'   in tsjson.
 #'
 #' @export
+#' @seealso [unserialize_json()] to unserialize a JSON document from a
+#'   file or string. [serialize_json()] to create JSON from R objects.
+#' @examples
+#' json <- load_json(text = serialize_json(list(
+#'   a = list(a1 = list(1,2,3), a2 = "string"),
+#'   b = list(4, 5, 6),
+#'   c = list(c1 = list("a", "b"))
+#' )))
+#' json |> select(c("b", "c")) |> unserialize_selected()
 
 unserialize_selected <- function(json) {
   sel <- get_selected_nodes(json)

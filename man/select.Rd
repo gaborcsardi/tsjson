@@ -2,27 +2,92 @@
 % Please edit documentation in R/select.R
 \name{select}
 \alias{select}
+\alias{[[.tsjson}
 \alias{select_refine}
 \title{Select elements in a tsjson object}
 \usage{
 select(json, ...)
 
+\method{[[}{tsjson}(x, i, ...)
+
 select_refine(json, ...)
 }
 \arguments{
-\item{json}{tsjson object.}
+\item{x, json}{tsjson object.}
 
-\item{...}{Selectors, see below.}
+\item{i, ...}{Selectors, see below.}
 }
 \value{
 A tsjson object, potentially with some elements selected.
 }
 \description{
-TODO
+This function is the heart of tsjson. To delete or manipulate parts of
+a JSON document, you need to \code{\link[=select]{select()}} those parts first. To insert new
+elements into a JSON document, you need to select the arrays or objects
+the elements will be inserted into.
 }
 \details{
 \subsection{Selectors}{
 
-TODO
+You can use a list of selectors to iteratively refine the selection
+of JSON elements, starting from the document element (the default
+selection).
+
+For \code{\link[=select]{select()}} the list of selectors may be specified in a single list
+argument, or as multiple arguments.
+
+Available selectors:
+\itemize{
+\item \code{TRUE} selects all child elements of the current selections.
+\item A character vector selects the named child elements from selected
+objects. Selects nothing from arrays.
+\item A numeric vector selectes the listed child elements from selected
+arrays or objects. Positive (1-based) indices are counted from the
+beginning, negative indices are counted from the end of the array or
+object. E.g. -1 is the last element (if any).
+\item A character scalar named \code{"regex"}, with a regular expression.
+It selects the child elements whose keys match the regular expression.
+Selects nothing from arrays.
 }
+}
+
+\subsection{Refining selections}{
+
+\code{\link[=select_refine]{select_refine()}} is similar to \code{\link[=select]{select()}}, but it starts from the
+already selected elements (all of them simultanously), instead of
+starting from the document element.
+}
+
+\subsection{The \code{[[} and \verb{[[<-} operators}{
+
+The \code{[[} operator works similarly to \code{\link[=select_refine]{select_refine()}} on tsjson objects,
+but it might be more readable.
+
+The \verb{[[<-} operator works similarly to \code{\link[=select<-]{select<-()}}, but it might be
+more readable.
+}
+}
+\examples{
+json <- load_json(text = serialize_json(list(
+  a = list(a1 = list(1,2,3), a2 = "string"),
+  b = list(4, 5, 6),
+  c = list(c1 = list("a", "b"))
+)))
+
+json
+
+# Select object by key
+json |> select("a")
+
+# Select within select, these are the same
+json |> select("a", "a1")
+json |> select(list("a", "a1"))
+
+# Select elements of an array
+json |> select("b", TRUE)           # all elements
+json |> select("b", 1:2)            # first two elements
+json |> select("b", c(1, -1))       # first and last elements
+
+# Regular expressions
+json |> select(c("a", "c"), c(regex = "1$"))
 }
