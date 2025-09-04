@@ -42,7 +42,7 @@ update_selected <- function(
         names = slt
       )
     }
-    attr(json, "selection") <- selection[1:(ptr - 1L)]
+    attr(json, "selection") <- selection[1:ptr]
     return(insert_into_selected(json, new[[1]], key = names(new)))
   }
 

@@ -158,13 +158,36 @@ select(json, "a") |>
 
 ### Update elements
 
+Update existing element:
+
 ``` r
-select(json, "a", c("a1", "a2")) |> update_selected("completely new")
+select(json, "a", c("a1", "a2")) |> update_selected("new value")
 ```
 
 <picture>
 <source media="(prefers-color-scheme: dark)" srcset="/Users/gaborcsardi/works/tsjson/man/figures/update-dark.svg">
 <img src="/Users/gaborcsardi/works/tsjson/man/figures/update.svg" />
+</picture>
+
+Inserts the element if some parents are missing:
+
+``` r
+json <- load_json(text = "{ \"a\": { \"b\": true } }")
+json
+```
+
+<picture>
+<source media="(prefers-color-scheme: dark)" srcset="/Users/gaborcsardi/works/tsjson/man/figures/update-insert-dark.svg">
+<img src="/Users/gaborcsardi/works/tsjson/man/figures/update-insert.svg" />
+</picture>
+
+``` r
+select(json, "a", "x", "y") |> update_selected(list(1,2,3))
+```
+
+<picture>
+<source media="(prefers-color-scheme: dark)" srcset="/Users/gaborcsardi/works/tsjson/man/figures/update-insert-2-dark.svg">
+<img src="/Users/gaborcsardi/works/tsjson/man/figures/update-insert-2.svg" />
 </picture>
 
 # License

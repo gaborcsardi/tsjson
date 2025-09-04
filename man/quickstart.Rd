@@ -215,7 +215,9 @@ Insert element into an object, at the specified key:
 
 \subsection{Update elements}{
 
-\if{html}{\out{<div class="sourceCode r">}}\preformatted{select(json, "a", c("a1", "a2")) |> update_selected("completely new")
+Update existing element:
+
+\if{html}{\out{<div class="sourceCode r">}}\preformatted{select(json, "a", c("a1", "a2")) |> update_selected("new value")
 }\if{html}{\out{</div>}}\if{html}{\out{
 <div class="asciicast" style="color: #B9C0CB;font-family: 'Fira Code',Monaco,Consolas,Menlo,'Bitstream Vera Sans Mono','Powerline Symbols',monospace;line-height: 1.300000"><pre>
 #> <span style="color: #6F7783;"># json (19 lines)</span>                                                               
@@ -223,14 +225,44 @@ Insert element into an object, at the specified key:
 #> <span style="color: #6F7783;"> 2 | </span>// this is a comment                                                       
 #> <span style="color: #6F7783;"> 3 | </span>\{                                                                          
 #> <span style="color: #6F7783;"> 4 | </span>  "a": \{                                                                   
-#> <span style="color: #6F7783;"> 5 | </span>    "a1": "completely new",                                                
+#> <span style="color: #6F7783;"> 5 | </span>    "a1": "new value",                                                     
 #> <span style="color: #6F7783;"> 6 | </span>    // comment                                                             
-#> <span style="color: #6F7783;"> 7 | </span>    "a2": "completely new"                                                 
+#> <span style="color: #6F7783;"> 7 | </span>    "a2": "new value"                                                      
 #> <span style="color: #6F7783;"> 8 | </span>  \},                                                                       
 #> <span style="color: #6F7783;"> 9 | </span>  "b": [                                                                   
 #> <span style="color: #6F7783;">10 | </span>    \{                                                                      
 #> <span style="color: #6F7783;">ℹ 9 more lines</span>                                                                  
 #> <span style="color: #6F7783;">ℹ Use `print(n = ...)` to see more lines</span>                                        
+</pre></div>
+}}
+
+
+Inserts the element if some parents are missing:
+
+\if{html}{\out{<div class="sourceCode r">}}\preformatted{json <- load_json(text = "\{ \\"a\\": \{ \\"b\\": true \} \}")
+json
+}\if{html}{\out{</div>}}\if{html}{\out{
+<div class="asciicast" style="color: #B9C0CB;font-family: 'Fira Code',Monaco,Consolas,Menlo,'Bitstream Vera Sans Mono','Powerline Symbols',monospace;line-height: 1.300000"><pre>
+#> <span style="color: #6F7783;"># json (1 line)</span>                                                                 
+#> <span style="color: #6F7783;">1 | </span>\{ "a": \{ "b": true \} \}                                                      
+</pre></div>
+}}
+
+
+\if{html}{\out{<div class="sourceCode r">}}\preformatted{select(json, "a", "x", "y") |> update_selected(list(1,2,3))
+}\if{html}{\out{</div>}}\if{html}{\out{
+<div class="asciicast" style="color: #B9C0CB;font-family: 'Fira Code',Monaco,Consolas,Menlo,'Bitstream Vera Sans Mono','Powerline Symbols',monospace;line-height: 1.300000"><pre>
+#> <span style="color: #6F7783;"># json (10 lines)</span>                                                               
+#> <span style="color: #6F7783;"> 1 | </span>\{ "a": \{                                                                   
+#> <span style="color: #6F7783;"> 2 | </span>  "b": true,                                                               
+#> <span style="color: #6F7783;"> 3 | </span>  "x": \{                                                                   
+#> <span style="color: #6F7783;"> 4 | </span>    "y": [                                                                 
+#> <span style="color: #6F7783;"> 5 | </span>      1,                                                                   
+#> <span style="color: #6F7783;"> 6 | </span>      2,                                                                   
+#> <span style="color: #6F7783;"> 7 | </span>      3                                                                    
+#> <span style="color: #6F7783;"> 8 | </span>    ]                                                                      
+#> <span style="color: #6F7783;"> 9 | </span>  \}                                                                        
+#> <span style="color: #6F7783;">10 | </span>\} \}                                                                        
 </pre></div>
 }}
 
