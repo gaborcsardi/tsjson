@@ -11,7 +11,7 @@ always_allow_html: yes
 #| include: false
 knitr::opts_chunk$set(
   comment = "#>",
-  fig.path = normalizePath("man/figures"),
+  fig.path = "man/figures",
   fig.width = 10,
   asciicast_theme = if (Sys.getenv("IN_PKGDOWN") == "true") "pkgdown" else "readme"
 )
@@ -53,7 +53,15 @@ and also in the installed package: `help(package = "tsjson")`.
 
 ## Quickstart
 
-```{r child ="tools/man/quickstart.Rmd"}
+```{r include = FALSE}
+file.copy("tools/man/quickstart.Rmd", ".")
+```
+
+```{r child ="quickstart.Rmd"}
+```
+
+```{r include = FALSE}
+unlink("quickstart.Rmd")
 ```
 
 # License
