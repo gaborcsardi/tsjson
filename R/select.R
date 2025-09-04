@@ -79,8 +79,8 @@ select <- function(json, ...) {
 #'
 #' TODO
 #'
-#' @param json tsjson object. Create a tsjson object with [load_json()].
-#' @param ... Selectors, see [select()].
+#' @param x,json tsjson object. Create a tsjson object with [load_json()].
+#' @param i,... Selectors, see [select()].
 #' @param value New value. Will be serialized to JSON with [serialize_json()].
 #' @return The updated tsjson object.
 #'

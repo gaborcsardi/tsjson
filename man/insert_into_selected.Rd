@@ -27,7 +27,8 @@ insert_into_selected(
 \item other numbers: after the specified element.
 }}
 
-\item{Formatting}{of the \code{new} element, passed to \code{\link[=serialize_json]{serialize_json()}}.}
+\item{format}{Formatting of the \code{new} element, passed to
+\code{\link[=serialize_json]{serialize_json()}}.}
 }
 \value{
 The modified tsjson object.

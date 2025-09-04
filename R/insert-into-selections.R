@@ -17,7 +17,8 @@
 #'   - `0`: at the beginning,
 #'   - `Inf`: at the end,
 #'   - other numbers: after the specified element.
-#' @param Formatting of the `new` element, passed to [serialize_json()].
+#' @param format Formatting of the `new` element, passed to
+#'  [serialize_json()].
 #' @return The modified tsjson object.
 #'
 #' @export

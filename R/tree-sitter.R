@@ -1,11 +1,22 @@
-s_expr <- function(
+#' Show the syntax tree structure of a JSON file or string
+#'
+#' TODO
+#'
+#' @param file Path of a JSON file. Use either `file` or `text`.
+#' @param text JSON string. Use either `file` or `text`.
+#' @param ranges Optionally a list of integer pairs defining ranges within
+#'   `file` or `text` to parse.
+#'
+#' @export
+
+sexpr_json <- function(
   file = NULL,
   text = NULL,
   ranges = NULL
 ) {
   if (is.null(text) + is.null(file) != 1) {
     stop(cnd(
-      "Invalid arguments in `s_expr()`: exactly one of `file` \\
+      "Invalid arguments in `sexpr_json()`: exactly one of `file` \\
        and `text` must be given."
     ))
   }
@@ -46,7 +57,11 @@ token_table <- function(
   tab
 }
 
-syntax_tree <- function(
+#' Show the annotated syntax tree of a JSON file or string
+#' @inheritParams sexpr_json
+#' @export
+
+syntax_tree_json <- function(
   file = NULL,
   text = NULL,
   ranges = NULL
@@ -103,7 +118,18 @@ syntax_tree <- function(
   tree
 }
 
-code_query <- function(
+#' Run tree-sitter queries on a JSON file or string
+#'
+#' TODO
+#'
+#' @param query Character string, the tree-sitter query to run.
+#' @inheritParams sexpr_json
+#' @return A list with entries `patterns` and `matched_captures`.
+#'   TODO
+#'
+#' @export
+
+query_json <- function(
   file = NULL,
   text = NULL,
   query,

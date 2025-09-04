@@ -2,12 +2,11 @@
 #'
 #' TODO
 #'
-#' @param file Path of a JSON file. Use either `file` or `text`.
-#' @param text JSON string. Use either `file` or `text`.
+#' @inheritParams sexpr_json
 #' @return A tsjson object.
 #' @export
 
-load_json <- function(file = NULL, text = NULL) {
+load_json <- function(file = NULL, text = NULL, ranges = NULL) {
   if (is.null(text) + is.null(file) != 1) {
     stop(cnd(
       "Invalid arguments in `load_json()`: exactly one of `file` \\
@@ -21,7 +20,7 @@ load_json <- function(file = NULL, text = NULL) {
     text <- charToRaw(paste(text, collapse = "\n"))
   }
   # TODO: error on error, get error position
-  tt <- token_table(text = text)
+  tt <- token_table(text = text, ranges = ranges)
 
   # trailing whitespace for each token
   # first we add the leading whitespace to the document token
@@ -52,8 +51,8 @@ load_json <- function(file = NULL, text = NULL) {
 #' TODO
 #'
 #' @param x tsjson object.
-#' @param i,j: indices
-#' @param drop: Ignored.
+#' @param i,j indices.
+#' @param drop Ignored.
 #' @export
 
 `[.tsjson` <- function(x, i, j, drop = FALSE) {

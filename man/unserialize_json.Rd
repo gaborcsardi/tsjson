@@ -4,12 +4,15 @@
 \alias{unserialize_json}
 \title{Unserialize a JSON file or string into an R object}
 \usage{
-unserialize_json(file = NULL, text = NULL)
+unserialize_json(file = NULL, text = NULL, ranges = NULL)
 }
 \arguments{
 \item{file}{Path of a JSON file. Use either \code{file} or \code{text}.}
 
 \item{text}{JSON string. Use either \code{file} or \code{text}.}
+
+\item{ranges}{Optionally a list of integer pairs defining ranges within
+\code{file} or \code{text} to parse.}
 }
 \value{
 R object.

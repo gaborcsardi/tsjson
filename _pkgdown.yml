@@ -21,7 +21,6 @@ reference:
 - contents:
   - format.tsjson
   - print.tsjson
-  - "[.tsjson"
 
 - title: Extraction
 - contents:
@@ -39,3 +38,10 @@ reference:
   - update_selected
   - "[[.tsjson"
   - "[[<-.tsjson"
+
+- title: Utilities
+- contents:
+  - code_query
+  - s_expr
+  - syntax_tree
+  - "[.tsjson"

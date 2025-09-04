@@ -10,11 +10,11 @@ select(json, ...) <- value
 \method{[[}{tsjson}(x, i) <- value
 }
 \arguments{
-\item{json}{tsjson object. Create a tsjson object with \code{\link[=load_json]{load_json()}}.}
-
-\item{...}{Selectors, see \code{\link[=select]{select()}}.}
-
 \item{value}{New value. Will be serialized to JSON with \code{\link[=serialize_json]{serialize_json()}}.}
+
+\item{x, json}{tsjson object. Create a tsjson object with \code{\link[=load_json]{load_json()}}.}
+
+\item{i, ...}{Selectors, see \code{\link[=select]{select()}}.}
 }
 \value{
 The updated tsjson object.

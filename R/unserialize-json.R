@@ -2,16 +2,15 @@
 #'
 #' TODO
 #'
-#' @param file Path of a JSON file. Use either `file` or `text`.
-#' @param text JSON string. Use either `file` or `text`.
+#' @inheritParams sexpr_json
 #' @return R object.
 #'
 #' @export
 
-unserialize_json <- function(file = NULL, text = NULL) {
+unserialize_json <- function(file = NULL, text = NULL, ranges = NULL) {
   # parse file/text
   # TODO: error on error, get error position
-  tt <- token_table(file = file, text = text)
+  tt <- token_table(file = file, text = text, ranges = ranges)
 
   # document is the top element. easier to process without NA parents
   # TODO: do not fail for empty file, but what to return? NULL, maybe?

@@ -9,9 +9,9 @@
 \arguments{
 \item{x}{tsjson object.}
 
-\item{i, j:}{indices}
+\item{i, j}{indices.}
 
-\item{drop:}{Ignored.}
+\item{drop}{Ignored.}
 }
 \description{
 TODO
