@@ -4,12 +4,18 @@
 \name{tsjson-package}
 \alias{tsjson}
 \alias{tsjson-package}
-\title{tsjson: What the Package Does (One Line, Title Case)}
+\title{tsjson: Edit JSON Files}
 \description{
-What the package does (one paragraph).
+Extract and manipulate parts of JSON files while keeping the formatting and comments or other parts.
 }
 \author{
-\strong{Maintainer}: First Last \email{first.last@example.com}
+\strong{Maintainer}: Gábor Csárdi \email{csardi.gabor@gmail.com}
+
+Other contributors:
+\itemize{
+  \item Posit Software, PBC (03wc8by49) [copyright holder, funder]
+  \item  tree-sitter-json authors [contributor]
+}
 
 }
 \keyword{internal}
