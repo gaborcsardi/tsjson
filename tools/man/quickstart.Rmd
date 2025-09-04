@@ -9,7 +9,6 @@ Create a tsjson object from a string:
 
 ```{asciicast}
 #| results: hide
-getwd()
 txt <- r"(
 // this is a comment
 {

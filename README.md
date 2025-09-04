@@ -32,7 +32,6 @@ and also in the installed package: `help(package = "tsjson")`.
 Create a tsjson object from a string:
 
 ``` r
-getwd()
 txt <- r"(
 // this is a comment
 {

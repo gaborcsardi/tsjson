@@ -11,8 +11,7 @@ tsjson quickstart
 
 Create a tsjson object from a string:
 
-\if{html}{\out{<div class="sourceCode r">}}\preformatted{getwd()
-txt <- r"(
+\if{html}{\out{<div class="sourceCode r">}}\preformatted{txt <- r"(
 // this is a comment
 \{
   "a": \{
