@@ -137,7 +137,7 @@ query_json <- function(
 ) {
   if (is.null(text) + is.null(file) != 1) {
     stop(cnd(
-      "Invalid arguments in `code_query()`: exactly one of `file` \\
+      "Invalid arguments in `query_json()`: exactly one of `file` \\
        and `text` must be given."
     ))
   }
