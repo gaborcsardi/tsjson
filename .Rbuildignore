@@ -8,3 +8,7 @@
 ^_pkgdown\.yml$
 ^docs$
 ^pkgdown$
+^src/.*[.]o$
+^src/.*[.]a$
+^src/.*[.]so$
+^src/.*[.]dll$

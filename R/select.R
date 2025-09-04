@@ -36,6 +36,18 @@ get_default_selection <- function(json) {
   )
 }
 
+#' Select elements in a tsjson object
+#'
+#' TODO
+#'
+#' ## Selectors
+#'
+#' TODO
+#'
+#' @param json tsjson object.
+#' @param ... Selectors, see below.
+#' @return A tsjson object, potentially with some elements selected.
+#'
 #' @export
 
 select <- function(json, ...) {
@@ -48,6 +60,12 @@ select <- function(json, ...) {
   }
 }
 
+#' Extract elements from a tsjson object
+#'
+#' TODO
+#'
+#' @param x tsjson object
+#' @param i,... Selectors, see [select()].
 #' @export
 
 `[[.tsjson` <- function(x, i, ...) {
@@ -57,20 +75,32 @@ select <- function(json, ...) {
   unserialize_selected(select(x, i, ...))
 }
 
+#' Update selected elements in a tsjson object
+#'
+#' TODO
+#'
+#' @param json tsjson object. Create a tsjson object with [load_json()].
+#' @param ... Selectors, see [select()].
+#' @param value New value. Will be serialized to JSON with [serialize_json()].
+#' @return The updated tsjson object.
+#'
+#' @seealso Save the updated tjson object to a file with [save_json()].
+#'
 #' @export
 
-`select<-` <- function(x, ..., value) {
+`select<-` <- function(json, ..., value) {
   res <- if (inherits(value, "tsjson")) {
     value
   } else if (inherits(value, "tsjson_action_delete")) {
-    delete_selected(select_refine(x, ...))
+    delete_selected(select_refine(json, ...))
   } else {
-    update_selected(select_refine(x, ...), value)
+    update_selected(select_refine(json, ...), value)
   }
   attr(res, "selection") <- NULL
   res
 }
 
+#' @rdname select-set
 #' @export
 
 `[[<-.tsjson` <- function(x, i, value) {
@@ -88,6 +118,7 @@ select <- function(json, ...) {
   res
 }
 
+#' @rdname select
 #' @export
 
 select_refine <- function(json, ...) {
@@ -204,7 +235,15 @@ sel_ids <- function(ids) {
   )
 }
 
+#' Special marker to delete elements from a tsjson object
+#'
+#' TODO
+#' @return A marker object to be used at the right hand side of a tsjson
+#'   "selection assignment", see examples below.
+#'
 #' @export
+#' @examples
+#' # TODO
 
 deleted <- function() {
   structure(

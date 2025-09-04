@@ -1,3 +1,14 @@
+#' Print a tsjson object
+#'
+#' Calls [format.tsjson()] to format the tsjson object, writes the
+#' formatted object to the standard output, and returns the original object
+#' invisibly.
+#'
+#' @param x tsjson object.
+#' @param n Number of lines, or number of selections to print.
+#' @param ... Ignored.
+#' @return `x`, invisibly.
+#'
 #' @export
 
 print.tsjson <- function(x, n = 10, ...) {
@@ -5,6 +16,15 @@ print.tsjson <- function(x, n = 10, ...) {
   invisible(x)
 }
 
+#' Format a tsjson object
+#'
+#' TODO
+#'
+#' @param x tsjson object.
+#' @param n Number of lines, or number of selections to print.
+#' @param ... Ignored.
+#' @return Character vector.
+#'
 #' @export
 
 format.tsjson <- function(x, n = 10, ...) {

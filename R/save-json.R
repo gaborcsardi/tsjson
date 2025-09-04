@@ -1,3 +1,12 @@
+#' Write a tsjson object to a file
+#'
+#' TODO
+#'
+#' @param json tsjson object.
+#' @param file File or connection to write to. Both binary and text
+#'   connections are supported.
+#' @return Nothing.
+#'
 #' @export
 
 save_json <- function(json, file = NULL) {
@@ -22,4 +31,5 @@ save_json <- function(json, file = NULL) {
   } else {
     writeBin(text, con = file)
   }
+  invisible()
 }

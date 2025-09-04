@@ -1,4 +1,41 @@
 url: ~
+
 template:
+  package: tidytemplate
   bootstrap: 5
 
+development:
+  mode: auto
+
+reference:
+- title: Quickstart
+  desc: |
+    TODO
+
+- title: Serialization
+- contents:
+  - serialize_json
+  - unserialize_json
+
+- title: Printing
+- contents:
+  - format.tsjson
+  - print.tsjson
+  - "[.tsjson"
+
+- title: Extraction
+- contents:
+  - load_json
+  - select
+
+- title: Manipulation
+- contents:
+  - delete_selected
+  - deleted
+  - format_selected
+  - insert_into_selected
+  - save_json
+  - unserialize_selected
+  - update_selected
+  - "[[.tsjson"
+  - "[[<-.tsjson"

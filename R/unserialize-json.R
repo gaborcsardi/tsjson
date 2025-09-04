@@ -1,3 +1,11 @@
+#' Unserialize a JSON file or string into an R object
+#'
+#' TODO
+#'
+#' @param file Path of a JSON file. Use either `file` or `text`.
+#' @param text JSON string. Use either `file` or `text`.
+#' @return R object.
+#'
 #' @export
 
 unserialize_json <- function(file = NULL, text = NULL) {
@@ -18,6 +26,16 @@ unserialize_json <- function(file = NULL, text = NULL) {
   unserialize_element(tt, top)
 }
 
+#' Unserialize selected elements from a tsjson object
+#'
+#' TODO
+#'
+#' @param json tsjson object.
+#' @return List of R objects, each the unserialization of a selected element
+#'   in tsjson. If `json` does not have a selection, then all of it is
+#'   unserialized. If `json` has an empty selectedion, then an empty list
+#'   is returned.
+#'
 #' @export
 
 unserialize_selected <- function(json) {

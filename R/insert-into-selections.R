@@ -1,11 +1,26 @@
-#' @export
-
 # If the selection is an array or object, insert 'new' at 'index'.
 # 'at' can be zero (beginning), Inf (end), index to insert _after_ index,
 # (into an array), or a key to insert _after_ that key (into an object).
 
 # If no selection then insert into the root element or at top level if
 # none
+
+#' Insert a new element into the selected ones in a tsjson object
+#'
+#' TODO
+#'
+#' @param json tsjson object
+#' @param new New element to insert. Will be serialized with
+#'   [serialize_json()].
+#' @param key Key of the new element, when inserting into an object.
+#' @param at What position to insert the new element at:
+#'   - `0`: at the beginning,
+#'   - `Inf`: at the end,
+#'   - other numbers: after the specified element.
+#' @param Formatting of the `new` element, passed to [serialize_json()].
+#' @return The modified tsjson object.
+#'
+#' @export
 
 insert_into_selected <- function(
   json,
@@ -81,7 +96,7 @@ insert_into_selected <- function(
   new$tws[tofmt] <- gsub(reformat_mark, "", new$tws[tofmt], fixed = TRUE)
   tofmt2 <- new$parent[tofmt]
   new <- select(new, sel_ids(tofmt2))
-  deselect(format_selected(new))
+  format_selected(new)
 }
 
 reformat_mark <- "\f"

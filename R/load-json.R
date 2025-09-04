@@ -47,6 +47,13 @@ load_json <- function(file = NULL, text = NULL) {
   tt
 }
 
+#' Convert a tsjson object to a data frame
+#'
+#' TODO
+#'
+#' @param x tsjson object.
+#' @param i,j: indices
+#' @param drop: Ignored.
 #' @export
 
 `[.tsjson` <- function(x, i, j, drop = FALSE) {

@@ -1,3 +1,10 @@
+#' Delete selected elements from a tsjson object
+#'
+#' TODO
+#'
+#' @param json tsjson object.
+#' @return Modified tsjson object.
+#'
 #' @export
 
 delete_selected <- function(json) {
