@@ -18,6 +18,7 @@
       <ul class="navbar-nav me-auto"><li class="active nav-item"><a class="nav-link" href="../reference/index.html">Reference</a></li>
       </ul><ul class="navbar-nav"><li class="nav-item"><form class="form-inline" role="search">
  <input class="form-control" type="search" name="search-input" id="search-input" autocomplete="off" aria-label="Search site" placeholder="Search for" data-search-index="../search.json"></form></li>
+<li class="nav-item"><a class="external-link nav-link" href="https://github.com/gaborcsardi/tsjson/" aria-label="GitHub"><span class="fa fab fa-github fa-lg"></span></a></li>
       </ul></div>
 
 
@@ -106,7 +107,7 @@
         <dd>Parse a JSON file or string into a tsjson object</dd>
       </dl><dl><dt>
 
-          <code><a href="select.html">select()</a></code> <code><a href="select.html">select_refine()</a></code>
+          <code><a href="select.html">select()</a></code> <code><a href="select.html">`[[`(<i>&lt;tsjson&gt;</i>)</a></code> <code><a href="select.html">select_refine()</a></code>
 
         </dt>
         <dd>Select elements in a tsjson object</dd>
@@ -129,10 +130,10 @@
         <dd>Delete selected elements from a tsjson object</dd>
       </dl><dl><dt>
 
-          <code><a href="deleted.html">deleted()</a></code>
+          <code><a href="select-set.html">`select&lt;-`()</a></code> <code><a href="select-set.html">`[[&lt;-`(<i>&lt;tsjson&gt;</i>)</a></code>
 
         </dt>
-        <dd>Special marker to delete elements from a tsjson object</dd>
+        <dd>Update selected elements in a tsjson object</dd>
       </dl><dl><dt>
 
           <code><a href="format_selected.html">format_selected()</a></code>
@@ -165,16 +166,10 @@
         <dd>Replace selected JSON elements with a new element</dd>
       </dl><dl><dt>
 
-          <code><a href="sub-sub-.tsjson.html">`[[`(<i>&lt;tsjson&gt;</i>)</a></code>
+          <code><a href="select.html">select()</a></code> <code><a href="select.html">`[[`(<i>&lt;tsjson&gt;</i>)</a></code> <code><a href="select.html">select_refine()</a></code>
 
         </dt>
-        <dd>Extract elements from a tsjson object</dd>
-      </dl><dl><dt>
-
-          <code><a href="select-set.html">`select&lt;-`()</a></code> <code><a href="select-set.html">`[[&lt;-`(<i>&lt;tsjson&gt;</i>)</a></code>
-
-        </dt>
-        <dd>Update selected elements in a tsjson object</dd>
+        <dd>Select elements in a tsjson object</dd>
       </dl></div><div class="section level2">
       <h2 id="utilities">Utilities<a class="anchor" aria-label="anchor" href="#utilities"></a></h2>
 
@@ -206,7 +201,7 @@
         <dd>Show the annotated syntax tree of a JSON file or string</dd>
       </dl><dl><dt>
 
-          <code><a href="sub-.tsjson.html">`[`(<i>&lt;tsjson&gt;</i>)</a></code>
+          <code><a href="tsjson-brackets.html">`[`(<i>&lt;tsjson&gt;</i>)</a></code>
 
         </dt>
         <dd>Convert a tsjson object to a data frame</dd>

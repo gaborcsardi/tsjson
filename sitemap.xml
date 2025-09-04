@@ -5,7 +5,6 @@
 <url><loc>https://gaborcsardi.github.io/tsjson/authors.html</loc></url>
 <url><loc>https://gaborcsardi.github.io/tsjson/index.html</loc></url>
 <url><loc>https://gaborcsardi.github.io/tsjson/reference/delete_selected.html</loc></url>
-<url><loc>https://gaborcsardi.github.io/tsjson/reference/deleted.html</loc></url>
 <url><loc>https://gaborcsardi.github.io/tsjson/reference/format.tsjson.html</loc></url>
 <url><loc>https://gaborcsardi.github.io/tsjson/reference/format_selected.html</loc></url>
 <url><loc>https://gaborcsardi.github.io/tsjson/reference/index.html</loc></url>
@@ -19,9 +18,8 @@
 <url><loc>https://gaborcsardi.github.io/tsjson/reference/select.html</loc></url>
 <url><loc>https://gaborcsardi.github.io/tsjson/reference/serialize_json.html</loc></url>
 <url><loc>https://gaborcsardi.github.io/tsjson/reference/sexpr_json.html</loc></url>
-<url><loc>https://gaborcsardi.github.io/tsjson/reference/sub-.tsjson.html</loc></url>
-<url><loc>https://gaborcsardi.github.io/tsjson/reference/sub-sub-.tsjson.html</loc></url>
 <url><loc>https://gaborcsardi.github.io/tsjson/reference/syntax_tree_json.html</loc></url>
+<url><loc>https://gaborcsardi.github.io/tsjson/reference/tsjson-brackets.html</loc></url>
 <url><loc>https://gaborcsardi.github.io/tsjson/reference/tsjson-package.html</loc></url>
 <url><loc>https://gaborcsardi.github.io/tsjson/reference/unserialize_json.html</loc></url>
 <url><loc>https://gaborcsardi.github.io/tsjson/reference/unserialize_selected.html</loc></url>
