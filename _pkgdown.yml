@@ -41,7 +41,7 @@ reference:
 
 - title: Utilities
 - contents:
-  - code_query
-  - s_expr
-  - syntax_tree
+  - query_json
+  - sexpr_json
+  - syntax_tree_json
   - "[.tsjson"
