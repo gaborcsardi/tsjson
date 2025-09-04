@@ -7,7 +7,6 @@
 
 ![lifecycle](https://lifecycle.r-lib.org/articles/figures/lifecycle-experimental.svg)
 [![R-CMD-check](https://github.com/gaborcsardi/tsjson/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/gaborcsardi/tsjson/actions/workflows/R-CMD-check.yaml)
-[![R-CMD-check](https://github.com/gaborcsardi/tsjson/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/gaborcsardi/tsjson/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 
 Extract and manipulate parts of JSON files without touching the
