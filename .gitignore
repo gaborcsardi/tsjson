@@ -1,2 +1,4 @@
 /.dev
 docs
+/man/_cache
+/README.html

@@ -12,3 +12,6 @@
 ^src/.*[.]a$
 ^src/.*[.]so$
 ^src/.*[.]dll$
+^README\.Rmd$
+^README\.html$
+^man/_cache$

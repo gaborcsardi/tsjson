@@ -6,7 +6,7 @@
 \alias{tsjson-package}
 \title{tsjson: Edit JSON Files}
 \description{
-Extract and manipulate parts of JSON files while keeping the formatting and comments or other parts.
+Extract and manipulate parts of JSON files without touching the formatting and comments in other parts.
 }
 \author{
 \strong{Maintainer}: Gábor Csárdi \email{csardi.gabor@gmail.com}

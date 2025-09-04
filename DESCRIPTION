@@ -7,8 +7,8 @@ Authors@R: c(
         comment = c(ROR = "03wc8by49")),
     person(family = "tree-sitter-json authors", role = "ctb")
   )
-Description: Extract and manipulate parts of JSON files while keeping
-  the formatting and comments or other parts.
+Description: Extract and manipulate parts of JSON files without touching
+  the formatting and comments in other parts.
 License: MIT + file LICENSE
 Imports:
     cli
@@ -20,4 +20,5 @@ Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.2
 Config/testthat/edition: 3
 Config/Needs/website:
+    r-lib/asciicast,
     tidyverse/tidytemplate

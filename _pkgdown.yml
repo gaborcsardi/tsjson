@@ -10,7 +10,16 @@ development:
 reference:
 - title: Quickstart
   desc: |
-    TODO
+    * See [quickstart](quickstart.html) for a quick demonstration of tsjson.
+    * See `serialize_json()` to create JSON from R.
+    * See `unserialize_json()` to parse JSON into R.
+    * See `load_json()`, `select()`, and `unserialize_selected()` to parse
+      parts of JSON into R.
+    * See `load_json()`, `select()`, `format_selected()`, and `save_json()`
+      to format parts of a JSON file or string and save it to a file.
+    * See `load_json()`, `select()`, `delete_selected()`,
+      `insert_into_selected()`, `update_selected()`, and `save_json()` to
+      edit a JSON file or string and save it to a file.
 
 - title: Serialization
 - contents:
@@ -45,3 +54,7 @@ reference:
   - sexpr_json
   - syntax_tree_json
   - "[.tsjson"
+
+- title: internal
+  contents:
+  - quickstart

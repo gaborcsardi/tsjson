@@ -1,0 +1,106 @@
+```{asciicast}
+#| include: FALSE
+pkgload::load_all()
+```
+
+### Create a tjson object
+
+Create a tsjson object from a string:
+
+```{asciicast}
+#| results: hide
+getwd()
+txt <- r"(
+// this is a comment
+{
+  "a": {
+    "a1": [1, 2, 3],
+    // comment
+    "a2": "string"
+  },
+  "b": [
+    {
+      "b11": true,
+      "b12": false
+    },
+    {
+      "b21": false,
+      "b22": false
+    }
+  ]
+}
+)"
+json <- load_json(text = txt)
+```
+
+Pretty print a tsjson object:
+
+```{asciicast}
+#| label: print-json
+json
+```
+
+### Select elements in a tsjson object
+
+Select element by objects key:
+
+```{asciicast}
+#| label: select-key
+select(json, "a")
+```
+
+Select element inside element:
+
+```{asciicast}
+#| label: select-select
+select(json, "a", "a1")
+```
+
+Select element(s) of an array:
+
+```{asciicast}
+#| label: select-array
+select(json, "a", "a1", 1:2)
+```
+
+Select multiple keys from an object:
+
+```{asciicast}
+#| label: select-multiple
+select(json, "a", c("a1", "a2"))
+```
+
+### Delete elements
+
+Delete selected elements:
+
+```{asciicast}
+#| label: delete
+select(json, "a", "a1") |> delete_selected()
+```
+
+### Insert elements
+
+Insert element into an array:
+
+```{asciicast}
+#| label: insert-array
+select(json, "a", "a1") |> insert_into_selected(at = 2, "new")
+```
+
+Inserting into an array reformats the array.
+
+Insert element into an object, at the specified key:
+
+```{asciicast}
+#| label: insert-object
+select(json, "a") |>
+  insert_into_selected(key = "a0", at = 0, list("new", "element"))
+```
+
+### Update elements
+
+```{asciicast}
+#| label: update
+select(json, "a", c("a1", "a2")) |> update_selected("completely new")
+```
