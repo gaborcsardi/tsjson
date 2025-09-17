@@ -32,10 +32,3 @@ jobs:
           uncovr::test()
           uncovr::codecov()
         shell: Rscript {0}
-
-      - name: Show testthat output
-        if: always()
-        run: |
-          ## --------------------------------------------------------------------
-          find '${{ runner.temp }}/package' -name 'testthat.Rout*' -exec cat '{}' \; || true
-        shell: bash
