@@ -4,8 +4,10 @@ on:
   push:
     branches: [main, master]
   pull_request:
+    branches: [main, master]
+  workflow_dispatch:
 
-name: test-coverage.yaml
+name: test-coverage
 
 permissions: read-all
 
@@ -14,7 +16,6 @@ jobs:
     runs-on: ubuntu-latest
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
-      CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
 
     steps:
       - uses: actions/checkout@v4
@@ -32,5 +33,14 @@ jobs:
       - name: Test coverage
         run: |
           uncovr::test()
-          uncovr::codecov()
+          uncovr::lcov(output = "lcov.info")
         shell: Rscript {0}
+
+      - uses: codecov/codecov-action@v5
+        with:
+          # Fail if error if not on PR, or if on PR and token is given
+          fail_ci_if_error: ${{ github.event_name != 'pull_request' || secrets.CODECOV_TOKEN }}
+          files: ./lcov.info
+          plugins: noop
+          disable_search: true
+          token: ${{ secrets.CODECOV_TOKEN }}
