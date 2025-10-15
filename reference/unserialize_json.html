@@ -57,8 +57,9 @@ an R object reliably.</p>
 
 
 <dt id="arg-ranges">ranges<a class="anchor" aria-label="anchor" href="#arg-ranges"></a></dt>
-<dd><p>Optionally a list of integer pairs defining ranges within
-<code>file</code> or <code>text</code> to parse.</p></dd>
+<dd><p>Can be used to parse part(s) of the input. It must be a
+data frame with integer columns <code>start_row</code>, <code>start_col</code>, <code>end_row</code>,
+<code>end_col</code>, <code>start_byte</code>, <code>end_byte</code>, in this order.</p></dd>
 
 </dl></div>
     <div class="section level2">
