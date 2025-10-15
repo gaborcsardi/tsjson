@@ -11,8 +11,9 @@ unserialize_json(file = NULL, text = NULL, ranges = NULL)
 
 \item{text}{JSON string. Use either \code{file} or \code{text}.}
 
-\item{ranges}{Optionally a list of integer pairs defining ranges within
-\code{file} or \code{text} to parse.}
+\item{ranges}{Can be used to parse part(s) of the input. It must be a
+data frame with integer columns \code{start_row}, \code{start_col}, \code{end_row},
+\code{end_col}, \code{start_byte}, \code{end_byte}, in this order.}
 }
 \value{
 R object.

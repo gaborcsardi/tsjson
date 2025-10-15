@@ -2,8 +2,9 @@
 #'
 #' @param file Path of a JSON file. Use either `file` or `text`.
 #' @param text JSON string. Use either `file` or `text`.
-#' @param ranges Optionally a list of integer pairs defining ranges within
-#'   `file` or `text` to parse.
+#' @param ranges Can be used to parse part(s) of the input. It must be a
+#'   data frame with integer columns `start_row`, `start_col`, `end_row`,
+#'   `end_col`, `start_byte`, `end_byte`, in this order.
 #'
 #' @export
 #' @examples

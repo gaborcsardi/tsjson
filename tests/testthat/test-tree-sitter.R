@@ -21,6 +21,7 @@ test_that("sexpr_json from a file", {
 })
 
 test_that("token_table", {
+  loadNamespace("pillar")
   expect_snapshot({
     token_table(text = "{ \"a\": true, \"b\": [1, 2, 3] }")
   })
@@ -35,6 +36,7 @@ test_that("token_table errors", {
 
 test_that("token_table from a file", {
   testthat::local_reproducible_output(width = 500)
+  loadNamespace("pillar")
   tmp <- tempfile(fileext = ".json")
   on.exit(unlink(tmp), add = TRUE)
   writeLines('{ "a": true, "b": [1, 2, 3] }', tmp)
@@ -68,6 +70,7 @@ test_that("syntax_tree_json with hyperlinks", {
 
 test_that("query_json", {
   testthat::local_reproducible_output(width = 500)
+  loadNamespace("pillar")
   txt <- "{ \"a\": 1, \"b\": \"foo\", \"c\": 20 }"
   expect_snapshot({
     json <- load_json(text = txt) |> format_selected()
@@ -85,6 +88,7 @@ test_that("query_json errors", {
 
 test_that("query_json from a file", {
   testthat::local_reproducible_output(width = 500)
+  loadNamespace("pillar")
   tmp <- tempfile(fileext = ".json")
   on.exit(unlink(tmp), add = TRUE)
   writeLines('{ "a": 1, "b": "foo", "c": 20 }', tmp)
