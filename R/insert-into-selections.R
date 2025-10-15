@@ -50,21 +50,7 @@ insert_into_selected <- function(
 
   insertions <- lapply(select, function(sel1) {
     if (format == "auto") {
-      # if the array/object spans multiple lines then pretty formatting
-      format <- if (json$start_row[sel1] != json$end_row[sel1]) {
-        "pretty"
-      } else {
-        # if there is no space after children (except the last ], }), compact
-        # except if it is the empty array/object
-        chdn <- json$children[[sel1]]
-        if (length(chdn) == 2 || sel1 == 1L) {
-          "pretty"
-        } else if (all(json$tws[head(chdn, -1)] == "")) {
-          "compact"
-        } else {
-          "oneline"
-        }
-      }
+      format <- auto_format(json, sel1)
     }
     type <- json$type[sel1]
     if (type == "document") {
@@ -107,8 +93,36 @@ insert_into_selected <- function(
   tofmt <- grep(reformat_mark, new$tws, fixed = TRUE)
   new$tws[tofmt] <- gsub(reformat_mark, "", new$tws[tofmt], fixed = TRUE)
   tofmt2 <- new$parent[tofmt]
-  new <- select(new, sel_ids(tofmt2))
-  format_selected(new)
+
+  # auto format then each insertion might need a different format
+  if (format == "auto") {
+    for (tofmt1 in tofmt2) {
+      format <- auto_format(new, tofmt1)
+      new <- format_selected(select(new, sel_ids(tofmt1)), format = format)
+    }
+  } else {
+    new <- select(new, sel_ids(tofmt2))
+    new <- format_selected(new, format = format)
+  }
+  new
+}
+
+auto_format <- function(json, sel) {
+  # if the array/object spans multiple lines then pretty formatting
+  if (json$start_row[sel] != json$end_row[sel]) {
+    "pretty"
+  } else {
+    # if there is no space after children (except the last ], }), compact
+    # except if it is the empty array/object
+    chdn <- json$children[[sel]]
+    if (length(chdn) == 2 || sel == 1L) {
+      "pretty"
+    } else if (all(json$tws[head(chdn, -1)] == "")) {
+      "compact"
+    } else {
+      "oneline"
+    }
+  }
 }
 
 reformat_mark <- "\f"
@@ -116,6 +130,7 @@ reformat_mark <- "\f"
 insert_into_document <- function(json, new, format) {
   top <- json$children[[1]]
   notcmt <- top[json$type[top] != "comment"]
+  # TODO: can this ever happen?
   if (length(notcmt) != 0) {
     stop(cnd(
       "Cannot insert JSON element at the document root if the document \\
