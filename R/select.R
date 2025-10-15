@@ -147,7 +147,7 @@ select <- function(json, ...) {
 
 `select<-` <- function(json, ..., value) {
   res <- if (inherits(value, "tsjson")) {
-    value
+    value # nocov
   } else if (inherits(value, "tsjson_action_delete")) {
     delete_selected(select_refine(json, ...))
   } else {
@@ -165,7 +165,7 @@ select <- function(json, ...) {
     i <- list()
   }
   res <- if (inherits(value, "tsjson")) {
-    value
+    value # nocov
   } else if (inherits(value, "tsjson_action_delete")) {
     delete_selected(select_refine(x, i))
   } else {

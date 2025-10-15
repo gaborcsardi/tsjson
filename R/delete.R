@@ -23,6 +23,7 @@ delete_selected <- function(json) {
   select <- get_selected_nodes(json)
 
   if (length(select) == 0) {
+    attr(json, "selection") <- NULL
     return(json)
   }
 

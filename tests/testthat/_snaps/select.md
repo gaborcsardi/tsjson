@@ -327,6 +327,26 @@
       i 3 more lines
       i Use `print(n = ...)` to see more lines
 
+---
+
+    Code
+      json[[list("b", "b1")]] <- 100
+      json
+    Output
+      # json (13 lines)
+       1 | {
+       2 |   "a": 1,
+       3 |   "b": {
+       4 |     "b1": 100,
+       5 |     "b2": 22
+       6 |   },
+       7 |   "c": 3,
+       8 |   "d": [
+       9 |     1,
+      10 |     2,
+      i 3 more lines
+      i Use `print(n = ...)` to see more lines
+
 # [[<-.tsjson empty doc
 
     Code
@@ -420,4 +440,83 @@
       [[1]]
       [1] 21
       
+
+# select<-
+
+    Code
+      select(json, "a") <- 2
+      json
+    Output
+      # json (13 lines)
+       1 | {
+       2 |   "a": 2,
+       3 |   "b": {
+       4 |     "b1": 21,
+       5 |     "b2": 22
+       6 |   },
+       7 |   "c": 3,
+       8 |   "d": [
+       9 |     1,
+      10 |     2,
+      i 3 more lines
+      i Use `print(n = ...)` to see more lines
+
+---
+
+    Code
+      select(json, c("a")) <- deleted()
+      json
+    Output
+      # json (12 lines)
+       1 | {
+       2 |   "b": {
+       3 |     "b1": 21,
+       4 |     "b2": 22
+       5 |   },
+       6 |   "c": 3,
+       7 |   "d": [
+       8 |     1,
+       9 |     2,
+      10 |     3
+      i 2 more lines
+      i Use `print(n = ...)` to see more lines
+
+---
+
+    Code
+      select(json, list("b", "b1")) <- 100
+      json
+    Output
+      # json (12 lines)
+       1 | {
+       2 |   "b": {
+       3 |     "b1": 100,
+       4 |     "b2": 22
+       5 |   },
+       6 |   "c": 3,
+       7 |   "d": [
+       8 |     1,
+       9 |     2,
+      10 |     3
+      i 2 more lines
+      i Use `print(n = ...)` to see more lines
+
+# select character selector on array selects nothing
+
+    Code
+      json[["d", "1"]]
+    Output
+      list()
+    Code
+      json[["d", "a"]]
+    Output
+      list()
+
+# select zero indices error
+
+    Code
+      json[[list("b", c(1, 2, 0, 3))]]
+    Condition
+      Error in `select1()`:
+      ! Zero indices are not allowed in JSON selectors.
 

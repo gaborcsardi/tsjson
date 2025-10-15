@@ -180,3 +180,73 @@ test_that("sel_ids", {
     json[[sel_ids(26)]]
   })
 })
+
+test_that("select<-", {
+  json <- load_json(
+    text = serialize_json(list(
+      a = 1,
+      b = list(b1 = 21, b2 = 22),
+      c = 3,
+      d = list(1, 2, 3)
+    ))
+  )
+
+  expect_snapshot({
+    select(json, "a") <- 2
+    json
+  })
+
+  expect_snapshot({
+    select(json, c("a")) <- deleted()
+    json
+  })
+
+  expect_snapshot({
+    select(json, list("b", "b1")) <- 100
+    json
+  })
+})
+
+test_that("[[<-.tsjson", {
+  json <- load_json(
+    text = serialize_json(list(
+      a = 1,
+      b = list(b1 = 21, b2 = 22),
+      c = 3,
+      d = list(1, 2, 3)
+    ))
+  )
+  expect_snapshot({
+    json[[list("b", "b1")]] <- 100
+    json
+  })
+})
+
+test_that("select character selector on array selects nothing", {
+  json <- load_json(
+    text = serialize_json(list(
+      a = 1,
+      b = list(b1 = 21, b2 = 22),
+      c = 3,
+      d = list(1, 2, 3)
+    ))
+  )
+  expect_snapshot({
+    json[["d", "1"]]
+    json[["d", "a"]]
+  })
+})
+
+test_that("select zero indices error", {
+  json <- load_json(
+    text = serialize_json(list(
+      a = 1,
+      b = list(b1 = 21, b2 = 22),
+      c = 3,
+      d = list(1, 2, 3)
+    ))
+  )
+  expect_snapshot(error = TRUE, {
+    json[[list("b", c(1, 2, 0, 3))]]
+  })
+})

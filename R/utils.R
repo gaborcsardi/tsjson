@@ -40,6 +40,10 @@ mkdirp <- function(x) {
   dir.create(x, showWarnings = FALSE, recursive = TRUE)
 }
 
+# For roxygen2 -----------------------------------------------------------------
+
+# nocov start
 doclist <- function(x) {
   paste0("`", x, "`", collapse = ", ")
 }
+#nocov end

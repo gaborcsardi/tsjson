@@ -14,14 +14,14 @@ cnd <- function(
 caller_arg <- function(arg) {
   arg <- substitute(arg)
   expr <- do.call(substitute, list(arg), envir = caller_env())
-  structure(list(expr), class = "otel_caller_arg")
+  structure(list(expr), class = "tsjson_caller_arg")
 }
 
 as_caller_arg <- function(x) {
-  structure(list(x), class = "otel_caller_arg")
+  structure(list(x), class = "tsjson_caller_arg")
 }
 
-as.character.otel_caller_arg <- function(x, ...) {
+as.character.tsjson_caller_arg <- function(x, ...) {
   lbl <- format(x[[1]])
   gsub("\n.*$", "...", lbl)
 }
