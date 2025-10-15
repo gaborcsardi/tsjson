@@ -222,18 +222,18 @@
 <code class="sourceCode R"><span><span class="fu"><a href="reference/select.html">select</a></span><span class="op">(</span><span class="va">json</span>, <span class="st">"a"</span>, <span class="st">"a1"</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="reference/insert_into_selected.html">insert_into_selected</a></span><span class="op">(</span>at <span class="op">=</span> <span class="fl">2</span>, <span class="st">"new"</span><span class="op">)</span></span></code></pre></div>
 <div class="asciicast" style="color: #172431;font-family: 'Fira Code',Monaco,Consolas,Menlo,'Bitstream Vera Sans Mono','Powerline Symbols',monospace;line-height: 1.300000">
 <pre>
-#&gt; <span style="color: #525252;"># json (24 lines)</span>
+#&gt; <span style="color: #525252;"># json (19 lines)</span>
 #&gt; <span style="color: #525252;"> 1 | </span>
 #&gt; <span style="color: #525252;"> 2 | </span>// this is a comment
 #&gt; <span style="color: #525252;"> 3 | </span>{
 #&gt; <span style="color: #525252;"> 4 | </span>  "a": {
-#&gt; <span style="color: #525252;"> 5 | </span>    "a1": [
-#&gt; <span style="color: #525252;"> 6 | </span>      1,
-#&gt; <span style="color: #525252;"> 7 | </span>      2,
-#&gt; <span style="color: #525252;"> 8 | </span>      "new",
-#&gt; <span style="color: #525252;"> 9 | </span>      3
-#&gt; <span style="color: #525252;">10 | </span>    ],
-#&gt; <span style="color: #525252;">ℹ 14 more lines</span>
+#&gt; <span style="color: #525252;"> 5 | </span>    "a1": [ 1, 2, "new", 3 ],
+#&gt; <span style="color: #525252;"> 6 | </span>    // comment
+#&gt; <span style="color: #525252;"> 7 | </span>    "a2": "string"
+#&gt; <span style="color: #525252;"> 8 | </span>  },
+#&gt; <span style="color: #525252;"> 9 | </span>  "b": [
+#&gt; <span style="color: #525252;">10 | </span>    {
+#&gt; <span style="color: #525252;">ℹ 9 more lines</span>
 #&gt; <span style="color: #525252;">ℹ Use `print(n = ...)` to see more lines</span>
 </pre>
 </div>
@@ -297,17 +297,8 @@
 <code class="sourceCode R"><span><span class="fu"><a href="reference/select.html">select</a></span><span class="op">(</span><span class="va">json</span>, <span class="st">"a"</span>, <span class="st">"x"</span>, <span class="st">"y"</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="reference/update_selected.html">update_selected</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">2</span>,<span class="fl">3</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <div class="asciicast" style="color: #172431;font-family: 'Fira Code',Monaco,Consolas,Menlo,'Bitstream Vera Sans Mono','Powerline Symbols',monospace;line-height: 1.300000">
 <pre>
-#&gt; <span style="color: #525252;"># json (10 lines)</span>
-#&gt; <span style="color: #525252;"> 1 | </span>{ "a": {
-#&gt; <span style="color: #525252;"> 2 | </span>  "b": true,
-#&gt; <span style="color: #525252;"> 3 | </span>  "x": {
-#&gt; <span style="color: #525252;"> 4 | </span>    "y": [
-#&gt; <span style="color: #525252;"> 5 | </span>      1,
-#&gt; <span style="color: #525252;"> 6 | </span>      2,
-#&gt; <span style="color: #525252;"> 7 | </span>      3
-#&gt; <span style="color: #525252;"> 8 | </span>    ]
-#&gt; <span style="color: #525252;"> 9 | </span>  }
-#&gt; <span style="color: #525252;">10 | </span>} }
+#&gt; <span style="color: #525252;"># json (1 line)</span>
+#&gt; <span style="color: #525252;">1 | </span>{ "a": { "b": true, "x": { "y": [ 1, 2, 3 ] } } }
 </pre>
 </div>
 </div>
