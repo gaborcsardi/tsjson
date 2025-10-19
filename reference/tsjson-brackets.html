@@ -67,11 +67,12 @@ exploration and debugging.</p>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
     <p>A data frame with columns:
-<code>id</code>, <code>parent</code>, <code>field_name</code>, <code>type</code>, <code>code</code>, <code>start_byte</code>, <code>end_byte</code>, <code>start_row</code>, <code>start_column</code>, <code>end_row</code>, <code>end_column</code>, <code>children</code>, <code>tws</code>.</p>
+<code>id</code>, <code>parent</code>, <code>field_name</code>, <code>type</code>, <code>code</code>, <code>start_byte</code>, <code>end_byte</code>, <code>start_row</code>, <code>start_column</code>, <code>end_row</code>, <code>end_column</code>, <code>is_missing</code>, <code>has_error</code>, <code>expected</code>, <code>children</code>, <code>tws</code>.</p>
     </div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
-    <div class="dont-index"><p>Other JSON debugging tools: <code><a href="sexpr_json.html">sexpr_json()</a></code>, <code><a href="syntax_tree_json.html">syntax_tree_json()</a></code>,
+    <div class="dont-index"><p><code><a href="token_table.html">token_table()</a></code> to create the token table directly.
+Other JSON debugging tools: <code><a href="sexpr_json.html">sexpr_json()</a></code>, <code><a href="syntax_tree_json.html">syntax_tree_json()</a></code>,
 <code><a href="query_json.html">query_json()</a></code>. <code><a href="load_json.html">load_json()</a></code> for creating tsjson objects.</p></div>
     </div>
 
@@ -99,7 +100,7 @@ exploration and debugging.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #555555;">ℹ Use `print(n = ...)` to see more lines</span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">json</span><span class="op">[</span><span class="op">]</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A data frame: 81 × 13</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A data frame: 81 × 16</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>       id parent field_name type     code  start_byte end_byte start_row</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span>     1     <span style="color: #BB0000;">NA</span> <span style="color: #BB0000;">NA</span>         <span style="color: #949494;">"</span>docume…  <span style="color: #BB0000;">NA</span>            0      167         0</span>
@@ -113,8 +114,9 @@ exploration and debugging.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span>     9      4 <span style="color: #BB0000;">NA</span>         <span style="color: #949494;">"</span>:<span style="color: #949494;">"</span>      <span style="color: #949494;">"</span>:<span style="color: #949494;">"</span>            7        8         1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span>    10      4 value      <span style="color: #949494;">"</span>object<span style="color: #949494;">"</span>  <span style="color: #BB0000;">NA</span>            9       78         1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 71 more rows</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 5 more variables: start_column &lt;int&gt;, end_row &lt;int&gt;,</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   end_column &lt;int&gt;, children &lt;I&lt;list&gt;&gt;, tws &lt;chr&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 8 more variables: start_column &lt;int&gt;, end_row &lt;int&gt;,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   end_column &lt;int&gt;, is_missing &lt;lgl&gt;, has_error &lt;lgl&gt;,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   expected &lt;list&gt;, children &lt;I&lt;list&gt;&gt;, tws &lt;chr&gt;</span></span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

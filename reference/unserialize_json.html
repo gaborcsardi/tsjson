@@ -41,7 +41,7 @@ an R object reliably.</p>
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">unserialize_json</span><span class="op">(</span>file <span class="op">=</span> <span class="cn">NULL</span>, text <span class="op">=</span> <span class="cn">NULL</span>, ranges <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">unserialize_json</span><span class="op">(</span>file <span class="op">=</span> <span class="cn">NULL</span>, text <span class="op">=</span> <span class="cn">NULL</span>, ranges <span class="op">=</span> <span class="cn">NULL</span>, options <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -60,6 +60,11 @@ an R object reliably.</p>
 <dd><p>Can be used to parse part(s) of the input. It must be a
 data frame with integer columns <code>start_row</code>, <code>start_col</code>, <code>end_row</code>,
 <code>end_col</code>, <code>start_byte</code>, <code>end_byte</code>, in this order.</p></dd>
+
+
+<dt id="arg-options">options<a class="anchor" aria-label="anchor" href="#arg-options"></a></dt>
+<dd><p>List of options, see <code><a href="tsjson_options.html">tsjson_options()</a></code>. This argument
+must be named and cannot be abbreviated.</p></dd>
 
 </dl></div>
     <div class="section level2">
