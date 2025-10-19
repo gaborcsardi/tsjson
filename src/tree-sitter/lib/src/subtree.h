@@ -213,7 +213,8 @@ Subtree ts_subtree_new_missing_leaf(
   TSSymbol symbol,
   Length padding,
   uint32_t lookahead_bytes,
-  const TSLanguage *language
+  const TSLanguage *language,
+  TSStateId state
 );
 MutableSubtree ts_subtree_make_mut(SubtreePool *pool, Subtree self);
 void ts_subtree_retain(Subtree self);

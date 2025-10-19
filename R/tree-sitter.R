@@ -1,10 +1,6 @@
 #' Show the syntax tree structure of a JSON file or string
 #'
-#' @param file Path of a JSON file. Use either `file` or `text`.
-#' @param text JSON string. Use either `file` or `text`.
-#' @param ranges Can be used to parse part(s) of the input. It must be a
-#'   data frame with integer columns `start_row`, `start_col`, `end_row`,
-#'   `end_col`, `start_byte`, `end_byte`, in this order.
+#' @inheritParams token_table
 #'
 #' @export
 #' @examples
@@ -30,11 +26,49 @@ sexpr_json <- function(
   call_with_cleanup(c_s_expr, text, 0L, ranges)
 }
 
+#' Get the token table of a JSON file or string
+#'
+#' @param file Path of a JSON file. Use either `file` or `text`.
+#' @param text JSON string. Use either `file` or `text`.
+#' @param ranges Can be used to parse part(s) of the input. It must be a
+#'   data frame with integer columns `start_row`, `start_col`, `end_row`,
+#'   `end_col`, `start_byte`, `end_byte`, in this order.
+#' @param options List of options, see [tsjson_options()]. This argument
+#'   must be named and cannot be abbreviated.
+#' @param fail_on_parse_error Logical, whether to error if there are
+#'   parse errors in the JSON document. Default is `TRUE`.
+#'
+#' @return A data frame with one row per token, and columns:
+#' * `id`: integer, the id of the token.
+#' * `parent`: integer, the id of the parent token. The root token has
+#'   parent `NA`
+#' * `field_name`: character, the field name of the token in its parent.
+#' * `type`: character, the type of the token.
+#' * `code`: character, the actual code of the token.
+#' * `start_byte`, `end_byte`: integer, the byte positions of the token
+#'   in the input.
+#' * `start_row`, `start_column`, `end_row`, `end_column`: integer, the
+#'   position of the token in the input.
+#' * `is_missing`: logical, whether the token is a missing token added by
+#'   the parser to recover from errors.
+#' * `has_error`: logical, whether the token has a parse error.
+#' * `children`: list of integer vectors, the ids of the children tokens.
+#'
+#' @export
+#' @examples
+#' token_table(text = "{ \"a\": true, \"b\": [1, 2, 3] }")
+
 token_table <- function(
   file = NULL,
   text = NULL,
-  ranges = NULL
+  ranges = NULL,
+  fail_on_parse_error = TRUE,
+  options = NULL
 ) {
+  if (!missing(options)) {
+    check_named_arg(options)
+  }
+  options <- as_tsjson_options(options)
   if (is.null(text) + is.null(file) != 1) {
     stop(cnd(
       "Invalid arguments in `token_table()`: exactly one of `file` \\
@@ -55,11 +89,34 @@ token_table <- function(
   # this is a workarond for TS adding code to a non-terminal array/object node
   tab$code[tab$type %in% c("array", "object")] <- NA_character_
 
+  if (fail_on_parse_error && (tab$has_error[1] || any(tab$is_missing))) {
+    stop(tsjson_parse_error_cnd(table = tab, text = text))
+  }
+
+  if (!options[["allow_comments"]]) {
+    comments <- which(tab$type == "comment")
+    if (length(comments) > 0) {
+      stop(cnd(
+        "The JSON document contains comments, and this is not allowed. \\
+         To allow comments, set the `allow_comments` option to `TRUE`."
+      ))
+    }
+  }
+
+  top <- tab$children[[1]]
+  top <- top[tab$type[top] != "comment"]
+  if (!options[["allow_empty_content"]] && length(top) == 0) {
+    stop(cnd(
+      "The JSON document is empty, and this is not allowed. \\
+       To allow this, set the `allow_empty_content` option to `TRUE`."
+    ))
+  }
+
   tab
 }
 
 #' Show the annotated syntax tree of a JSON file or string
-#' @inheritParams sexpr_json
+#' @inheritParams token_table
 #' @export
 #' @examples
 #' syntax_tree_json(text = "{ \"a\": true, \"b\": [1, 2, 3] }")
@@ -67,9 +124,13 @@ token_table <- function(
 syntax_tree_json <- function(
   file = NULL,
   text = NULL,
-  ranges = NULL
+  ranges = NULL,
+  options = NULL
 ) {
-  tokens <- token_table(file, ranges = ranges, text = text)
+  if (!missing(options)) {
+    check_named_arg(options)
+  }
+  tokens <- token_table(file, ranges = ranges, text = text, options = options)
 
   type <- tokens$type
   fn <- attr(tokens, "file")
@@ -127,7 +188,7 @@ syntax_tree_json <- function(
 #' queries.
 #'
 #' @param query Character string, the tree-sitter query to run.
-#' @inheritParams sexpr_json
+#' @inheritParams token_table
 #' @return A list with entries `patterns` and `matched_captures`.
 #'   `patterns` contains information about all patterns in the queries and
 #'   it is a data frame with columns: `id`, `name`, `pattern`, `match_count`.

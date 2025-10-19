@@ -30,6 +30,22 @@ static const TSLanguage *get_language(int code) {
   }
 }
 
+static SEXP new_lookahead_sym(
+  TSSymbol sym,
+  const char *csym,
+  TSSymbolType symtype
+) {
+  const char *nms[] = {
+    "symbol", "name", "type", ""
+  };
+  SEXP res = PROTECT(Rf_mkNamed(VECSXP, nms));
+  SET_VECTOR_ELT(res, 0, Rf_ScalarInteger((int) sym));
+  SET_VECTOR_ELT(res, 1, Rf_mkString(csym));
+  SET_VECTOR_ELT(res, 2, Rf_ScalarInteger((int) symtype));
+  UNPROTECT(1);
+  return res;
+}
+
 static TSRange *get_ranges(SEXP rranges, uint32_t *count) {
   TSRange *ranges = NULL;
   *count = 0;
@@ -121,7 +137,8 @@ SEXP token_table(SEXP input, SEXP rlanguage, SEXP rranges) {
   uint32_t num_nodes = ts_node_descendant_count(root);
   const char *nms[] = {
     "id", "parent", "field_name", "type", "code", "start_byte", "end_byte",
-    "start_row", "start_column", "end_row", "end_column", ""
+    "start_row", "start_column", "end_row", "end_column", "is_missing",
+    "has_error", "expected", ""
   };
   SEXP res = PROTECT(Rf_mkNamed(VECSXP, nms));
   SET_VECTOR_ELT(res, 0, Rf_allocVector(INTSXP, num_nodes));
@@ -146,6 +163,12 @@ SEXP token_table(SEXP input, SEXP rlanguage, SEXP rranges) {
   SEXP res_end_row = VECTOR_ELT(res, 9);
   SET_VECTOR_ELT(res, 10, Rf_allocVector(INTSXP, num_nodes));
   SEXP res_end_column = VECTOR_ELT(res, 10);
+  SET_VECTOR_ELT(res, 11, Rf_allocVector(LGLSXP, num_nodes));
+  SEXP res_is_missing = VECTOR_ELT(res, 11);
+  SET_VECTOR_ELT(res, 12, Rf_allocVector(LGLSXP, num_nodes));
+  SEXP res_has_error = VECTOR_ELT(res, 12);
+  SET_VECTOR_ELT(res, 13, Rf_allocVector(VECSXP, num_nodes));
+  SEXP res_expected = VECTOR_ELT(res, 13);
 
   TSTreeCursor cursor = ts_tree_cursor_new(root);
   r_call_on_exit((cleanup_fn_t) ts_tree_cursor_delete, &cursor);
@@ -177,6 +200,30 @@ SEXP token_table(SEXP input, SEXP rlanguage, SEXP rranges) {
       SET_STRING_ELT(res_code, idx, Rf_mkCharLen(c_input + sb, eb - sb));
     } else {
       SET_STRING_ELT(res_code, idx, R_NaString);
+    }
+    LOGICAL(res_is_missing)[idx] = ts_node_is_missing(crnt);
+    LOGICAL(res_has_error)[idx] = ts_node_has_error(crnt);
+
+    if (ts_node_is_missing(crnt)) {
+      TSStateId state = ts_node_parse_state(crnt);
+      TSLookaheadIterator *lait = ts_lookahead_iterator_new(language, state);
+      size_t laidx = 0;
+      do {
+        laidx++;
+      } while (ts_lookahead_iterator_next(lait));
+      SET_VECTOR_ELT(res_expected, idx, Rf_allocVector(VECSXP, laidx));
+      SEXP exp = VECTOR_ELT(res_expected, idx);
+
+      laidx = 0;
+      ts_lookahead_iterator_reset_state(lait, state);
+      do {
+        TSSymbol sym = ts_lookahead_iterator_current_symbol(lait);
+        const char *csym = ts_lookahead_iterator_current_symbol_name(lait);
+        TSSymbolType symtype = ts_language_symbol_type(language, sym);
+        SET_VECTOR_ELT(exp, laidx++, new_lookahead_sym(sym, csym, symtype));
+      } while (ts_lookahead_iterator_next(lait));
+
+      ts_lookahead_iterator_delete(lait);
     }
 
     // find next node. if there is a child, use that.

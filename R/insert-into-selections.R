@@ -177,7 +177,7 @@ insert_into_array <- function(json, sel1, new, at, format) {
     select = sel1,
     after = after,
     code = serialize_json(new, collapse = TRUE, format = "compact"),
-    leading_comma = at < 1 || (at >= nchdn && nchdn >= 1) || at < nchdn,
+    leading_comma = at >= 1 && nchdn >= 1,
     trailing_comma = at < 1 && nchdn >= 1
   )
 }
@@ -221,7 +221,7 @@ insert_into_object <- function(json, sel1, new, key, at, format) {
     select = sel1,
     after = after,
     code = paste0(code, collapse = "\n"),
-    leading_comma = at < 1 || (at >= nchdn && nchdn >= 1) || at < nchdn,
+    leading_comma = at >= 1 && nchdn >= 1,
     trailing_comma = at < 1 && nchdn >= 1
   )
 }

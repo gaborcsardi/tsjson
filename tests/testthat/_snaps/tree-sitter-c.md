@@ -82,3 +82,13 @@
       2     2       1     1         29       29         1           29       1         30 val   x    
       
 
+# parse error
+
+    Code
+      unserialize_json(text = text)
+    Condition
+      Error in `token_table()`:
+      ! JSON parse error `<text>`:1:8
+      1| [1,2,3,]
+                ^
+

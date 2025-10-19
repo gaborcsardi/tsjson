@@ -30,7 +30,7 @@
     Code
       token_table(text = "{ \"a\": true, \"b\": [1, 2, 3] }")
     Output
-      # A data frame: 26 x 12
+      # A data frame: 26 x 15
             id parent field_name type             code   start_byte end_byte start_row
          <int>  <int> <chr>      <chr>            <chr>       <int>    <int>     <int>
        1     1     NA <NA>       "document"        <NA>           0       29         0
@@ -44,8 +44,8 @@
        9     9      4 <NA>       ":"              ":"             5        6         0
       10    10      4 value      "true"           "true"          7       11         0
       # i 16 more rows
-      # i 4 more variables: start_column <int>, end_row <int>, end_column <int>,
-      #   children <I<list>>
+      # i 7 more variables: start_column <int>, end_row <int>, end_column <int>,
+      #   is_missing <lgl>, has_error <lgl>, expected <list>, children <I<list>>
 
 # token_table errors
 
@@ -65,19 +65,19 @@
     Code
       token_table(file = tmp)
     Output
-      # A data frame: 26 x 12
-            id parent field_name type             code   start_byte end_byte start_row start_column end_row end_column children 
-         <int>  <int> <chr>      <chr>            <chr>       <int>    <int>     <int>        <int>   <int>      <int> <I<list>>
-       1     1     NA <NA>       "document"        <NA>           0       30         0            0       1          0 <int [1]>
-       2     2      1 <NA>       "object"          <NA>           0       29         0            0       0         29 <int [5]>
-       3     3      2 <NA>       "{"              "{"             0        1         0            0       0          1 <int [0]>
-       4     4      2 <NA>       "pair"            <NA>           2       11         0            2       0         11 <int [3]>
-       5     5      4 key        "string"          <NA>           2        5         0            2       0          5 <int [3]>
-       6     6      5 <NA>       "\""             "\""            2        3         0            2       0          3 <int [0]>
-       7     7      5 <NA>       "string_content" "a"             3        4         0            3       0          4 <int [0]>
-       8     8      5 <NA>       "\""             "\""            4        5         0            4       0          5 <int [0]>
-       9     9      4 <NA>       ":"              ":"             5        6         0            5       0          6 <int [0]>
-      10    10      4 value      "true"           "true"          7       11         0            7       0         11 <int [0]>
+      # A data frame: 26 x 15
+            id parent field_name type             code   start_byte end_byte start_row start_column end_row end_column is_missing has_error expected children 
+         <int>  <int> <chr>      <chr>            <chr>       <int>    <int>     <int>        <int>   <int>      <int> <lgl>      <lgl>     <list>   <I<list>>
+       1     1     NA <NA>       "document"        <NA>           0       30         0            0       1          0 FALSE      FALSE     <NULL>   <int [1]>
+       2     2      1 <NA>       "object"          <NA>           0       29         0            0       0         29 FALSE      FALSE     <NULL>   <int [5]>
+       3     3      2 <NA>       "{"              "{"             0        1         0            0       0          1 FALSE      FALSE     <NULL>   <int [0]>
+       4     4      2 <NA>       "pair"            <NA>           2       11         0            2       0         11 FALSE      FALSE     <NULL>   <int [3]>
+       5     5      4 key        "string"          <NA>           2        5         0            2       0          5 FALSE      FALSE     <NULL>   <int [3]>
+       6     6      5 <NA>       "\""             "\""            2        3         0            2       0          3 FALSE      FALSE     <NULL>   <int [0]>
+       7     7      5 <NA>       "string_content" "a"             3        4         0            3       0          4 FALSE      FALSE     <NULL>   <int [0]>
+       8     8      5 <NA>       "\""             "\""            4        5         0            4       0          5 FALSE      FALSE     <NULL>   <int [0]>
+       9     9      4 <NA>       ":"              ":"             5        6         0            5       0          6 FALSE      FALSE     <NULL>   <int [0]>
+      10    10      4 value      "true"           "true"          7       11         0            7       0         11 FALSE      FALSE     <NULL>   <int [0]>
       # i 16 more rows
 
 # syntax_tree_json

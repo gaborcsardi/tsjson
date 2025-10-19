@@ -16,7 +16,7 @@
 }
 \value{
 A data frame with columns:
-\code{id}, \code{parent}, \code{field_name}, \code{type}, \code{code}, \code{start_byte}, \code{end_byte}, \code{start_row}, \code{start_column}, \code{end_row}, \code{end_column}, \code{children}, \code{tws}.
+\code{id}, \code{parent}, \code{field_name}, \code{type}, \code{code}, \code{start_byte}, \code{end_byte}, \code{start_row}, \code{start_column}, \code{end_row}, \code{end_column}, \code{is_missing}, \code{has_error}, \code{expected}, \code{children}, \code{tws}.
 }
 \description{
 Create a data frame for the syntax tree of a JSON document, by indexing

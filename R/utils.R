@@ -40,6 +40,10 @@ mkdirp <- function(x) {
   dir.create(x, showWarnings = FALSE, recursive = TRUE)
 }
 
+plural <- function(x) {
+  if (x == 0 || x > 1) "s" else ""
+}
+
 # For roxygen2 -----------------------------------------------------------------
 
 # nocov start

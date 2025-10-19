@@ -1,13 +1,18 @@
 format_json <- function(
   file = NULL,
   text = NULL,
-  format = c("pretty", "oneline", "compact")
+  format = c("pretty", "oneline", "compact"),
+  options = NULL
 ) {
+  if (!missing(options)) {
+    check_named_arg(options)
+  }
+  options <- as_tsjson_options(options)
   format <- match.arg(format)
 
   # parse file/text
   # TODO: error on error, get error position
-  json <- token_table(file = file, text = text)
+  json <- token_table(file = file, text = text, options = options)
 
   # it must have one non-comment element
   # multiple top-level values (e.g. JSONL) are not (yet) allowed

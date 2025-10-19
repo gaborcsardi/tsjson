@@ -6,7 +6,7 @@
 #' See examples below on how the different JSON elements are mapped to
 #' R objects.
 #'
-#' @inheritParams sexpr_json
+#' @inheritParams token_table
 #' @return R object.
 #'
 #' @export
@@ -33,10 +33,24 @@
 #' # object -> named list
 #' unserialize_json(text = "{\"a\": 1, \"b\": 2 }")
 
-unserialize_json <- function(file = NULL, text = NULL, ranges = NULL) {
+unserialize_json <- function(
+  file = NULL,
+  text = NULL,
+  ranges = NULL,
+  options = NULL
+) {
+  if (!missing(options)) {
+    check_named_arg(options)
+  }
+  options <- as_tsjson_options(options)
   # parse file/text
   # TODO: error on error, get error position
-  tt <- token_table(file = file, text = text, ranges = ranges)
+  tt <- token_table(
+    file = file,
+    text = text,
+    ranges = ranges,
+    options = options
+  )
 
   # document is the top element. easier to process without NA parents
   # TODO: do not fail for empty file, but what to return? NULL, maybe?
@@ -46,9 +60,12 @@ unserialize_json <- function(file = NULL, text = NULL, ranges = NULL) {
   # multiple top-level values (e.g. JSONL) are not (yet) allowed
   top <- tt$children[[1]]
   top <- top[tt$type[top] != "comment"]
-  stopifnot(length(top) == 1)
 
-  unserialize_element(tt, top)
+  if (length(top) == 0) {
+    NULL
+  } else {
+    unserialize_element(tt, top)
+  }
 }
 
 #' Unserialize selected elements from a tsjson object
@@ -133,7 +150,14 @@ unserialize_string <- function(token_table, id) {
 unserialize_number <- function(token_table, id) {
   stopifnot(token_table$type[id] == "number")
   # single token
-  as.numeric(token_table$code[id])
+  num <- as.numeric(token_table$code[id])
+  # integer or double
+  numi <- suppressWarnings(as.integer(num))
+  if (num == numi) {
+    numi
+  } else {
+    num
+  }
 }
 
 unserialize_array <- function(token_table, id) {
@@ -143,7 +167,7 @@ unserialize_array <- function(token_table, id) {
   chdn <- chdn[!token_table$type[chdn] %in% c("[", ",", "]", "comment")]
   arr <- vector("list", length(chdn))
   for (idx in seq_along(chdn)) {
-    arr[[idx]] <- unserialize_element(token_table, chdn[idx])
+    arr[idx] <- list(unserialize_element(token_table, chdn[idx]))
   }
   arr
 }
@@ -161,7 +185,7 @@ unserialize_object <- function(token_table, id) {
     key <- gchdn[token_table$field_name[gchdn] == "key"]
     nms[idx] <- unserialize_string(token_table, key)
     value <- gchdn[token_table$field_name[gchdn] == "value"]
-    arr[[idx]] <- unserialize_element(token_table, value)
+    arr[idx] <- list(unserialize_element(token_table, value))
   }
   structure(arr, names = nms)
 }

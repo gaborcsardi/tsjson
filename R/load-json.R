@@ -9,7 +9,7 @@
 #' They can be converted to a data frame using the
 #' [single bracket][tsjson-brackets] operator.
 #'
-#' @inheritParams sexpr_json
+#' @inheritParams token_table
 #' @return A tsjson object.
 #'
 #' @seealso [select()] to select part(s) of a tsjson object,
@@ -27,7 +27,16 @@
 #' )))
 #' json
 
-load_json <- function(file = NULL, text = NULL, ranges = NULL) {
+load_json <- function(
+  file = NULL,
+  text = NULL,
+  ranges = NULL,
+  options = NULL
+) {
+  if (!missing(options)) {
+    check_named_arg(options)
+  }
+  options <- as_tsjson_options(options)
   if (is.null(text) + is.null(file) != 1) {
     stop(cnd(
       "Invalid arguments in `load_json()`: exactly one of `file` \\
@@ -41,7 +50,7 @@ load_json <- function(file = NULL, text = NULL, ranges = NULL) {
     text <- charToRaw(paste(text, collapse = "\n"))
   }
   # TODO: error on error, get error position
-  tt <- token_table(text = text, ranges = ranges)
+  tt <- token_table(text = text, ranges = ranges, options = options)
 
   # trailing whitespace for each token
   # first we add the leading whitespace to the document token

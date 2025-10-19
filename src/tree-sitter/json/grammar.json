@@ -526,5 +526,6 @@
   "inline": [],
   "supertypes": [
     "_value"
-  ]
+  ],
+  "reserved": {}
 }
