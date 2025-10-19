@@ -1,5 +1,3 @@
-return()
-
 test_that("formatting retains comments", {
   text <- '
   {
@@ -11,8 +9,10 @@ test_that("formatting retains comments", {
     }
   } // trailing
   '
-  expect_snapshot(cat(text_format(text)))
+  expect_snapshot(writeLines(format_json(text = text)))
 })
+
+return()
 
 test_that("`eol` only applies when we don't know the eol in `text`", {
   formatting_options <- formatting_options(eol = "\r\n")

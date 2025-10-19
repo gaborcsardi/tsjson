@@ -193,9 +193,9 @@
     Output
       # json (5 lines)
       1 | {
-      2 |   "a": 1,
-      3 |   "b": "foo",
-      4 |   "c": 20
+      2 |     "a": 1,
+      3 |     "b": "foo",
+      4 |     "c": 20
       5 | }
     Code
       query_json(text = txt, query = "((pair value: (number) @num))")

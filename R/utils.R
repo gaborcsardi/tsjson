@@ -14,6 +14,10 @@ map_chr <- function(.x, .f, ...) {
   vapply(.x, .f, character(1), ...)
 }
 
+map_lgl <- function(.x, .f, ...) {
+  vapply(.x, .f, logical(1), ...)
+}
+
 na_omit <- function(x) {
   x[!is.na(x)]
 }
@@ -42,6 +46,10 @@ mkdirp <- function(x) {
 
 plural <- function(x) {
   if (x == 0 || x > 1) "s" else ""
+}
+
+drop_nulls <- function(x) {
+  x[!vapply(x, is.null, logical(1))]
 }
 
 # For roxygen2 -----------------------------------------------------------------

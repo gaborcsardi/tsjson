@@ -13,14 +13,7 @@ format_json <- function(
   # parse file/text
   # TODO: error on error, get error position
   json <- token_table(file = file, text = text, options = options)
-
-  # it must have one non-comment element
-  # multiple top-level values (e.g. JSONL) are not (yet) allowed
-  top <- json$children[[1]]
-  top <- top[json$type[top] != "comment"]
-  stopifnot(length(top) == 1)
-
-  format_element(json, top, format = format)
+  format_element(json, 1L, format = format)
 }
 
 #' Format the selected JSON elements
@@ -127,8 +120,51 @@ format_element <- function(json, id, format) {
     },
     pair = {
       format_pair(json, id, format = format)
-    }
+    },
+    document = {
+      format_document(json, id, format = format)
+    },
+    "," = {
+      format_comma(json, id, format = format)
+    },
+    stop(cnd(
+      "Internal tsjson error, unknown JSON node type: '{json$type[id]}'"
+    ))
   )
+}
+
+which_line_comments <- function(json, ids) {
+  # this only works because `start_row` is sorted
+  which(
+    json$type[ids] == "comment" &
+      json$end_row[ids - 1] == json$start_row[ids]
+  )
+}
+
+format_line_comments <- function(json, elts, ids, format) {
+  if (format == "pretty") {
+    cmts <- which_line_comments(json, ids)
+    for (i in cmts) {
+      # may happen if an array or object starts with a comment
+      if (i == 1L) {
+        next
+      }
+      elts[[i - 1]][length(elts[[i - 1]])] <- paste(
+        elts[[i - 1]][length(elts[[i - 1]])],
+        elts[[i]]
+      )
+      elts[i] <- list(NULL)
+    }
+  }
+  elts
+}
+
+format_document <- function(json, id, format) {
+  stopifnot(json$type[id] == "document")
+  chdn <- json$children[[id]]
+  elts <- lapply(chdn, format_element, json = json, format = format)
+  elts <- format_line_comments(json, elts, chdn, format)
+  unlist(elts)
 }
 
 format_null <- function(json, id, format) {
@@ -157,6 +193,25 @@ format_number <- function(json, id, format) {
   json$code[id]
 }
 
+format_indent <- 4
+
+format_post_process_commas <- function(elts, format) {
+  if (format != "pretty") {
+    return(elts)
+  }
+  commas <- map_lgl(elts, function(x) {
+    length(x) == 1 && startsWith(x, ",")
+  })
+  for (i in which(commas)) {
+    elts[[i - 1]][length(elts[[i - 1]])] <- paste0(
+      elts[[i - 1]][length(elts[[i - 1]])],
+      elts[[i]]
+    )
+    elts[i] <- list(NULL)
+  }
+  elts
+}
+
 format_array <- function(json, id, format) {
   stopifnot(json$type[id] == "array")
   chdn <- json$children[[id]]
@@ -167,24 +222,21 @@ format_array <- function(json, id, format) {
 
   chdn <- middle(chdn)
   elts <- lapply(chdn, format_element, json = json, format = format)
+  elts <- format_line_comments(json, elts, chdn, format)
+  elts <- format_post_process_commas(elts, format)
+
+  indent <- strrep(" ", format_indent)
 
   switch(
     format,
     "compact" = {
-      paste0("[", paste0(unlist(elts), collapse = ","), "]")
+      paste0("[", paste0(unlist(elts), collapse = ""), "]")
     },
     "oneline" = {
-      paste0("[ ", paste0(unlist(elts), collapse = ", "), " ]")
+      paste0("[ ", paste0(unlist(elts), collapse = ""), " ]")
     },
     "pretty" = {
-      comm <- head(which(json$type[chdn] != "comment"), -1)
-      for (i in comm) {
-        elts[[i]][length(elts[[i]])] <- paste0(
-          elts[[i]][length(elts[[i]])],
-          ","
-        )
-      }
-      c("[", paste0("  ", unlist(elts)), "]")
+      c("[", paste0(indent, unlist(elts)), "]")
     }
   )
 }
@@ -198,27 +250,24 @@ format_object <- function(json, id, format) {
   }
 
   chdn <- middle(chdn)
-  felts <- lapply(chdn, format_element, json = json, format = format)
+  elts <- lapply(chdn, format_element, json = json, format = format)
+  elts <- format_line_comments(json, elts, chdn, format)
+  elts <- format_post_process_commas(elts, format)
+
+  indent <- strrep(" ", format_indent)
 
   switch(
     format,
     "compact" = {
-      paste0("{", paste(unlist(felts), collapse = ","), "}")
+      paste0("{", paste(unlist(elts), collapse = ""), "}")
     },
     "oneline" = {
-      paste0("{ ", paste(unlist(felts), collapse = ", "), " }")
+      paste0("{ ", paste(unlist(elts), collapse = ""), " }")
     },
     "pretty" = {
-      needs_comma <- head(which(json$type[chdn] != "comment"), -1)
-      for (i in needs_comma) {
-        felts[[i]][length(felts[[i]])] <- paste0(
-          felts[[i]][length(felts[[i]])],
-          ","
-        )
-      }
       c(
         "{",
-        paste0("  ", unlist(felts)),
+        paste0(indent, unlist(elts)),
         "}"
       )
     }
@@ -241,6 +290,8 @@ format_pair <- function(json, id, format) {
   cmts <- chdn[json$type[chdn] == "comment"]
   fvalue <- format_element(json, value, format)
 
+  indent <- strrep(" ", format_indent)
+
   switch(
     format,
     "compact" = {
@@ -257,8 +308,8 @@ format_pair <- function(json, id, format) {
         fcmts <- lapply(cmts, format_element, json = json, format = format)
         c(
           glue('"{keystr}":'),
-          paste0("  ", unlist(fcmts)),
-          paste0("  ", fvalue)
+          paste0(indent, unlist(fcmts)),
+          paste0(indent, fvalue)
         )
       }
     }
@@ -271,5 +322,14 @@ format_comment <- function(json, id, format) {
     json$code[id]
   } else {
     NULL
+  }
+}
+
+format_comma <- function(json, id, format) {
+  stopifnot(json$type[id] == ",")
+  if (format == "oneline") {
+    ", "
+  } else {
+    ","
   }
 }

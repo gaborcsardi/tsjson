@@ -21,13 +21,13 @@
     Output
       # json (9 lines)
       1 | { "a": true, "b": [
-      2 |   1,
-      3 |   2,
-      4 |   3,
-      5 |   {
-      6 |     "a": 1,
-      7 |     "b": 2
-      8 |   }
+      2 |     1,
+      3 |     2,
+      4 |     3,
+      5 |     {
+      6 |         "a": 1,
+      7 |         "b": 2
+      8 |     }
       9 | ] }
 
 # insert_into_selected with compact array is compact
@@ -72,13 +72,13 @@
     Output
       # json (9 lines)
       1 | { "a":true, "b":[
-      2 |   1,
-      3 |   2,
-      4 |   3,
-      5 |   [
-      6 |     1,
-      7 |     2
-      8 |   ]
+      2 |     1,
+      3 |     2,
+      4 |     3,
+      5 |     [
+      6 |         1,
+      7 |         2
+      8 |     ]
       9 | ] }
 
 # insert_into_document errors
