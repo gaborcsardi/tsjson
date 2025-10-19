@@ -48,12 +48,13 @@ reference:
   - "[[.tsjson"
   - "[[<-.tsjson"
 
-- title: Utilities
+- title: Utilities and Options
 - contents:
   - query_json
   - sexpr_json
   - syntax_tree_json
   - token_table
+  - tsjson_options
   - "[.tsjson"
 
 - title: internal
