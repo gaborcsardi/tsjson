@@ -35,6 +35,7 @@ json
 json[]
 }
 \seealso{
+\code{\link[=token_table]{token_table()}} to create the token table directly.
 Other JSON debugging tools: \code{\link[=sexpr_json]{sexpr_json()}}, \code{\link[=syntax_tree_json]{syntax_tree_json()}},
 \code{\link[=query_json]{query_json()}}. \code{\link[=load_json]{load_json()}} for creating tsjson objects.
 }

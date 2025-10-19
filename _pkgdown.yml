@@ -53,6 +53,7 @@ reference:
   - query_json
   - sexpr_json
   - syntax_tree_json
+  - token_table
   - "[.tsjson"
 
 - title: internal

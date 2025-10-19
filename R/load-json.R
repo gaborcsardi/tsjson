@@ -90,7 +90,8 @@ load_json <- function(
 #' @return A data frame with columns:
 #'   `r doclist(colnames(load_json(text="")[]))`.
 #' @export
-#' @seealso Other JSON debugging tools: [sexpr_json()], [syntax_tree_json()],
+#' @seealso [token_table()] to create the token table directly.
+#'   Other JSON debugging tools: [sexpr_json()], [syntax_tree_json()],
 #'   [query_json()]. [load_json()] for creating tsjson objects.
 #' @examples
 #' json <- load_json(text = serialize_json(list(
