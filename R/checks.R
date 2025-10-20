@@ -116,6 +116,10 @@ opt_allow_comments_default <- function() {
   TRUE
 }
 
+opt_format_default <- function() {
+  "pretty"
+}
+
 opt_indent_width_default <- function() {
   4L
 }
@@ -137,6 +141,12 @@ opt_indent_style_default <- function() {
 #'
 #' ## Formatting options:
 #'
+#' * `format`: Formatting style, one of:
+#'   - `"pretty"`: arrays and objects are formatted in multiple lines,
+#'   - `"compact"`: format everything without whitespace,
+#'   - `"oneline"`: format everything without newlines, but include
+#'     whitespace after commas, colons, opening brackets and braces, and
+#'     before closing brackets and braces.
 #' * `indent_width`: integer, the number of spaces to use for indentation
 #'   when `indent_style` is `"space"`. Default is `4`.
 #' * `indent_style`: string, either `"space"` or `"tab"`, the type of
@@ -147,12 +157,14 @@ NULL
 
 as_tsjson_options <- function(
   x,
+  auto_format = FALSE,
   arg = caller_arg(x),
   call = caller_env()
 ) {
   nms <- c(
     "allow_empty_content",
     "allow_comments",
+    "format",
     "indent_width",
     "indent_style"
   )
@@ -172,6 +184,16 @@ as_tsjson_options <- function(
       x[["allow_comments"]] %||% opt_allow_comments_default(),
       arg = as_caller_arg(substitute(
         x[["allow_comments"]],
+        list(x = arg[[1]])
+      )),
+      call = call
+    )
+
+    x[["format"]] <- as_choice(
+      x[["format"]] %||% opt_format_default(),
+      choices = c("pretty", "compact", "oneline", if (auto_format) "auto"),
+      arg = as_caller_arg(substitute(
+        x[["format"]],
         list(x = arg[[1]])
       )),
       call = call

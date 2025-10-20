@@ -8,7 +8,7 @@
 #' @param new R object that will be serialized to JSON (using
 #'   [serialize_json()]) and inserted in place of the selected JSON
 #'   elements.
-#' @param format How to format `new`. See [format_selected()].
+#' @inheritParams token_table
 #' @return The updated tsjson object
 #'
 #' @export
@@ -21,9 +21,12 @@
 update_selected <- function(
   json,
   new,
-  format = c("pretty", "compact", "oneline")
+  options = NULL
 ) {
-  format <- match.arg(format)
+  if (!missing(options)) {
+    check_named_arg(options)
+  }
+  options <- as_tsjson_options(options)
   selection <- get_selection(json)
   ptr <- length(selection)
   select <- selection[[ptr]]$nodes
@@ -48,7 +51,7 @@ update_selected <- function(
 
   fmt <- replicate(
     length(select),
-    serialize_json(new, collapse = FALSE, format = format),
+    serialize_json(new, collapse = FALSE, options = options),
     simplify = FALSE
   )
 

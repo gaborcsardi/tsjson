@@ -18,6 +18,14 @@ Default is \code{TRUE}.
 
 \subsection{Formatting options:}{
 \itemize{
+\item \code{format}: Formatting style, one of:
+\itemize{
+\item \code{"pretty"}: arrays and objects are formatted in multiple lines,
+\item \code{"compact"}: format everything without whitespace,
+\item \code{"oneline"}: format everything without newlines, but include
+whitespace after commas, colons, opening brackets and braces, and
+before closing brackets and braces.
+}
 \item \code{indent_width}: integer, the number of spaces to use for indentation
 when \code{indent_style} is \code{"space"}. Default is \code{4}.
 \item \code{indent_style}: string, either \code{"space"} or \code{"tab"}, the type of

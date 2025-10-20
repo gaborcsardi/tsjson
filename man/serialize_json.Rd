@@ -4,12 +4,7 @@
 \alias{serialize_json}
 \title{Serialize an R object to JSON}
 \usage{
-serialize_json(
-  obj,
-  file = NULL,
-  collapse = FALSE,
-  format = c("pretty", "compact", "oneline")
-)
+serialize_json(obj, file = NULL, collapse = FALSE, options = NULL)
 }
 \arguments{
 \item{obj}{R object to serialize.}
@@ -19,14 +14,8 @@ serialize_json(
 \item{collapse}{If \code{file} is \code{NULL} then whether to return a character
 scalar or a character vector.}
 
-\item{format}{Formatting, one of:
-\itemize{
-\item \code{"pretty"}: arrays and objects are formatted in multiple lines,
-\item \code{"compact"}: format everything without whitespace,
-\item \code{"oneline"}: format everything without newlines, but include
-whitespace after commas, colons, opening brackets and braces, and
-before closing brackets and braces.
-}}
+\item{options}{List of options, see \code{\link[=tsjson_options]{tsjson_options()}}. This argument
+must be named and cannot be abbreviated.}
 }
 \value{
 If \code{file} is \code{NULL} then a character scalar (\code{collapse} = TRUE)

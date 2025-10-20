@@ -124,7 +124,7 @@
       7 |   "b": true
       8 | }
     Code
-      format_selected(json, "compact")
+      format_selected(json, options = list(format = "compact"))
     Output
       # json (1 line)
       1 | {"a":[1,2,3],"b":true}
@@ -144,7 +144,7 @@
       7 |   "b": true
       8 | }
     Code
-      format_selected(json, "oneline")
+      format_selected(json, options = list(format = "oneline"))
     Output
       # json (1 line)
       1 | { "a": [ 1, 2, 3 ], "b": true }
@@ -171,12 +171,12 @@
       3 |     null
       4 | }
     Code
-      format_selected(json, "compact")
+      format_selected(json, options = list(format = "compact"))
     Output
       # json (1 line)
       1 | {"a":null}
     Code
-      format_selected(json, "oneline")
+      format_selected(json, options = list(format = "oneline"))
     Output
       # json (1 line)
       1 | { "a": null }

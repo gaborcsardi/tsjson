@@ -4,7 +4,7 @@
 \alias{update_selected}
 \title{Replace selected JSON elements with a new element}
 \usage{
-update_selected(json, new, format = c("pretty", "compact", "oneline"))
+update_selected(json, new, options = NULL)
 }
 \arguments{
 \item{json}{tsjson object.}
@@ -13,7 +13,8 @@ update_selected(json, new, format = c("pretty", "compact", "oneline"))
 \code{\link[=serialize_json]{serialize_json()}}) and inserted in place of the selected JSON
 elements.}
 
-\item{format}{How to format \code{new}. See \code{\link[=format_selected]{format_selected()}}.}
+\item{options}{List of options, see \code{\link[=tsjson_options]{tsjson_options()}}. This argument
+must be named and cannot be abbreviated.}
 }
 \value{
 The updated tsjson object

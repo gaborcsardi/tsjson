@@ -34,13 +34,25 @@ test_that("serialize_json collapse", {
 
 test_that("serialize_json format", {
   expect_snapshot({
-    writeLines(serialize_json(list(1, 2, 3), format = "compact"))
-    writeLines(serialize_json(list(a = 1, b = 2), format = "compact"))
+    writeLines(serialize_json(
+      list(1, 2, 3),
+      options = list(format = "compact")
+    ))
+    writeLines(serialize_json(
+      list(a = 1, b = 2),
+      options = list(format = "compact")
+    ))
   })
 
   expect_snapshot({
-    writeLines(serialize_json(list(1, 2, 3), format = "oneline"))
-    writeLines(serialize_json(list(a = 1, b = 2), format = "oneline"))
+    writeLines(serialize_json(
+      list(1, 2, 3),
+      options = list(format = "oneline")
+    ))
+    writeLines(serialize_json(
+      list(a = 1, b = 2),
+      options = list(format = "oneline")
+    ))
   })
 })
 

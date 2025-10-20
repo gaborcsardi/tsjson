@@ -4,23 +4,10 @@
 \alias{format_selected}
 \title{Format the selected JSON elements}
 \usage{
-format_selected(
-  json,
-  format = c("pretty", "oneline", "compact"),
-  options = NULL
-)
+format_selected(json, options = NULL)
 }
 \arguments{
 \item{json}{tsjson object.}
-
-\item{format}{Formatting, one of:
-\itemize{
-\item \code{"pretty"}: arrays and objects are formatted in multiple lines,
-\item \code{"compact"}: format everything without whitespace,
-\item \code{"oneline"}: format everything without newlines, but include
-whitespace after commas, colons, opening brackets and braces, and
-before closing brackets and braces.
-}}
 
 \item{options}{List of options, see \code{\link[=tsjson_options]{tsjson_options()}}. This argument
 must be named and cannot be abbreviated.}

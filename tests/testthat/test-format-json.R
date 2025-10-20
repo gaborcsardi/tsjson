@@ -1,6 +1,6 @@
 test_that("format_json", {
-  text = serialize_json(
-    format = "compact",
+  text <- serialize_json(
+    options = list(format = "compact"),
     list(
       a = 1,
       b = list(b1 = 21, b2 = 22),
@@ -16,7 +16,7 @@ test_that("format_json", {
 
 test_that("format_selected", {
   text <- serialize_json(
-    format = "compact",
+    options = list(format = "compact"),
     list(
       a = 1,
       b = list(b1 = 21, b2 = 22),
@@ -39,7 +39,7 @@ test_that("format_selected", {
 
 test_that("format_selected null, true, false, string, comment", {
   text <- serialize_json(
-    format = "compact",
+    options = list(format = "compact"),
     list(
       a = NULL,
       b = TRUE,
@@ -59,7 +59,7 @@ test_that("format_selected null, true, false, string, comment", {
 
 test_that("format_selected empty array", {
   text <- serialize_json(
-    format = "compact",
+    options = list(format = "compact"),
     list(
       a = list(),
       b = TRUE
@@ -81,7 +81,7 @@ test_that("format_selected compact arrays", {
   json <- load_json(text = text)
   expect_snapshot({
     json
-    format_selected(json, "compact")
+    format_selected(json, options = list(format = "compact"))
   })
 })
 
@@ -95,13 +95,13 @@ test_that("format_selected oneline arrays", {
   json <- load_json(text = text)
   expect_snapshot({
     json
-    format_selected(json, "oneline")
+    format_selected(json, options = list(format = "oneline"))
   })
 })
 
 test_that("format_selected empty object", {
   text <- serialize_json(
-    format = "compact",
+    options = list(format = "compact"),
     list(
       a = structure(list(), names = character()),
       b = TRUE
@@ -117,7 +117,7 @@ test_that("format_selected drop comments in compact, oneline modes", {
   json <- load_json(text = "{ // comment\n  \"a\": // comment\n    null\n}")
   expect_snapshot({
     json
-    format_selected(json, "compact")
-    format_selected(json, "oneline")
+    format_selected(json, options = list(format = "compact"))
+    format_selected(json, options = list(format = "oneline"))
   })
 })

@@ -4,14 +4,7 @@
 \alias{insert_into_selected}
 \title{Insert a new element into the selected ones in a tsjson object}
 \usage{
-insert_into_selected(
-  json,
-  new,
-  key = NULL,
-  at = Inf,
-  format = c("pretty", "auto", "compact", "oneline"),
-  options = NULL
-)
+insert_into_selected(json, new, key = NULL, at = Inf, options = NULL)
 }
 \arguments{
 \item{json}{tsjson object}
@@ -30,9 +23,6 @@ insert_into_selected(
 if that key exists, when inserting into an object. If this key does
 not exist, then the new element is inserted at the end of the object.
 }}
-
-\item{format}{Formatting of the \code{new} element, passed to
-\code{\link[=serialize_json]{serialize_json()}}.}
 
 \item{options}{List of options, see \code{\link[=tsjson_options]{tsjson_options()}}. This argument
 must be named and cannot be abbreviated.}

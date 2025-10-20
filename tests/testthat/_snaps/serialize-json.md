@@ -128,22 +128,22 @@
 # serialize_json format
 
     Code
-      writeLines(serialize_json(list(1, 2, 3), format = "compact"))
+      writeLines(serialize_json(list(1, 2, 3), options = list(format = "compact")))
     Output
       [1,2,3]
     Code
-      writeLines(serialize_json(list(a = 1, b = 2), format = "compact"))
+      writeLines(serialize_json(list(a = 1, b = 2), options = list(format = "compact")))
     Output
       {"a":1,"b":2}
 
 ---
 
     Code
-      writeLines(serialize_json(list(1, 2, 3), format = "oneline"))
+      writeLines(serialize_json(list(1, 2, 3), options = list(format = "oneline")))
     Output
       [ 1, 2, 3 ]
     Code
-      writeLines(serialize_json(list(a = 1, b = 2), format = "oneline"))
+      writeLines(serialize_json(list(a = 1, b = 2), options = list(format = "oneline")))
     Output
       { "a": 1, "b": 2 }
 

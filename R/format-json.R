@@ -13,7 +13,7 @@ format_json <- function(
   # parse file/text
   # TODO: error on error, get error position
   json <- token_table(file = file, text = text, options = options)
-  format_element(json, 1L, format = format, options = options)
+  format_element(json, 1L, options = options)
 }
 
 #' Format the selected JSON elements
@@ -24,12 +24,6 @@ format_json <- function(
 #'
 #' @inheritParams token_table
 #' @param json tsjson object.
-#' @param format Formatting, one of:
-#'   - `"pretty"`: arrays and objects are formatted in multiple lines,
-#'   - `"compact"`: format everything without whitespace,
-#'   - `"oneline"`: format everything without newlines, but include
-#'     whitespace after commas, colons, opening brackets and braces, and
-#'     before closing brackets and braces.
 #' @return The updated tsjson object.
 #'
 #' @export
@@ -43,20 +37,17 @@ format_json <- function(
 
 format_selected <- function(
   json,
-  format = c("pretty", "oneline", "compact"),
   options = NULL
 ) {
   if (!missing(options)) {
     check_named_arg(options)
   }
   options <- as_tsjson_options(options)
-  format <- match.arg(format)
   select <- get_selected_nodes(json)
   fmt <- lapply(
     select,
     format_element,
     json = json,
-    format = format,
     options = options
   )
   for (i in seq_along(select)) {
@@ -103,41 +94,41 @@ get_subtree <- function(json, id, with_root = FALSE) {
   }
 }
 
-format_element <- function(json, id, format, options) {
+format_element <- function(json, id, options) {
   switch(
     json$type[id],
     null = {
-      format_null(json, id, format = format, options = options)
+      format_null(json, id, options = options)
     },
     true = {
-      format_true(json, id, format = format, options = options)
+      format_true(json, id, options = options)
     },
     false = {
-      format_false(json, id, format = format, options = options)
+      format_false(json, id, options = options)
     },
     string = {
-      format_string(json, id, format = format, options = options)
+      format_string(json, id, options = options)
     },
     number = {
-      format_number(json, id, format = format, options = options)
+      format_number(json, id, options = options)
     },
     array = {
-      format_array(json, id, format = format, options = options)
+      format_array(json, id, options = options)
     },
     object = {
-      format_object(json, id, format = format, options = options)
+      format_object(json, id, options = options)
     },
     comment = {
-      format_comment(json, id, format = format, options = options)
+      format_comment(json, id, options = options)
     },
     pair = {
-      format_pair(json, id, format = format, options = options)
+      format_pair(json, id, options = options)
     },
     document = {
-      format_document(json, id, format = format, options = options)
+      format_document(json, id, options = options)
     },
     "," = {
-      format_comma(json, id, format = format, options = options)
+      format_comma(json, id, options = options)
     },
     stop(cnd(
       "Internal tsjson error, unknown JSON node type: '{json$type[id]}'"
@@ -171,42 +162,41 @@ format_line_comments <- function(json, elts, ids, format) {
   elts
 }
 
-format_document <- function(json, id, format, options) {
+format_document <- function(json, id, options) {
   stopifnot(json$type[id] == "document")
   chdn <- json$children[[id]]
   elts <- lapply(
     chdn,
     format_element,
     json = json,
-    format = format,
     options = options
   )
-  elts <- format_line_comments(json, elts, chdn, format)
+  elts <- format_line_comments(json, elts, chdn, options[["format"]])
   unlist(elts)
 }
 
-format_null <- function(json, id, format, options) {
+format_null <- function(json, id, options) {
   stopifnot(json$type[id] == "null")
   "null"
 }
 
-format_true <- function(json, id, format, options) {
+format_true <- function(json, id, options) {
   stopifnot(json$type[id] == "true")
   "true"
 }
 
-format_false <- function(json, id, format, options) {
+format_false <- function(json, id, options) {
   stopifnot(json$type[id] == "false")
   "false"
 }
 
-format_string <- function(json, id, format, options) {
+format_string <- function(json, id, options) {
   stopifnot(json$type[id] == "string")
   chdn <- json$children[[id]]
   paste0(json$code[chdn], collapse = "")
 }
 
-format_number <- function(json, id, format, options) {
+format_number <- function(json, id, options) {
   stopifnot(json$type[id] == "number")
   json$code[id]
 }
@@ -236,7 +226,7 @@ format_create_indent <- function(options) {
   }
 }
 
-format_array <- function(json, id, format, options) {
+format_array <- function(json, id, options) {
   stopifnot(json$type[id] == "array")
   chdn <- json$children[[id]]
 
@@ -249,16 +239,15 @@ format_array <- function(json, id, format, options) {
     chdn,
     format_element,
     json = json,
-    format = format,
     options = options
   )
-  elts <- format_line_comments(json, elts, chdn, format)
-  elts <- format_post_process_commas(elts, format)
+  elts <- format_line_comments(json, elts, chdn, options[["format"]])
+  elts <- format_post_process_commas(elts, options[["format"]])
 
   indent <- format_create_indent(options)
 
   switch(
-    format,
+    options[["format"]],
     "compact" = {
       paste0("[", paste0(unlist(elts), collapse = ""), "]")
     },
@@ -271,7 +260,7 @@ format_array <- function(json, id, format, options) {
   )
 }
 
-format_object <- function(json, id, format, options) {
+format_object <- function(json, id, options) {
   stopifnot(json$type[id] == "object")
   chdn <- json$children[[id]]
 
@@ -284,16 +273,15 @@ format_object <- function(json, id, format, options) {
     chdn,
     format_element,
     json = json,
-    format = format,
     options = options
   )
-  elts <- format_line_comments(json, elts, chdn, format)
-  elts <- format_post_process_commas(elts, format)
+  elts <- format_line_comments(json, elts, chdn, options[["format"]])
+  elts <- format_post_process_commas(elts, options[["format"]])
 
   indent <- format_create_indent(options)
 
   switch(
-    format,
+    options[["format"]],
     "compact" = {
       paste0("{", paste(unlist(elts), collapse = ""), "}")
     },
@@ -317,19 +305,19 @@ format_object <- function(json, id, format, options) {
 # - We put all comments _after_ the `:`, because we put the `:` on the
 #   same line as the key.
 
-format_pair <- function(json, id, format, options) {
+format_pair <- function(json, id, options) {
   stopifnot(json$type[id] == "pair")
   chdn <- json$children[[id]]
   key <- na_omit(chdn[json$field_name[chdn] == "key"])
   keystr <- unserialize_string(json, key)
   value <- na_omit(chdn[json$field_name[chdn] == "value"])
   cmts <- chdn[json$type[chdn] == "comment"]
-  fvalue <- format_element(json, value, format, options)
+  fvalue <- format_element(json, value, options)
 
   indent <- format_create_indent(options)
 
   switch(
-    format,
+    options[["format"]],
     "compact" = {
       glue('"{keystr}":{fvalue}')
     },
@@ -345,7 +333,6 @@ format_pair <- function(json, id, format, options) {
           cmts,
           format_element,
           json = json,
-          format = format,
           options = options
         )
         c(
@@ -358,18 +345,18 @@ format_pair <- function(json, id, format, options) {
   )
 }
 
-format_comment <- function(json, id, format, options) {
+format_comment <- function(json, id, options) {
   stopifnot(json$type[id] == "comment")
-  if (format == "pretty") {
+  if (options[["format"]] == "pretty") {
     json$code[id]
   } else {
     NULL
   }
 }
 
-format_comma <- function(json, id, format, options) {
+format_comma <- function(json, id, options) {
   stopifnot(json$type[id] == ",")
-  if (format == "oneline") {
+  if (options[["format"]] == "oneline") {
     ", "
   } else {
     ","

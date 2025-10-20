@@ -23,8 +23,6 @@
 #'   - a character scalar, the key after which the new element is inserted,
 #'     if that key exists, when inserting into an object. If this key does
 #'     not exist, then the new element is inserted at the end of the object.
-#' @param format Formatting of the `new` element, passed to
-#'  [serialize_json()].
 #' @inheritParams token_table
 #' @return The modified tsjson object.
 #'
@@ -40,14 +38,12 @@ insert_into_selected <- function(
   new,
   key = NULL,
   at = Inf,
-  format = c("pretty", "auto", "compact", "oneline"),
   options = NULL
 ) {
   if (!missing(options)) {
     check_named_arg(options)
   }
-  options <- as_tsjson_options(options)
-  format <- match.arg(format)
+  options <- as_tsjson_options(options, auto_format = TRUE)
   select <- get_selected_nodes(json)
 
   if (length(select) == 0) {
@@ -55,16 +51,16 @@ insert_into_selected <- function(
   }
 
   insertions <- lapply(select, function(sel1) {
-    if (format == "auto") {
-      format <- auto_format(json, sel1)
+    if (options[["format"]] == "auto") {
+      options[["format"]] <- auto_format(json, sel1)
     }
     type <- json$type[sel1]
     if (type == "document") {
-      insert_into_document(json, new, format)
+      insert_into_document(json, new, options)
     } else if (type == "array") {
-      insert_into_array(json, sel1, new, at, format)
+      insert_into_array(json, sel1, new, at, options)
     } else if (type == "object") {
-      insert_into_object(json, sel1, new, key, at, format)
+      insert_into_object(json, sel1, new, key, at, options)
     } else {
       stop(cnd(
         "Cannot insert into a '{type}' JSON element. Can only insert \\
@@ -108,18 +104,17 @@ insert_into_selected <- function(
   tofmt2 <- unique(new$parent[which(fws | fcd)])
 
   # auto format then each insertion might need a different format
-  if (format == "auto") {
+  if (options[["format"]] == "auto") {
     for (tofmt1 in tofmt2) {
-      format <- auto_format(new, tofmt1)
+      options[["format"]] <- auto_format(new, tofmt1)
       new <- format_selected(
         select(new, sel_ids(tofmt1)),
-        format = format,
         options = options
       )
     }
   } else {
     new <- select(new, sel_ids(tofmt2))
-    new <- format_selected(new, format = format, options = options)
+    new <- format_selected(new, options = options)
   }
   new
 }
@@ -151,7 +146,7 @@ auto_format <- function(json, sel) {
 
 reformat_mark <- "\f"
 
-insert_into_document <- function(json, new, format) {
+insert_into_document <- function(json, new, options) {
   top <- json$children[[1]]
   notcmt <- top[json$type[top] != "comment"]
   # TODO: can this ever happen?
@@ -170,7 +165,7 @@ insert_into_document <- function(json, new, format) {
   list(
     select = 1L,
     after = nrow(json),
-    code = paste0(nl, serialize_json(new, collapse = TRUE, format = format)),
+    code = paste0(nl, serialize_json(new, collapse = TRUE, options = options)),
     leading_comma = FALSE,
     trailing_comma = FALSE,
     trailing_newline = FALSE # TODO
@@ -231,7 +226,11 @@ insert_into_array <- function(json, sel1, new, at, format) {
   list(
     select = sel1,
     after = chdn[after],
-    code = serialize_json(new, collapse = TRUE, format = "compact"),
+    code = serialize_json(
+      new,
+      collapse = TRUE,
+      options = list(format = "compact")
+    ),
     # need a leading comma if inserting at the end into non-empty array
     leading_comma = if (at >= nchdn && nchdn > 0) chdn[after_comma] else FALSE,
     # need a trailing comma everywhere except at the end or in an empty array
@@ -300,7 +299,7 @@ insert_into_object <- function(json, sel1, new, key, at, format) {
     '"',
     key,
     '":',
-    serialize_json(new, collapse = TRUE, format = "compact")
+    serialize_json(new, collapse = TRUE, options = list(format = "compact"))
   )
 
   list(

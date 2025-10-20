@@ -1,7 +1,7 @@
 # insert_into_selected
 
     Code
-      insert_into_selected(select(json, "b"), "foo", at = 1, format = "auto")
+      insert_into_selected(select(json, "b"), "foo", at = 1, options = list(format = "auto"))
     Output
       # json (1 line)
       1 | { "a": true, "b": [ 1, "foo", 2, 3 ] }
@@ -9,7 +9,7 @@
 # insert_into_selected with empty selection
 
     Code
-      insert_into_selected(select(json, "new"), "foo", format = "auto")
+      insert_into_selected(select(json, "new"), "foo", options = list(format = "auto"))
     Output
       # json (1 line, 0 selected elements)
       1 | { "a": true, "b": [1, 2, 3] }
@@ -17,7 +17,8 @@
 # insert_into_selected multi-line array is pretty
 
     Code
-      insert_into_selected(select(json, "b"), list(a = 1, b = 2), format = "auto")
+      insert_into_selected(select(json, "b"), list(a = 1, b = 2), options = list(
+        format = "auto"))
     Output
       # json (9 lines)
       1 | { "a": true, "b": [
@@ -33,7 +34,7 @@
 # insert_into_selected with compact array is compact
 
     Code
-      insert_into_selected(select(json, "b"), list(1, 2), format = "auto")
+      insert_into_selected(select(json, "b"), list(1, 2), options = list(format = "auto"))
     Output
       # json (1 line)
       1 | { "a":true, "b":[1,2,3,[1,2]] }
@@ -41,7 +42,7 @@
 # insert_into_selected document
 
     Code
-      insert_into_selected(json, list(a = 1, b = 2), format = "auto")
+      insert_into_selected(json, list(a = 1, b = 2), options = list(format = "auto"))
     Output
       # json (4 lines)
       1 | {
@@ -52,7 +53,7 @@
 # insert_into_selected object
 
     Code
-      insert_into_selected(select(json, "a"), 42, key = "b", format = "auto")
+      insert_into_selected(select(json, "a"), 42, key = "b", options = list(format = "auto"))
     Output
       # json (1 line)
       1 | { "a": { "b": 42 } }
@@ -60,7 +61,7 @@
 ---
 
     Code
-      insert_into_selected(select(json, "a"), 43, key = "c", format = "auto")
+      insert_into_selected(select(json, "a"), 43, key = "c", options = list(format = "auto"))
     Output
       # json (1 line)
       1 | { "a": { "b": 42, "c": 43 } }
@@ -68,7 +69,7 @@
 # insert_into_selected force formatting
 
     Code
-      insert_into_selected(select(json, "b"), list(1, 2), format = "pretty")
+      insert_into_selected(select(json, "b"), list(1, 2), options = list(format = "pretty"))
     Output
       # json (9 lines)
       1 | { "a":true, "b":[
@@ -92,7 +93,7 @@
 # insert_into_selected adds newline if needed
 
     Code
-      insert_into_selected(json, list(a = 1, b = 2), format = "auto")
+      insert_into_selected(json, list(a = 1, b = 2), options = list(format = "auto"))
     Output
       # json (5 lines)
       1 | // comment
@@ -104,7 +105,7 @@
 ---
 
     Code
-      insert_into_selected(json, list(a = 1, b = 2), format = "auto")
+      insert_into_selected(json, list(a = 1, b = 2), options = list(format = "auto"))
     Output
       # json (6 lines)
       1 | // comment
@@ -117,7 +118,8 @@
 # insert_into_selected invalid index
 
     Code
-      insert_into_selected(select(json, "b"), "foo", at = "bar", format = "auto")
+      insert_into_selected(select(json, "b"), "foo", at = "bar", options = list(
+        format = "auto"))
     Condition
       Error in `insert_into_array()`:
       ! Invalid `at` value for inserting JSON element into array. It must be an integer scalar or `Inf`.
@@ -125,7 +127,7 @@
 # insert_into_selected insert into empty array
 
     Code
-      insert_into_selected(select(json, "b"), "foo", format = "auto")
+      insert_into_selected(select(json, "b"), "foo", options = list(format = "auto"))
     Output
       # json (1 line)
       1 | { "a": true, "b": ["foo"] }
@@ -133,7 +135,7 @@
 # insert_into_selected insert at beginning of array
 
     Code
-      insert_into_selected(select(json, "b"), "foo", at = 0, format = "auto")
+      insert_into_selected(select(json, "b"), "foo", at = 0, options = list(format = "auto"))
     Output
       # json (1 line)
       1 | { "a": true, "b": ["foo",1] }
@@ -141,7 +143,7 @@
 # insert_into_selected insert into object by key
 
     Code
-      insert_into_selected(json, "val", key = "key", at = "a", format = "auto")
+      insert_into_selected(json, "val", key = "key", at = "a", options = list(format = "auto"))
     Output
       # json (1 line)
       1 | { "a": true, "key": "val", "b": [ 1 ] }
@@ -149,7 +151,8 @@
 # insert_into_selected insert into object by non-existing key
 
     Code
-      insert_into_selected(json, "val", key = "key", at = "nope", format = "auto")
+      insert_into_selected(json, "val", key = "key", at = "nope", options = list(
+        format = "auto"))
     Output
       # json (1 line)
       1 | { "a": true, "b": [ 1 ], "key": "val" }
@@ -157,7 +160,7 @@
 # insert_into_selected insert into object at be beginning
 
     Code
-      insert_into_selected(json, "val", key = "key", at = 0, format = "auto")
+      insert_into_selected(json, "val", key = "key", at = 0, options = list(format = "auto"))
     Output
       # json (1 line)
       1 | { "key": "val", "a": true, "b": [ 1 ] }

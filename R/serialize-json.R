@@ -53,10 +53,13 @@ serialize_json <- function(
   obj,
   file = NULL,
   collapse = FALSE,
-  format = c("pretty", "compact", "oneline")
+  options = NULL
 ) {
-  format <- match.arg(format)
-  opts <- list(auto_unbox = TRUE, format = format)
+  if (!missing(options)) {
+    check_named_arg(options)
+  }
+  options <- as_tsjson_options(options)
+  opts <- list(auto_unbox = TRUE, format = options[["format"]])
   if (is.null(file)) {
     if (collapse) {
       tojson$write_str(obj, opts = opts)
