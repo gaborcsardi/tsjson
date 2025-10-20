@@ -15,8 +15,21 @@
       upd <- update_selected(select(json, "new", "element"), list("new", "value"))
       print(upd, n = Inf)
     Output
-      # json (1 line)
-      1 | { "a": true, "b": [ 1, 2, 3 ], "new": { "element": [ "new", "value" ] } }
+      # json (14 lines)
+       1 | {
+       2 |     "a": true,
+       3 |     "b": [
+       4 |         1,
+       5 |         2,
+       6 |         3
+       7 |     ],
+       8 |     "new": {
+       9 |         "element": [
+      10 |             "new",
+      11 |             "value"
+      12 |         ]
+      13 |     }
+      14 | }
 
 # updated_selected with empry non-character selection is noop
 

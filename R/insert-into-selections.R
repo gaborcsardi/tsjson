@@ -39,7 +39,7 @@ insert_into_selected <- function(
   new,
   key = NULL,
   at = Inf,
-  format = c("auto", "pretty", "compact", "oneline")
+  format = c("pretty", "auto", "compact", "oneline")
 ) {
   format <- match.arg(format)
   select <- get_selected_nodes(json)
@@ -72,8 +72,8 @@ insert_into_selected <- function(
       aft <- tail(json$children[[aft]], 1)
     }
     # reformat whole array
-    lastchld <- json$children[[ins$select]][2]
-    json$tws[lastchld] <- paste0(reformat_mark, json$tws[lastchld])
+    firstchld <- json$children[[ins$select]][1]
+    json$tws[firstchld] <- paste0(reformat_mark, json$tws[firstchld])
     json$tws[aft] <- paste0(
       if (ins$leading_comma) ",",
       json$tws[aft],
@@ -90,9 +90,11 @@ insert_into_selected <- function(
   attr(new, "file") <- attr(json, "file")
 
   # now reformat the new parts, or the newly non-empty arrays/objects
-  tofmt <- grep(reformat_mark, new$tws, fixed = TRUE)
-  new$tws[tofmt] <- gsub(reformat_mark, "", new$tws[tofmt], fixed = TRUE)
-  tofmt2 <- new$parent[tofmt]
+  fws <- grepl(reformat_mark, new$tws, fixed = TRUE)
+  fcd <- new$type == "comment" & grepl(reformat_mark, new$code, fixed = TRUE)
+  new$tws[fws] <- gsub(reformat_mark, "", new$tws[fws], fixed = TRUE)
+  new$code[fcd] <- gsub(reformat_mark, "", new$code[fcd], fixed = TRUE)
+  tofmt2 <- new$parent[which(fws | fcd)]
 
   # auto format then each insertion might need a different format
   if (format == "auto") {
@@ -159,18 +161,22 @@ insert_into_array <- function(json, sel1, new, at, format) {
            It must be an integer scalar or `Inf`."
     ))
   }
+
+  # this is complicated by comments inside the array
+  # we need to build an index to map non-comment children to actual children
+  # we might as well treat the [ ] and comma nodes the same way
   chdn <- json$children[[sel1]]
-  nchdn <- if (length(chdn) == 2) {
-    0
-  } else {
-    (length(chdn) - 1L) / 2L
-  }
+  iscmt <- json$type[chdn] == "comment"
+  isxtr <- json$type[chdn] %in% c("comment", "[", "]", ",")
+  idx <- seq_along(chdn)[!isxtr]
+  nchdn <- length(idx)
+
   after <- if (at < 1) {
     chdn[1]
   } else if (at >= nchdn) {
     chdn[length(chdn) - 1L]
   } else {
-    chdn[at * 2L]
+    chdn[idx[at]]
   }
 
   list(
