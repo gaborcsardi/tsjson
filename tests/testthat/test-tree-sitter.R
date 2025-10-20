@@ -39,7 +39,7 @@ test_that("token_table from a file", {
   loadNamespace("pillar")
   tmp <- tempfile(fileext = ".json")
   on.exit(unlink(tmp), add = TRUE)
-  writeLines('{ "a": true, "b": [1, 2, 3] }', tmp)
+  writeBin(charToRaw('{ "a": true, "b": [1, 2, 3] }\n'), tmp)
   expect_snapshot({
     token_table(file = tmp)
   })
