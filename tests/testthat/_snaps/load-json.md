@@ -72,6 +72,15 @@
       8     8      2 <NA>       number   3             10       11         2            8       2          9 FALSE      FALSE     <NULL>   <int [0]> ""       
       9     9      2 <NA>       ]        ]             11       12         2            9       2         10 FALSE      FALSE     <NULL>   <int [0]> "\n"     
 
+# load_json with options
+
+    Code
+      json
+    Output
+      # json (2 lines)
+      1 | // comment
+      2 | { "a": 1 }
+
 # load_json errors
 
     Code

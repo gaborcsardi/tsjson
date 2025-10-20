@@ -181,3 +181,27 @@
       # json (1 line)
       1 | { "a": null }
 
+# format_selected comments before commas in array
+
+    Code
+      json
+    Output
+      # json (6 lines)
+      1 | [
+      2 |   1
+      3 | // comment
+      4 | // comment2
+      5 | ,  2
+      6 | ]
+    Code
+      format_selected(json, options = list(format = "pretty"))
+    Output
+      # json (7 lines)
+      1 | [
+      2 |     1
+      3 |     // comment
+      4 |     // comment2
+      5 |     ,
+      6 |     2
+      7 | ]
+

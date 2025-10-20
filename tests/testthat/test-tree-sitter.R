@@ -52,6 +52,11 @@ test_that("syntax_tree_json", {
     writeLines(text)
     syntax_tree_json(text = text)
   })
+  # options
+  text <- "// comment\n{\n  \"a\": 1\n}"
+  expect_snapshot(error = TRUE, {
+    syntax_tree_json(text = text, options = list(allow_comments = FALSE))
+  })
 })
 
 test_that("syntax_tree_json with hyperlinks", {

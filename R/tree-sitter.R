@@ -130,6 +130,7 @@ syntax_tree_json <- function(
   if (!missing(options)) {
     check_named_arg(options)
   }
+  options <- as_tsjson_options(options)
   tokens <- token_table(file, ranges = ranges, text = text, options = options)
 
   type <- tokens$type

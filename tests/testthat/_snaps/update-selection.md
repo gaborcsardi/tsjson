@@ -12,7 +12,8 @@
 # update_selected with empty selection can be an insert
 
     Code
-      upd <- update_selected(select(json, "new", "element"), list("new", "value"))
+      upd <- update_selected(select(json, "new", "element"), list("new", "value"),
+      options = list(format = "pretty"))
       print(upd, n = Inf)
     Output
       # json (14 lines)

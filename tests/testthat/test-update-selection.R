@@ -10,7 +10,7 @@ test_that("update_selected with empty selection can be an insert", {
   expect_snapshot({
     upd <- json |>
       select("new", "element") |>
-      update_selected(list("new", "value"))
+      update_selected(list("new", "value"), options = list(format = "pretty"))
     print(upd, n = Inf)
   })
 })

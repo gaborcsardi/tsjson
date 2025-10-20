@@ -153,6 +153,14 @@
         |   \-]                 7|  ]
         \-}                     8|}
 
+---
+
+    Code
+      syntax_tree_json(text = text, options = list(allow_comments = FALSE))
+    Condition
+      Error in `token_table()`:
+      ! The JSON document contains comments, and this is not allowed. To allow comments, set the `allow_comments` option to `TRUE`.
+
 # syntax_tree_json with hyperlinks
 
     Code

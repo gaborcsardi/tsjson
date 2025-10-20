@@ -121,3 +121,11 @@ test_that("format_selected drop comments in compact, oneline modes", {
     format_selected(json, options = list(format = "oneline"))
   })
 })
+
+test_that("format_selected comments before commas in array", {
+  json <- load_json(text = "[\n  1\n// comment\n// comment2\n,  2\n]")
+  expect_snapshot({
+    json
+    format_selected(json, options = list(format = "pretty"))
+  })
+})

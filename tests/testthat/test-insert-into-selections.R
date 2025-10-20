@@ -151,3 +151,36 @@ test_that("insert_into_selected insert into object at be beginning", {
       )
   })
 })
+
+test_that("insert_into_array, comment is kept on same line", {
+  json <- load_json(text = '{ "a": [1, 2 // comment\n]\n}')
+  expect_snapshot({
+    json
+    json |> select("a") |> insert_into_selected(42, at = Inf)
+    json |> select("a") |> insert_into_selected(42, at = 2)
+  })
+})
+
+test_that("insert_into_array, multiple comments before comma", {
+  json <- load_json(text = '{ "a": [1\n// comment1\n// comment2\n, 2]\n}')
+  expect_snapshot({
+    json
+    json |> select("a") |> insert_into_selected(42, at = 1)
+  })
+})
+
+test_that("insert_into_object, comment is kept on same line", {
+  json <- load_json(text = '{ "a": 1, // comment\n  "b": 2\n}')
+  expect_snapshot({
+    json
+    json |> insert_into_selected(42, key = "x", at = "a")
+  })
+})
+
+test_that("insert_into_object, multiple comments before comma", {
+  json <- load_json(text = '{ "a": 1\n// comment1\n// comment2\n, "b": 2\n}')
+  expect_snapshot({
+    json
+    json |> insert_into_selected(42, at = "a", key = "x")
+  })
+})

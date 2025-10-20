@@ -42,3 +42,12 @@ test_that("many selections", {
     select(json, "a", seq(2, 30, by = 2))
   })
 })
+
+test_that("plural", {
+  expect_snapshot({
+    plural(1)
+    plural(2)
+    plural(0)
+    plural(100)
+  })
+})

@@ -201,7 +201,7 @@ format_number <- function(json, id, options) {
   json$code[id]
 }
 
-format_post_process_commas <- function(elts, format) {
+format_post_process_commas <- function(json, elts, ids, format) {
   if (format != "pretty") {
     return(elts)
   }
@@ -209,6 +209,9 @@ format_post_process_commas <- function(elts, format) {
     length(x) == 1 && startsWith(x, ",")
   })
   for (i in which(commas)) {
+    if (json$type[ids[i - 1]] == "comment") {
+      next
+    }
     elts[[i - 1]][length(elts[[i - 1]])] <- paste0(
       elts[[i - 1]][length(elts[[i - 1]])],
       elts[[i]]
@@ -241,8 +244,9 @@ format_array <- function(json, id, options) {
     json = json,
     options = options
   )
+
   elts <- format_line_comments(json, elts, chdn, options[["format"]])
-  elts <- format_post_process_commas(elts, options[["format"]])
+  elts <- format_post_process_commas(json, elts, chdn, options[["format"]])
 
   indent <- format_create_indent(options)
 
@@ -276,7 +280,7 @@ format_object <- function(json, id, options) {
     options = options
   )
   elts <- format_line_comments(json, elts, chdn, options[["format"]])
-  elts <- format_post_process_commas(elts, options[["format"]])
+  elts <- format_post_process_commas(json, elts, chdn, options[["format"]])
 
   indent <- format_create_indent(options)
 

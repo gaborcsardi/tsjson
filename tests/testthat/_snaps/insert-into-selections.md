@@ -165,3 +165,101 @@
       # json (1 line)
       1 | { "key": "val", "a": true, "b": [ 1 ] }
 
+# insert_into_array, comment is kept on same line
+
+    Code
+      json
+    Output
+      # json (3 lines)
+      1 | { "a": [1, 2 // comment
+      2 | ]
+      3 | }
+    Code
+      insert_into_selected(select(json, "a"), 42, at = Inf)
+    Output
+      # json (6 lines)
+      1 | { "a": [
+      2 |     1,
+      3 |     2, // comment
+      4 |     42
+      5 | ]
+      6 | }
+    Code
+      insert_into_selected(select(json, "a"), 42, at = 2)
+    Output
+      # json (6 lines)
+      1 | { "a": [
+      2 |     1,
+      3 |     2, // comment
+      4 |     42
+      5 | ]
+      6 | }
+
+# insert_into_array, multiple comments before comma
+
+    Code
+      json
+    Output
+      # json (5 lines)
+      1 | { "a": [1
+      2 | // comment1
+      3 | // comment2
+      4 | , 2]
+      5 | }
+    Code
+      insert_into_selected(select(json, "a"), 42, at = 1)
+    Output
+      # json (9 lines)
+      1 | { "a": [
+      2 |     1
+      3 |     // comment1
+      4 |     // comment2
+      5 |     ,
+      6 |     42,
+      7 |     2
+      8 | ]
+      9 | }
+
+# insert_into_object, comment is kept on same line
+
+    Code
+      json
+    Output
+      # json (3 lines)
+      1 | { "a": 1, // comment
+      2 |   "b": 2
+      3 | }
+    Code
+      insert_into_selected(json, 42, key = "x", at = "a")
+    Output
+      # json (5 lines)
+      1 | {
+      2 |     "a": 1, // comment
+      3 |     "x": 42,
+      4 |     "b": 2
+      5 | }
+
+# insert_into_object, multiple comments before comma
+
+    Code
+      json
+    Output
+      # json (5 lines)
+      1 | { "a": 1
+      2 | // comment1
+      3 | // comment2
+      4 | , "b": 2
+      5 | }
+    Code
+      insert_into_selected(json, 42, at = "a", key = "x")
+    Output
+      # json (8 lines)
+      1 | {
+      2 |     "a": 1
+      3 |     // comment1
+      4 |     // comment2
+      5 |     ,
+      6 |     "x": 42,
+      7 |     "b": 2
+      8 | }
+

@@ -12,7 +12,12 @@ is_string <- function(x, na = FALSE) {
 
 is_count <- function(x, positive = FALSE) {
   limit <- if (positive) 1L else 0L
-  is.numeric(x) && length(x) == 1 && !is.na(x) && x >= limit
+  is.numeric(x) &&
+    length(x) == 1 &&
+    !is.na(suppressWarnings(as.integer(x))) &&
+    suppressWarnings(as.integer(x)) == x &&
+    !is.na(x) &&
+    x >= limit
 }
 
 is_named <- function(x) {

@@ -44,14 +44,6 @@ mkdirp <- function(x) {
   dir.create(x, showWarnings = FALSE, recursive = TRUE)
 }
 
-plural <- function(x) {
-  if (x == 0 || x > 1) "s" else ""
-}
-
-drop_nulls <- function(x) {
-  x[!vapply(x, is.null, logical(1))]
-}
-
 # For roxygen2 -----------------------------------------------------------------
 
 # nocov start

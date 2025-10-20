@@ -31,6 +31,17 @@ test_that("load_json", {
   })
 })
 
+test_that("load_json with options", {
+  testthat::local_reproducible_output(width = 500)
+  json <- load_json(
+    text = "// comment\n{ \"a\": 1 }",
+    options = list(allow_comments = TRUE)
+  )
+  expect_snapshot({
+    json
+  })
+})
+
 test_that("load_json errors", {
   expect_snapshot(error = TRUE, {
     load_json()

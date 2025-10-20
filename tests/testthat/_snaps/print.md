@@ -126,3 +126,22 @@
       i 5 more selected elements
       i Use `print(n = ...)` to see more selected elements
 
+# plural
+
+    Code
+      plural(1)
+    Output
+      [1] ""
+    Code
+      plural(2)
+    Output
+      [1] "s"
+    Code
+      plural(0)
+    Output
+      [1] "s"
+    Code
+      plural(100)
+    Output
+      [1] "s"
+
