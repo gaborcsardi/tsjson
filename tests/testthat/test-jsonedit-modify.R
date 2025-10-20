@@ -39,6 +39,7 @@ test_that("modification retains comments", {
   expect_snapshot(
     load_json(text = text) |> select("bar", 2) |> update_selected(0)
   )
+
   expect_snapshot(
     print(
       load_json(text = text) |>
@@ -47,25 +48,23 @@ test_that("modification retains comments", {
       n = 20
     )
   )
-  return()
+
   expect_snapshot(
-    load_json(text = text) |> select("new") |> update_selected(0)
+    print(load_json(text = text) |> select("new") |> update_selected(0), n = 20)
   )
 })
 
-return()
-
 test_that("can't modify non-object non-array parents", {
   expect_snapshot(error = TRUE, {
-    text_modify("1", "foo", 0)
+    load_json(text = "1") |> select("foo") |> update_selected(0)
   })
   expect_snapshot(error = TRUE, {
-    text_modify('"a"', "foo", 0)
+    load_json(text = '"a"') |> select("foo") |> update_selected(0)
   })
   expect_snapshot(error = TRUE, {
-    text_modify("true", "foo", 0)
+    load_json(text = "true") |> select("foo") |> update_selected(0)
   })
   expect_snapshot(error = TRUE, {
-    text_modify("null", "foo", 0)
+    load_json(text = "null") |> select("foo") |> update_selected(0)
   })
 })

@@ -59,23 +59,27 @@ insert_into_selected <- function(
       insert_into_array(json, sel1, new, at, format)
     } else if (type == "object") {
       insert_into_object(json, sel1, new, key, at, format)
+    } else {
+      stop(cnd(
+        "Cannot insert into a '{type}' JSON element. Can only insert \\
+         into 'array' and 'object' elements and empty JSON documents."
+      ))
     }
   })
 
   insertions <- insertions[order(map_int(insertions, "[[", "after"))]
 
   for (ins in insertions) {
-    aft <- ins$after
-    # need to add the new text after the last terminal node of aft,
-    # except if it is the document node
-    while (aft != 1 && is.na(json$code[aft])) {
-      aft <- tail(json$children[[aft]], 1)
+    if (!isFALSE(ins$leading_comma)) {
+      aft <- last_descendant(json, ins$leading_comma)
+      json$tws[aft] <- paste0(",", json$tws[aft])
     }
-    # reformat whole array
+
+    aft <- last_descendant(json, ins$after)
     firstchld <- json$children[[ins$select]][1]
+    # mark first child for reformatting the whole array
     json$tws[firstchld] <- paste0(reformat_mark, json$tws[firstchld])
     json$tws[aft] <- paste0(
-      if (ins$leading_comma) ",",
       json$tws[aft],
       ins$code,
       if (ins$trailing_comma) ",",
@@ -95,7 +99,7 @@ insert_into_selected <- function(
   fcd <- new$type == "comment" & grepl(reformat_mark, new$code, fixed = TRUE)
   new$tws[fws] <- gsub(reformat_mark, "", new$tws[fws], fixed = TRUE)
   new$code[fcd] <- gsub(reformat_mark, "", new$code[fcd], fixed = TRUE)
-  tofmt2 <- new$parent[which(fws | fcd)]
+  tofmt2 <- unique(new$parent[which(fws | fcd)])
 
   # auto format then each insertion might need a different format
   if (format == "auto") {
@@ -108,6 +112,13 @@ insert_into_selected <- function(
     new <- format_selected(new, format = format)
   }
   new
+}
+
+last_descendant <- function(json, node) {
+  while (node != 1 && is.na(json$code[node])) {
+    node <- tail(json$children[[node]], 1)
+  }
+  node
 }
 
 auto_format <- function(json, sel) {
@@ -168,15 +179,14 @@ insert_into_array <- function(json, sel1, new, at, format) {
   # we need to build an index to map non-comment children to actual children
   # we might as well treat the [ ] and comma nodes the same way
   chdn <- json$children[[sel1]]
-  iscmt <- json$type[chdn] == "comment"
   isxtr <- json$type[chdn] %in% c("comment", "[", "]", ",")
   idx <- seq_along(chdn)[!isxtr]
   nchdn <- length(idx)
 
-  after <- if (at < 1) {
+  after_comma <- after <- if (at < 1 || nchdn == 0) {
     1
   } else if (at >= nchdn) {
-    length(chdn) - 1L
+    idx[nchdn]
   } else {
     idx[at]
   }
@@ -188,6 +198,12 @@ insert_into_array <- function(json, sel1, new, at, format) {
   ) {
     # skip comma + comment on the same line!
     after <- after + 2L
+  } else if (
+    json$type[chdn[after + 1L]] == "comment" &&
+      json$end_row[chdn[after]] == json$start_row[chdn[after + 1L]]
+  ) {
+    # skip comment on the same line
+    after <- after + 1L
   } else if (json$type[chdn[after + 1L]] == ",") {
     # skip comma w/o comment on the same line
     # keep non-line comment as non-line comment
@@ -207,7 +223,7 @@ insert_into_array <- function(json, sel1, new, at, format) {
     after = chdn[after],
     code = serialize_json(new, collapse = TRUE, format = "compact"),
     # need a leading comma if inserting at the end into non-empty array
-    leading_comma = at >= nchdn && nchdn > 0,
+    leading_comma = if (at >= nchdn && nchdn > 0) chdn[after_comma] else FALSE,
     # need a trailing comma everywhere except at the end or in an empty array
     trailing_comma = at < nchdn && nchdn > 0,
     # if the next is a comment, it must be on a new line, keep it there
@@ -217,11 +233,10 @@ insert_into_array <- function(json, sel1, new, at, format) {
 
 insert_into_object <- function(json, sel1, new, key, at, format) {
   chdn <- json$children[[sel1]]
-  nchdn <- if (length(chdn) == 2) {
-    0
-  } else {
-    (length(chdn) - 1L) / 2L
-  }
+  isxtr <- json$type[chdn] != "pair"
+  idx <- seq_along(chdn)[!isxtr]
+  nchdn <- length(idx)
+
   if (is.character(at)) {
     rchdn <- chdn[json$type[chdn] == "pair"]
     keys <- map_chr(rchdn, function(id) {
@@ -235,12 +250,40 @@ insert_into_object <- function(json, sel1, new, key, at, format) {
       at <- Inf
     }
   }
-  after <- if (at < 1) {
-    chdn[1]
+
+  after_comma <- after <- if (at < 1 || nchdn == 0) {
+    1
   } else if (at >= nchdn) {
-    chdn[length(chdn) - 1L]
+    idx[nchdn]
   } else {
-    chdn[at * 2L]
+    idx[at]
+  }
+
+  if (
+    json$type[chdn[after + 1L]] == "," &&
+      json$type[chdn[after + 2L]] == "comment" &&
+      json$end_row[chdn[after + 1L]] == json$start_row[chdn[after + 2L]]
+  ) {
+    # skip comma + comment on the same line!
+    after <- after + 2L
+  } else if (
+    json$type[chdn[after + 1L]] == "comment" &&
+      json$end_row[chdn[after]] == json$start_row[chdn[after + 1L]]
+  ) {
+    # skip comment on the same line
+    after <- after + 1L
+  } else if (json$type[chdn[after + 1L]] == ",") {
+    # skip comma w/o comment on the same line
+    # keep non-line comment as non-line comment
+    after <- after + 1L
+  } else {
+    # skip comments and potentially a comma
+    while (json$type[chdn[after + 1L]] == "comment") {
+      after <- after + 1L
+    }
+    if (json$type[chdn[after + 1L]] == ",") {
+      after <- after + 1L
+    }
   }
 
   code <- paste0(
@@ -252,10 +295,12 @@ insert_into_object <- function(json, sel1, new, key, at, format) {
 
   list(
     select = sel1,
-    after = after,
+    after = chdn[after],
     code = paste0(code, collapse = "\n"),
-    leading_comma = at >= 1 && nchdn >= 1,
-    trailing_comma = at < 1 && nchdn >= 1,
-    trailing_newline = FALSE # TODO
+    # need a leading comma if inserting at the end into non-empty array
+    leading_comma = if (at >= nchdn && nchdn > 0) chdn[after_comma] else FALSE,
+    # need a trailing comma everywhere except at the end or in an empty array
+    trailing_comma = at < nchdn && nchdn > 0,
+    trailing_newline = json$type[chdn[after + 1L]] == "comment"
   )
 }

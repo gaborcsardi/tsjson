@@ -95,3 +95,57 @@
       14 | }
       15 |   
 
+---
+
+    Code
+      print(update_selected(select(load_json(text = text), "new"), 0), n = 20)
+    Output
+      # json (15 lines)
+       1 | 
+       2 | {
+       3 |     // a
+       4 |     "foo": 1, // b
+       5 |     "bar": [
+       6 |         // c
+       7 |         1,
+       8 |         2, // d
+       9 |         // e
+      10 |         3
+      11 |     ], // f
+      12 |     "new": 0
+      13 |     // g
+      14 | }
+      15 |   
+
+# can't modify non-object non-array parents
+
+    Code
+      update_selected(select(load_json(text = "1"), "foo"), 0)
+    Condition
+      Error in `FUN()`:
+      ! Cannot insert into a 'number' JSON element. Can only insert into 'array' and 'object' elements and empty JSON documents.
+
+---
+
+    Code
+      update_selected(select(load_json(text = "\"a\""), "foo"), 0)
+    Condition
+      Error in `FUN()`:
+      ! Cannot insert into a 'string' JSON element. Can only insert into 'array' and 'object' elements and empty JSON documents.
+
+---
+
+    Code
+      update_selected(select(load_json(text = "true"), "foo"), 0)
+    Condition
+      Error in `FUN()`:
+      ! Cannot insert into a 'true' JSON element. Can only insert into 'array' and 'object' elements and empty JSON documents.
+
+---
+
+    Code
+      update_selected(select(load_json(text = "null"), "foo"), 0)
+    Condition
+      Error in `FUN()`:
+      ! Cannot insert into a 'null' JSON element. Can only insert into 'array' and 'object' elements and empty JSON documents.
+
