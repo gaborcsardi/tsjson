@@ -16,8 +16,6 @@ test_that("can modify objects by name", {
   )
 })
 
-return()
-
 test_that("modification retains comments", {
   text <- '
 {
@@ -41,10 +39,15 @@ test_that("modification retains comments", {
   expect_snapshot(
     load_json(text = text) |> select("bar", 2) |> update_selected(0)
   )
-  expect_snapshot({
-    load_json(text = text) |> select("bar") |> insert_into_selected(0, at = 2)
-  })
-
+  expect_snapshot(
+    print(
+      load_json(text = text) |>
+        select("bar") |>
+        insert_into_selected(0, at = 2),
+      n = 20
+    )
+  )
+  return()
   expect_snapshot(
     load_json(text = text) |> select("new") |> update_selected(0)
   )

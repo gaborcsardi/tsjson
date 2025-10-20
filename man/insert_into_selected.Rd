@@ -9,7 +9,7 @@ insert_into_selected(
   new,
   key = NULL,
   at = Inf,
-  format = c("auto", "pretty", "compact", "oneline")
+  format = c("pretty", "auto", "compact", "oneline")
 )
 }
 \arguments{

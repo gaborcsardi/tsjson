@@ -78,7 +78,8 @@ insert_into_selected <- function(
       if (ins$leading_comma) ",",
       json$tws[aft],
       ins$code,
-      if (ins$trailing_comma) ","
+      if (ins$trailing_comma) ",",
+      if (ins$trailing_newline) "\n"
     )
   }
 
@@ -150,7 +151,8 @@ insert_into_document <- function(json, new, format) {
     after = nrow(json),
     code = paste0(nl, serialize_json(new, collapse = TRUE, format = format)),
     leading_comma = FALSE,
-    trailing_comma = FALSE
+    trailing_comma = FALSE,
+    trailing_newline = FALSE # TODO
   )
 }
 
@@ -172,19 +174,44 @@ insert_into_array <- function(json, sel1, new, at, format) {
   nchdn <- length(idx)
 
   after <- if (at < 1) {
-    chdn[1]
+    1
   } else if (at >= nchdn) {
-    chdn[length(chdn) - 1L]
+    length(chdn) - 1L
   } else {
-    chdn[idx[at]]
+    idx[at]
+  }
+
+  if (
+    json$type[chdn[after + 1L]] == "," &&
+      json$type[chdn[after + 2L]] == "comment" &&
+      json$end_row[chdn[after + 1L]] == json$start_row[chdn[after + 2L]]
+  ) {
+    # skip comma + comment on the same line!
+    after <- after + 2L
+  } else if (json$type[chdn[after + 1L]] == ",") {
+    # skip comma w/o comment on the same line
+    # keep non-line comment as non-line comment
+    after <- after + 1L
+  } else {
+    # skip comments and potentially a comma
+    while (json$type[chdn[after + 1L]] == "comment") {
+      after <- after + 1L
+    }
+    if (json$type[chdn[after + 1L]] == ",") {
+      after <- after + 1L
+    }
   }
 
   list(
     select = sel1,
-    after = after,
+    after = chdn[after],
     code = serialize_json(new, collapse = TRUE, format = "compact"),
-    leading_comma = at >= 1 && nchdn >= 1,
-    trailing_comma = at < 1 && nchdn >= 1
+    # need a leading comma if inserting at the end into non-empty array
+    leading_comma = at >= nchdn && nchdn > 0,
+    # need a trailing comma everywhere except at the end or in an empty array
+    trailing_comma = at < nchdn && nchdn > 0,
+    # if the next is a comment, it must be on a new line, keep it there
+    trailing_newline = json$type[chdn[after + 1L]] == "comment"
   )
 }
 
@@ -228,6 +255,7 @@ insert_into_object <- function(json, sel1, new, key, at, format) {
     after = after,
     code = paste0(code, collapse = "\n"),
     leading_comma = at >= 1 && nchdn >= 1,
-    trailing_comma = at < 1 && nchdn >= 1
+    trailing_comma = at < 1 && nchdn >= 1,
+    trailing_newline = FALSE # TODO
   )
 }
