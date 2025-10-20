@@ -208,20 +208,20 @@ test_that("`allow_comments` works", {
   })
 })
 
-test_that("`allow_trailing_comma` works", {
-  skip("no trailing comma support")
-  options <- parse_options(allow_trailing_comma = FALSE)
+# test_that("`allow_trailing_comma` works", {
+#   skip("no trailing comma support")
+#   options <- parse_options(allow_trailing_comma = FALSE)
 
-  text <- '
-  {
-    "a": 1,
-  }
-  '
+#   text <- '
+#   {
+#     "a": 1,
+#   }
+#   '
 
-  expect_snapshot(error = TRUE, {
-    unserialize_json(text = text, options = options)
-  })
-})
+#   expect_snapshot(error = TRUE, {
+#     unserialize_json(text = text, options = options)
+#   })
+# })
 
 test_that("`allow_empty_content` works", {
   options <- list(allow_empty_content = FALSE)

@@ -20,12 +20,32 @@
 #'   the JSON document to a file.
 #' @export
 #' @examples
-#' json <- load_json(text = serialize_json(list(
-#'   a = list(a1 = list(1,2,3), a2 = "string"),
-#'   b = list(4, 5, 6),
-#'   c = list(c1 = list("a", "b"))
-#' )))
-#' json
+#' text <- '
+#' {
+#'   "a": 1,
+#'   "b": [2, 3, 4],
+#'   "[r]": {
+#'     "this": "setting",
+#'     // A comment!
+#'     "that": true
+#'   }
+#' }
+#' '
+#'
+#' # Parse the JSON, allowing comments (i.e. JSONC)
+#' load_json(text = text)
+#'
+#' # Try to parse the JSON, but comments aren't allowed!
+#' try(load_json(text = text, options = list(allow_comments = FALSE)))
+#'
+#' # Extract parts of the JSON
+#' load_json(text = text) |> select("b") |> unserialize_selected()
+#' load_json(text = text) |> select("[r]") |> unserialize_selected()
+#' load_json(text = text) |> select("[r]", "that") |> unserialize_selected()
+#'
+#' # Use a `list()` combining strings and positional indices when
+#' # arrays are involved
+#' load_json(text = text) |> select("b", 2) |> unserialize_selected()
 
 load_json <- function(
   file = NULL,

@@ -25,6 +25,7 @@
 #'     not exist, then the new element is inserted at the end of the object.
 #' @param format Formatting of the `new` element, passed to
 #'  [serialize_json()].
+#' @inheritParams token_table
 #' @return The modified tsjson object.
 #'
 #' @export
@@ -39,8 +40,13 @@ insert_into_selected <- function(
   new,
   key = NULL,
   at = Inf,
-  format = c("pretty", "auto", "compact", "oneline")
+  format = c("pretty", "auto", "compact", "oneline"),
+  options = NULL
 ) {
+  if (!missing(options)) {
+    check_named_arg(options)
+  }
+  options <- as_tsjson_options(options)
   format <- match.arg(format)
   select <- get_selected_nodes(json)
 
@@ -105,11 +111,15 @@ insert_into_selected <- function(
   if (format == "auto") {
     for (tofmt1 in tofmt2) {
       format <- auto_format(new, tofmt1)
-      new <- format_selected(select(new, sel_ids(tofmt1)), format = format)
+      new <- format_selected(
+        select(new, sel_ids(tofmt1)),
+        format = format,
+        options = options
+      )
     }
   } else {
     new <- select(new, sel_ids(tofmt2))
-    new <- format_selected(new, format = format)
+    new <- format_selected(new, format = format, options = options)
   }
   new
 }

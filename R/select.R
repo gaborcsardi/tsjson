@@ -144,6 +144,35 @@ select <- function(json, ...) {
 #'
 #' @name select-set
 #' @export
+#' @examples
+#' json <- load_json(text = "{}")
+#'
+#' json <- json |> select("r", "editor.formatOnSave") |> update_selected(TRUE)
+#' json
+#'
+#' json <- json |> select("r", "editor.formatOnSave") |> delete_selected()
+#' json
+#'
+#' # Insert an array
+#' json <- json |> select("foo") |> update_selected(1:3)
+#' json
+#'
+#' # Update the array at location 2
+#' json |> select("foo", 2) |> update_selected(0)
+#'
+#' # Insert at location 2
+#' json |> select("foo") |> insert_into_selected(0, at = 2)
+#'
+#' # Insert at the end of the array with `Inf` as `at`
+#' json |> select("foo") |> insert_into_selected(0, at = Inf)
+#'
+#' # Only the modified elements are reformatted
+#' json <- load_json(text = '{"foo":[1,2],\n"bar":1}')
+#' json |> select("foo") |> insert_into_selected(0, at = Inf)
+#'
+#' # You can control how those elements are formatted
+#' json |> select("foo") |>
+#'   insert_into_selected(0, at = Inf, options = list(indent_width = 2))
 
 `select<-` <- function(json, ..., value) {
   res <- if (inherits(value, "tsjson")) {
@@ -304,6 +333,7 @@ sel_ids <- function(ids) {
 #'
 #' @export
 #' @examples
+#'
 #' # Using `deleted()` to delete elements
 #' json <- load_json(text = serialize_json(list(
 #'   a = list(a1 = list(1,2,3), a2 = "string"),

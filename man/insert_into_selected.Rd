@@ -9,7 +9,8 @@ insert_into_selected(
   new,
   key = NULL,
   at = Inf,
-  format = c("pretty", "auto", "compact", "oneline")
+  format = c("pretty", "auto", "compact", "oneline"),
+  options = NULL
 )
 }
 \arguments{
@@ -32,6 +33,9 @@ not exist, then the new element is inserted at the end of the object.
 
 \item{format}{Formatting of the \code{new} element, passed to
 \code{\link[=serialize_json]{serialize_json()}}.}
+
+\item{options}{List of options, see \code{\link[=tsjson_options]{tsjson_options()}}. This argument
+must be named and cannot be abbreviated.}
 }
 \value{
 The modified tsjson object.
