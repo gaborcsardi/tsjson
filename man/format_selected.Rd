@@ -4,7 +4,11 @@
 \alias{format_selected}
 \title{Format the selected JSON elements}
 \usage{
-format_selected(json, format = c("pretty", "oneline", "compact"))
+format_selected(
+  json,
+  format = c("pretty", "oneline", "compact"),
+  options = NULL
+)
 }
 \arguments{
 \item{json}{tsjson object.}
@@ -17,6 +21,9 @@ format_selected(json, format = c("pretty", "oneline", "compact"))
 whitespace after commas, colons, opening brackets and braces, and
 before closing brackets and braces.
 }}
+
+\item{options}{List of options, see \code{\link[=tsjson_options]{tsjson_options()}}. This argument
+must be named and cannot be abbreviated.}
 }
 \value{
 The updated tsjson object.

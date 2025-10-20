@@ -12,68 +12,69 @@ test_that("formatting retains comments", {
   expect_snapshot(writeLines(format_json(text = text)))
 })
 
-return()
-
 test_that("`eol` only applies when we don't know the eol in `text`", {
-  formatting_options <- formatting_options(eol = "\r\n")
+  skip("does not apply, we return a vector of lines now")
+  options <- list(eol = "\r\n")
 
   text <- '{"a":1}\n'
   expect_identical(
-    text_format(text, formatting_options = formatting_options),
-    '{\n    "a": 1\n}\n'
+    format_json(text = text, options = options),
+    strsplit('{\n    "a": 1\n}\n', "\n")[[1]]
   )
 
   text <- '{"a":1}'
   expect_identical(
-    text_format(text, formatting_options = formatting_options),
-    '{\r\n    "a": 1\r\n}\r\n'
+    format_json(text = text, options = options),
+    strsplit('{\r\n    "a": 1\r\n}\r\n', "\n")[[1]]
   )
 })
 
 test_that("`indent_width` works", {
-  formatting_options <- formatting_options(indent_width = 2)
+  options <- list(indent_width = 2)
 
   text <- '{"a":1}\n'
   expect_identical(
-    text_format(text, formatting_options = formatting_options),
-    '{\n  "a": 1\n}\n'
+    format_json(text = text, options = options),
+    strsplit('{\n  "a": 1\n}\n', "\n")[[1]]
   )
 })
 
 test_that("`indent_style` works", {
-  formatting_options <- formatting_options(indent_style = "tab")
+  options <- list(indent_style = "tab")
 
   text <- '{"a":1}\n'
   expect_identical(
-    text_format(text, formatting_options = formatting_options),
-    '{\n\t"a": 1\n}\n'
+    format_json(text = text, options = options),
+    strsplit('{\n\t"a": 1\n}\n', "\n")[[1]]
   )
 })
 
 test_that("`insert_final_newline` works", {
-  formatting_options <- formatting_options(insert_final_newline = FALSE)
+  skip("does not apply, we return a vector of lines now")
+  options <- list(insert_final_newline = FALSE)
 
   text <- '{"a":1}\n'
   expect_identical(
-    text_format(text, formatting_options = formatting_options),
-    '{\n    "a": 1\n}'
+    format_json(text = text, options = options),
+    strsplit('{\n    "a": 1\n}', "\n")[[1]]
   )
 })
 
 test_that("`insert_final_newline` works", {
+  skip("does not apply, we return a vector of lines now")
   # Removes if there
   text <- '{"a":1}\n'
-  formatting_options <- formatting_options(insert_final_newline = FALSE)
+  options <- list(insert_final_newline = FALSE)
   expect_identical(
-    text_format(text, formatting_options = formatting_options),
-    '{\n    "a": 1\n}'
+    format_json(text = text, options = options),
+    strsplit('{\n    "a": 1\n}', "\n")[[1]]
   )
 
   # Adds if missing
   text <- '{"a":1}'
-  formatting_options <- formatting_options(insert_final_newline = TRUE)
+  options <- list(insert_final_newline = TRUE)
   expect_identical(
-    text_format(text, formatting_options = formatting_options),
-    '{\n    "a": 1\n}\n'
+    format_json(text = text, options = options),
+    strsplit('{\n    "a": 1\n}\n', "\n")[[1]]
   )
 })
