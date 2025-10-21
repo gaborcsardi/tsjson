@@ -38,7 +38,13 @@
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">syntax_tree_json</span><span class="op">(</span>file <span class="op">=</span> <span class="cn">NULL</span>, text <span class="op">=</span> <span class="cn">NULL</span>, ranges <span class="op">=</span> <span class="cn">NULL</span>, options <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">syntax_tree_json</span><span class="op">(</span></span>
+<span>  file <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  text <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  ranges <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  fail_on_parse_error <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  options <span class="op">=</span> <span class="cn">NULL</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -57,6 +63,11 @@
 <dd><p>Can be used to parse part(s) of the input. It must be a
 data frame with integer columns <code>start_row</code>, <code>start_col</code>, <code>end_row</code>,
 <code>end_col</code>, <code>start_byte</code>, <code>end_byte</code>, in this order.</p></dd>
+
+
+<dt id="arg-fail-on-parse-error">fail_on_parse_error<a class="anchor" aria-label="anchor" href="#arg-fail-on-parse-error"></a></dt>
+<dd><p>Logical, whether to error if there are
+parse errors in the JSON document. Default is <code>TRUE</code>.</p></dd>
 
 
 <dt id="arg-options">options<a class="anchor" aria-label="anchor" href="#arg-options"></a></dt>
