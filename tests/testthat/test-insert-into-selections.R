@@ -184,3 +184,19 @@ test_that("insert_into_object, multiple comments before comma", {
     json |> insert_into_selected(42, at = "a", key = "x")
   })
 })
+
+test_that("insert_into_array, trailing comma and appending", {
+  json <- load_json(text = "[1,2,3,//comment\n]")
+  expect_snapshot({
+    json
+    json |> insert_into_selected(4)
+  })
+})
+
+test_that("insert_into_object, trailing comma and appending", {
+  json <- load_json(text = "{ \"a\": 1, \"b\": 2, \"c\": 3, // comment\n}")
+  expect_snapshot({
+    json
+    json |> insert_into_selected(key = "d", 4)
+  })
+})

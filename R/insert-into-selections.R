@@ -223,6 +223,13 @@ insert_into_array <- function(json, sel1, new, at, format) {
     }
   }
 
+  # handle appending when there is a trailig comma
+  chdnx <- chdn[json$type[chdn] != "comment"]
+  has_trailing_comma <- json$type[rev(chdnx)][2] == ","
+  add_leading_comma <- !has_trailing_comma && at >= nchdn && nchdn > 0
+  add_trailing_comma <- (at < nchdn && nchdn > 0) ||
+    (at >= nchdn && has_trailing_comma)
+
   list(
     select = sel1,
     after = chdn[after],
@@ -232,9 +239,9 @@ insert_into_array <- function(json, sel1, new, at, format) {
       options = list(format = "compact")
     ),
     # need a leading comma if inserting at the end into non-empty array
-    leading_comma = if (at >= nchdn && nchdn > 0) chdn[after_comma] else FALSE,
+    leading_comma = if (add_leading_comma) chdn[after_comma] else FALSE,
     # need a trailing comma everywhere except at the end or in an empty array
-    trailing_comma = at < nchdn && nchdn > 0,
+    trailing_comma = add_trailing_comma,
     # if the next is a comment, it must be on a new line, keep it there
     trailing_newline = json$type[chdn[after + 1L]] == "comment"
   )
@@ -302,14 +309,21 @@ insert_into_object <- function(json, sel1, new, key, at, format) {
     serialize_json(new, collapse = TRUE, options = list(format = "compact"))
   )
 
+  # handle appending when there is a trailig comma
+  chdnx <- chdn[json$type[chdn] != "comment"]
+  has_trailing_comma <- json$type[rev(chdnx)][2] == ","
+  add_leading_comma <- !has_trailing_comma && at >= nchdn && nchdn > 0
+  add_trailing_comma <- (at < nchdn && nchdn > 0) ||
+    (at >= nchdn && has_trailing_comma)
+
   list(
     select = sel1,
     after = chdn[after],
     code = paste0(code, collapse = "\n"),
     # need a leading comma if inserting at the end into non-empty array
-    leading_comma = if (at >= nchdn && nchdn > 0) chdn[after_comma] else FALSE,
+    leading_comma = if (add_leading_comma) chdn[after_comma] else FALSE,
     # need a trailing comma everywhere except at the end or in an empty array
-    trailing_comma = at < nchdn && nchdn > 0,
+    trailing_comma = add_trailing_comma,
     trailing_newline = json$type[chdn[after + 1L]] == "comment"
   )
 }

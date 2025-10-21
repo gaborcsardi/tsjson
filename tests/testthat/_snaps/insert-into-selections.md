@@ -263,3 +263,41 @@
       7 |     "b": 2
       8 | }
 
+# insert_into_array, trailing comma and appending
+
+    Code
+      json
+    Output
+      # json (2 lines)
+      1 | [1,2,3,//comment
+      2 | ]
+    Code
+      insert_into_selected(json, 4)
+    Output
+      # json (6 lines)
+      1 | [
+      2 |     1,
+      3 |     2,
+      4 |     3, //comment
+      5 |     4,
+      6 | ]
+
+# insert_into_object, trailing comma and appending
+
+    Code
+      json
+    Output
+      # json (2 lines)
+      1 | { "a": 1, "b": 2, "c": 3, // comment
+      2 | }
+    Code
+      insert_into_selected(json, key = "d", 4)
+    Output
+      # json (6 lines)
+      1 | {
+      2 |     "a": 1,
+      3 |     "b": 2,
+      4 |     "c": 3, // comment
+      5 |     "d": 4,
+      6 | }
+
