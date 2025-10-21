@@ -88,7 +88,7 @@
       unserialize_json(text = text)
     Condition
       Error in `token_table()`:
-      ! JSON parse error `<text>`:1:8
-      1| [1,2,3,]
-                ^
+      ! JSON parse error `<text>`:1:2
+      1| [,1,2,3]
+          ^^
 

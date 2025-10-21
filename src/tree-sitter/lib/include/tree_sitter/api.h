@@ -3,7 +3,7 @@
 
 #ifndef TREE_SITTER_HIDE_SYMBOLS
 #if defined(__GNUC__) || defined(__clang__)
-#pragma GCC visibility push(default)
+# pragma GCC visibility push(default)
 #endif
 #endif
 
@@ -1416,7 +1416,7 @@ void ts_set_allocator(
 
 #ifndef TREE_SITTER_HIDE_SYMBOLS
 #if defined(__GNUC__) || defined(__clang__)
-#pragma GCC visibility pop
+# pragma GCC visibility pop
 #endif
 #endif
 

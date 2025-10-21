@@ -86,6 +86,6 @@ test_that("check_predicate_eq 2", {
 })
 
 test_that("parse error", {
-  text <- "[1,2,3,]"
+  text <- "[,1,2,3]"
   expect_snapshot(error = TRUE, unserialize_json(text = text))
 })
