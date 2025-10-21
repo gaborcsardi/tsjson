@@ -4,7 +4,13 @@
 \alias{syntax_tree_json}
 \title{Show the annotated syntax tree of a JSON file or string}
 \usage{
-syntax_tree_json(file = NULL, text = NULL, ranges = NULL, options = NULL)
+syntax_tree_json(
+  file = NULL,
+  text = NULL,
+  ranges = NULL,
+  fail_on_parse_error = TRUE,
+  options = NULL
+)
 }
 \arguments{
 \item{file}{Path of a JSON file. Use either \code{file} or \code{text}.}
@@ -14,6 +20,9 @@ syntax_tree_json(file = NULL, text = NULL, ranges = NULL, options = NULL)
 \item{ranges}{Can be used to parse part(s) of the input. It must be a
 data frame with integer columns \code{start_row}, \code{start_col}, \code{end_row},
 \code{end_col}, \code{start_byte}, \code{end_byte}, in this order.}
+
+\item{fail_on_parse_error}{Logical, whether to error if there are
+parse errors in the JSON document. Default is \code{TRUE}.}
 
 \item{options}{List of options, see \code{\link[=tsjson_options]{tsjson_options()}}. This argument
 must be named and cannot be abbreviated.}

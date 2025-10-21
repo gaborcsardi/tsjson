@@ -125,13 +125,20 @@ syntax_tree_json <- function(
   file = NULL,
   text = NULL,
   ranges = NULL,
+  fail_on_parse_error = TRUE,
   options = NULL
 ) {
   if (!missing(options)) {
     check_named_arg(options)
   }
   options <- as_tsjson_options(options)
-  tokens <- token_table(file, ranges = ranges, text = text, options = options)
+  tokens <- token_table(
+    file,
+    ranges = ranges,
+    text = text,
+    fail_on_parse_error = fail_on_parse_error,
+    options = options
+  )
 
   type <- tokens$type
   fn <- attr(tokens, "file")
