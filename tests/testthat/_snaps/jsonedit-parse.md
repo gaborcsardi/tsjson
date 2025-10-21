@@ -54,6 +54,14 @@
       Error in `token_table()`:
       ! The JSON document contains comments, and this is not allowed. To allow comments, set the `allow_comments` option to `TRUE`.
 
+# `allow_trailing_comma` works
+
+    Code
+      unserialize_json(text = text, options = list(allow_trailing_comma = FALSE))
+    Condition
+      Error in `token_table()`:
+      ! The JSON document contains trailing commas, and this is not allowed. To allow trailing commas, set the `allow_trailing_comma` option to `TRUE`.
+
 # `allow_empty_content` works
 
     Code

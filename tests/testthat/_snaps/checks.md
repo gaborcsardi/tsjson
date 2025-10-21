@@ -61,6 +61,9 @@
       $allow_comments
       [1] TRUE
       
+      $allow_trailing_comma
+      [1] TRUE
+      
       $format
       [1] "pretty"
       
@@ -83,6 +86,9 @@
       [1] FALSE
       
       $allow_empty_content
+      [1] TRUE
+      
+      $allow_trailing_comma
       [1] TRUE
       
       $indent_width
@@ -108,7 +114,7 @@
       as_tsjson_options(v3)
     Condition
       Error:
-      ! Invalid argument: `v3` contains unknown tsjson option: `foo`. Known tsjson options are: `allow_empty_content`, `allow_comments`, `format`, `indent_width`, and `indent_style`.
+      ! Invalid argument: `v3` contains unknown tsjson option: `foo`. Known tsjson options are: `allow_empty_content`, `allow_comments`, `allow_trailing_comma`, `format`, `indent_width`, and `indent_style`.
     Code
       as_tsjson_options(v4)
     Condition

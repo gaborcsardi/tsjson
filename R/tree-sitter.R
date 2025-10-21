@@ -93,6 +93,7 @@ token_table <- function(
     stop(tsjson_parse_error_cnd(table = tab, text = text))
   }
 
+  # TODO make this a proper error, mark the position of the comment(s)
   if (!options[["allow_comments"]]) {
     comments <- which(tab$type == "comment")
     if (length(comments) > 0) {
@@ -110,6 +111,22 @@ token_table <- function(
       "The JSON document is empty, and this is not allowed. \\
        To allow this, set the `allow_empty_content` option to `TRUE`."
     ))
+  }
+
+  # TODO make this a proper error, mark the position of the trailing comma(s)
+  if (!options[["allow_trailing_comma"]]) {
+    commas <- which(tab$type == ",")
+    trailing <- map_lgl(commas, function(c) {
+      siblings <- tab$children[[tab$parent[c]]]
+      c == siblings[length(siblings) - 1L]
+    })
+    if (any(trailing)) {
+      stop(cnd(
+        "The JSON document contains trailing commas, and this is not allowed. \\
+         To allow trailing commas, set the `allow_trailing_comma` option to \\
+         `TRUE`."
+      ))
+    }
   }
 
   tab

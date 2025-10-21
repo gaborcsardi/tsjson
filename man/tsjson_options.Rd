@@ -10,9 +10,11 @@ Options that control the behavior of tsjson functions.
 \subsection{Parsing options:}{
 \itemize{
 \item \code{allow_empty_content}: logical, whether to allow empty JSON documents.
-Default is \code{TRUE}.
+Default is TRUE.
 \item \code{allow_comments}: logical, whether to allow comments in JSON documents.
-Default is \code{TRUE}.
+Default is TRUE.
+\item \code{allow_trailing_comma}: logical, whether to allow trailing commas in
+JSON documents. Default is TRUE.
 }
 }
 
@@ -25,11 +27,13 @@ Default is \code{TRUE}.
 \item \code{"oneline"}: format everything without newlines, but include
 whitespace after commas, colons, opening brackets and braces, and
 before closing brackets and braces.
+Default is \verb{rpretty* }indent_width\verb{: integer, the number of spaces to use for indentation when }indent_style\code{is}"space"`. Default is
 }
-\item \code{indent_width}: integer, the number of spaces to use for indentation
-when \code{indent_style} is \code{"space"}. Default is \code{4}.
+\enumerate{
+\item 
+}
 \item \code{indent_style}: string, either \code{"space"} or \code{"tab"}, the type of
-indentation to use. Default is \code{"space"}.
+indentation to use. Default is space.
 }
 }
 }

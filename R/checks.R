@@ -121,6 +121,10 @@ opt_allow_comments_default <- function() {
   TRUE
 }
 
+opt_allow_trailing_comma_default <- function() {
+  TRUE
+}
+
 opt_format_default <- function() {
   "pretty"
 }
@@ -140,9 +144,11 @@ opt_indent_style_default <- function() {
 #' ## Parsing options:
 #'
 #' * `allow_empty_content`: logical, whether to allow empty JSON documents.
-#'   Default is `TRUE`.
+#'   Default is `r opt_allow_empty_content_default()`.
 #' * `allow_comments`: logical, whether to allow comments in JSON documents.
-#'   Default is `TRUE`.
+#'   Default is `r opt_allow_comments_default()`.
+#' * `allow_trailing_comma`: logical, whether to allow trailing commas in
+#'   JSON documents. Default is `r opt_allow_trailing_comma_default()`.
 #'
 #' ## Formatting options:
 #'
@@ -152,10 +158,12 @@ opt_indent_style_default <- function() {
 #'   - `"oneline"`: format everything without newlines, but include
 #'     whitespace after commas, colons, opening brackets and braces, and
 #'     before closing brackets and braces.
+#'   Default is `r opt_format_default()`.
 #' * `indent_width`: integer, the number of spaces to use for indentation
-#'   when `indent_style` is `"space"`. Default is `4`.
+#'   when `indent_style` is `"space"`. Default is
+#'   `r opt_indent_width_default()`.
 #' * `indent_style`: string, either `"space"` or `"tab"`, the type of
-#'   indentation to use. Default is `"space"`.
+#'   indentation to use. Default is `r opt_indent_style_default()`.
 #'
 #' @name tsjson_options
 NULL
@@ -169,6 +177,7 @@ as_tsjson_options <- function(
   nms <- c(
     "allow_empty_content",
     "allow_comments",
+    "allow_trailing_comma",
     "format",
     "indent_width",
     "indent_style"
@@ -189,6 +198,15 @@ as_tsjson_options <- function(
       x[["allow_comments"]] %||% opt_allow_comments_default(),
       arg = as_caller_arg(substitute(
         x[["allow_comments"]],
+        list(x = arg[[1]])
+      )),
+      call = call
+    )
+
+    x[["allow_trailing_comma"]] <- as_flag(
+      x[["allow_trailing_comma"]] %||% opt_allow_trailing_comma_default(),
+      arg = as_caller_arg(substitute(
+        x[["allow_trailing_comma"]],
         list(x = arg[[1]])
       )),
       call = call
