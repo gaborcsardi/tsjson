@@ -57,10 +57,10 @@
       1     1 <NA>  "((pair key: (string (string_content) @key) (#eq? @key \"a\")))\n"           1
       
       $matched_captures
-      # A data frame: 1 x 11
-           id pattern match start_byte end_byte start_row start_column end_row end_column name  code 
-        <int>   <int> <int>      <int>    <int>     <int>        <int>   <int>      <int> <chr> <chr>
-      1     1       1     1          4        4         1            4       1          5 key   a    
+      # A data frame: 1 x 12
+           id pattern match type           start_byte end_byte start_row start_column end_row end_column name  code 
+        <int>   <int> <int> <chr>               <int>    <int>     <int>        <int>   <int>      <int> <chr> <chr>
+      1     1       1     1 string_content          3        4         0            3       0          4 key   a    
       
 
 # check_predicate_eq 2
@@ -75,11 +75,11 @@
       1     1 <NA>  "((pair key: (string (string_content) @key)\n                 value: (string (string_content) @val)\n                 (#eq? @key @val)\n               ))\n"           1
       
       $matched_captures
-      # A data frame: 2 x 11
-           id pattern match start_byte end_byte start_row start_column end_row end_column name  code 
-        <int>   <int> <int>      <int>    <int>     <int>        <int>   <int>      <int> <chr> <chr>
-      1     1       1     1         24       24         1           24       1         25 key   x    
-      2     2       1     1         29       29         1           29       1         30 val   x    
+      # A data frame: 2 x 12
+           id pattern match type           start_byte end_byte start_row start_column end_row end_column name  code 
+        <int>   <int> <int> <chr>               <int>    <int>     <int>        <int>   <int>      <int> <chr> <chr>
+      1     1       1     1 string_content         23       24         0           23       0         24 key   x    
+      2     2       1     1 string_content         28       29         0           28       0         29 val   x    
       
 
 # parse error

@@ -22,9 +22,10 @@ A list with entries \code{patterns} and \code{matched_captures}.
 \code{patterns} contains information about all patterns in the queries and
 it is a data frame with columns: \code{id}, \code{name}, \code{pattern}, \code{match_count}.
 \code{matched_captures} contains information about all matches, and it has
-columns \code{id}, \code{pattern}, \code{match}, \code{start_byte}, \code{end_byte}, \code{start_row},
-\code{start_column}, \code{end_row}, \code{end_column}, \code{name}, \code{code}. The \code{pattern}
-column of \code{matched_captured} refers to the \code{id} column of \code{patterns}.
+columns \code{id}, \code{pattern}, \code{match}, \code{type} \code{start_byte}, \code{end_byte},
+\code{start_row}, \code{start_column}, \code{end_row}, \code{end_column}, \code{name}, \code{code}.
+The \code{pattern} column of \code{matched_captured} refers to the \code{id} column
+of \code{patterns}.
 }
 \description{
 See https://tree-sitter.github.io/tree-sitter/ on writing tree-sitter

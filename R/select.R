@@ -127,6 +127,48 @@ select <- function(json, ...) {
   unserialize_selected(select(x, i, ...))
 }
 
+#' Select the nodes matching a tree-sitter query in a tsjson object
+#'
+#' See https://tree-sitter.github.io/tree-sitter/ on writing tree-sitter
+#' queries. Captured nodes of the TOML document will be selected.
+#'
+#' @param json tsjson object.
+#' @param query String, a tree-sitter query.
+#'
+#' @seealso [query_json()] for running a tree sitter query on text and
+#' obtaining the result.
+#' @export
+#' @examples
+#' # A very simple JSON document
+#' txt <- "{ \"a\": 1, \"b\": \"foo\", \"c\": 20 }"
+#'
+#' # Take a look at it
+#' load_json(text = txt) |> format_selected()
+#'
+#' # Select all pairs where the value is a number and change them to 100
+#' load_json(text = txt) |>
+#'   select_query("((pair value: (number) @num))") |>
+#'   update_selected(100)
+
+# TODO: keep the parse tree as an external pointer and reuse it.
+# TODO: do we need to make sure that there is no recursive selection? Probably.
+
+select_query <- function(json, query) {
+  text <- attr(json, "text")
+  mch <- query_json(text = text, query = query)$matched_captures
+  ids <- if (nrow(mch) == 0) {
+    integer()
+  } else {
+    json0 <- json[
+      json$start_byte %in% mch$start_byte & json$end_byte %in% mch$end_byte,
+    ]
+    mkeys <- paste0(mch$type, ":", mch$start_byte, ":", mch$end_byte)
+    jkeys <- paste0(json0$type, ":", json0$start_byte, ":", json0$end_byte)
+    json0$id[match(mkeys, jkeys)]
+  }
+  json |> select(sel_ids(ids))
+}
+
 #' Update selected elements in a tsjson object
 #'
 #' Update the selected elements of a JSON document, using the replacement

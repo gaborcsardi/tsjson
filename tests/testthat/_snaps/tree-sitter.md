@@ -215,11 +215,11 @@
       1     1 <NA>  "((pair value: (number) @num))\n"           2
       
       $matched_captures
-      # A data frame: 2 x 11
-           id pattern match start_byte end_byte start_row start_column end_row end_column name  code 
-        <int>   <int> <int>      <int>    <int>     <int>        <int>   <int>      <int> <chr> <chr>
-      1     1       1     1          8        8         1            8       1          9 num   1    
-      2     1       1     2         28       29         1           28       1         30 num   20   
+      # A data frame: 2 x 12
+           id pattern match type   start_byte end_byte start_row start_column end_row end_column name  code 
+        <int>   <int> <int> <chr>       <int>    <int>     <int>        <int>   <int>      <int> <chr> <chr>
+      1     1       1     1 number          7        8         0            7       0          8 num   1    
+      2     1       1     2 number         27       29         0           27       0         29 num   20   
       
 
 # query_json errors
@@ -247,10 +247,10 @@
       1     1 <NA>  "((pair value: (number) @num))\n"           2
       
       $matched_captures
-      # A data frame: 2 x 11
-           id pattern match start_byte end_byte start_row start_column end_row end_column name  code 
-        <int>   <int> <int>      <int>    <int>     <int>        <int>   <int>      <int> <chr> <chr>
-      1     1       1     1          8        8         1            8       1          9 num   1    
-      2     1       1     2         28       29         1           28       1         30 num   20   
+      # A data frame: 2 x 12
+           id pattern match type   start_byte end_byte start_row start_column end_row end_column name  code 
+        <int>   <int> <int> <chr>       <int>    <int>     <int>        <int>   <int>      <int> <chr> <chr>
+      1     1       1     1 number          7        8         0            7       0          8 num   1    
+      2     1       1     2 number         27       29         0           27       0         29 num   20   
       
 

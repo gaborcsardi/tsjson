@@ -250,3 +250,14 @@ test_that("select zero indices error", {
     json[[list("b", c(1, 2, 0, 3))]]
   })
 })
+
+test_that("select_query", {
+  txt <- "{ \"a\": 1, \"b\": \"foo\", \"c\": 20 }"
+
+  # Select all pairs where the value is a number and change them to 100
+  expect_snapshot({
+    load_json(text = txt) |>
+      select_query("((pair value: (number) @num))") |>
+      update_selected(100)
+  })
+})

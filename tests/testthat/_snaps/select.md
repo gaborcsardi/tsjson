@@ -520,3 +520,12 @@
       Error in `select1()`:
       ! Zero indices are not allowed in JSON selectors.
 
+# select_query
+
+    Code
+      update_selected(select_query(load_json(text = txt),
+      "((pair value: (number) @num))"), 100)
+    Output
+      # json (1 line)
+      1 | { "a": 100, "b": "foo", "c": 100}
+

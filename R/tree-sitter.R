@@ -84,6 +84,7 @@ token_table <- function(
   tab <- call_with_cleanup(c_token_table, text, 0L, ranges)
   lvls <- seq_len(nrow(tab))
   tab$children <- I(unname(split(lvls, factor(tab$parent, levels = lvls))))
+  attr(tab, "text") <- text
   attr(tab, "file") <- file
 
   # this is a workarond for TS adding code to a non-terminal array/object node
@@ -218,9 +219,10 @@ syntax_tree_json <- function(
 #'   `patterns` contains information about all patterns in the queries and
 #'   it is a data frame with columns: `id`, `name`, `pattern`, `match_count`.
 #'   `matched_captures` contains information about all matches, and it has
-#'   columns `id`, `pattern`, `match`, `start_byte`, `end_byte`, `start_row`,
-#'   `start_column`, `end_row`, `end_column`, `name`, `code`. The `pattern`
-#'   column of `matched_captured` refers to the `id` column of `patterns`.
+#'   columns `id`, `pattern`, `match`, `type` `start_byte`, `end_byte`,
+#'   `start_row`, `start_column`, `end_row`, `end_column`, `name`, `code`.
+#'   The `pattern` column of `matched_captured` refers to the `id` column
+#'   of `patterns`.
 #'
 #' @export
 #' @examples
@@ -273,6 +275,7 @@ query_json <- function(
       id = map_int(res[[2]], "[[", 3L),
       pattern = map_int(res[[2]], "[[", 1L),
       match = map_int(res[[2]], "[[", 2L),
+      type = map_chr(res[[2]], "[[", 12L),
       start_byte = map_int(res[[2]], "[[", 6L),
       end_byte = map_int(res[[2]], "[[", 7L),
       start_row = map_int(res[[2]], "[[", 8L),
