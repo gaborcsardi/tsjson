@@ -69,6 +69,13 @@ Select multiple keys from an object:
 select(json, "a", c("a1", "a2"))
 ```
 
+Select nodes that match a tree-sitter query:
+
+```{asciicast}
+#| label: select-query
+json |> select_query("((pair value: (false) @val))")
+```
+
 ### Delete elements
 
 Delete selected elements:

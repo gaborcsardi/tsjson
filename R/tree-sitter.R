@@ -213,6 +213,8 @@ syntax_tree_json <- function(
 #' See https://tree-sitter.github.io/tree-sitter/ on writing tree-sitter
 #' queries.
 #'
+#' See [select_query()] for documentation on the nodes in the JSON grammar.
+#'
 #' @param query Character string, the tree-sitter query to run.
 #' @inheritParams token_table
 #' @return A list with entries `patterns` and `matched_captures`.

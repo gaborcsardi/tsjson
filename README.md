@@ -110,6 +110,16 @@ select(json, "a", c("a1", "a2"))
 <source media="(prefers-color-scheme: dark)" srcset="man/figures/select-multiple-dark.svg">
 <img src="man/figures/select-multiple.svg" /> </picture>
 
+Select nodes that match a tree-sitter query:
+
+``` r
+json |> select_query("((pair value: (false) @val))")
+```
+
+<picture>
+<source media="(prefers-color-scheme: dark)" srcset="man/figures/select-query-dark.svg">
+<img src="man/figures/select-query.svg" /> </picture>
+
 ### Delete elements
 
 Delete selected elements:

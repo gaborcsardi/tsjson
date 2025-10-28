@@ -136,6 +136,17 @@ Select multiple keys from an object:
 </pre></div>
 }}
 
+
+Select nodes that match a tree-sitter query:
+
+\if{html}{\out{<div class="sourceCode r">}}\preformatted{json |> select_query("((pair value: (false) @val))")
+}\if{html}{\out{</div>}}\if{html}{\out{
+<div class="asciicast" style="color: #B9C0CB;font-family: 'Fira Code',Monaco,Consolas,Menlo,'Bitstream Vera Sans Mono','Powerline Symbols',monospace;line-height: 1.300000"><pre>
+#> Error in select_query(json, "((pair value: (false) @val))") :                   
+#>   could not find function "select_query"                                        
+</pre></div>
+}}
+
 }
 
 \subsection{Delete elements}{

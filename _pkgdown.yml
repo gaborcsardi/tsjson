@@ -35,6 +35,7 @@ reference:
 - contents:
   - load_json
   - select
+  - select_query
 
 - title: Manipulation
 - contents:

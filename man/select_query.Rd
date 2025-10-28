@@ -15,6 +15,94 @@ select_query(json, query)
 See https://tree-sitter.github.io/tree-sitter/ on writing tree-sitter
 queries. Captured nodes of the TOML document will be selected.
 }
+\section{The JSON grammar}{
+
+
+The grammar has the following node types. I included some less important
+nodes in the subsection of other nodes that they are related to.
+
+Comments may appear between any tokens, but they are not part of the
+grammar.
+
+Use \code{\link[=token_table]{token_table()}}, \code{\link[=syntax_tree_json]{syntax_tree_json()}} or \code{\link[=sexpr_json]{sexpr_json()}} to explore
+the parse tree of a JSON document.
+\subsection{\code{document}}{
+
+#' A document is a single value.
+}
+
+\subsection{Values}{
+
+A value is one of:
+\itemize{
+\item \code{object},
+\item \code{array},
+\item \code{numebr},
+\item \code{string},
+\item \code{true},
+\item \code{false},
+\item \code{null}.
+}
+}
+
+\subsection{\code{object} / \code{pair}}{
+
+An \code{object} is a sequence of
+\itemize{
+\item \verb{\{},
+\item zero or more \code{pair} nodes, separated by \verb{,} nodes, trailing commas
+are allowed,
+\item \verb{\}}.
+}
+
+A pair is a series of
+\itemize{
+\item a key, a \code{string} node,
+\item \code{:},
+\item a value (see above).
+}
+}
+
+\subsection{\code{array}}{
+
+An \code{array} is a sequence of
+\itemize{
+\item \code{[},
+\item zero or more values (see above), separated by \verb{,} nodes, trailing
+commas are allowed,
+\item \verb{]}.
+}
+}
+
+\subsection{\code{number}}{
+
+An integer or floating point number. Minus sign is part of the number.
+Scientific notation is supported.
+}
+
+\subsection{\code{string} / \code{string_content} / \code{escape_sequence}}{
+
+A string is a sequence of
+\itemize{
+\item a starting double quote (\verb{"}),
+\item zero or more \code{string_content} or \code{escape_sequence} nodes,
+\item an ending double quote (\verb{"}).
+}
+}
+
+\subsection{\code{true} / \code{false} / \code{null}}{
+
+The literals \code{true}, \code{false}, and \code{null}.
+
+[`,
+\itemize{
+\item zero or more values (see above), separated by \verb{,} nodes, trailing
+commas are allowed,
+\item `]: R:\%60,\%0A-\%20zero\%20or\%20more\%20values\%20(see\%20above),\%20separated\%20by\%20\%60,\%60\%20nodes,\%20trailing\%0A\%20\%20commas\%20are\%20allowed,\%0A-\%20\%60
+}
+}
+}
+
 \examples{
 # A very simple JSON document
 txt <- "{ \"a\": 1, \"b\": \"foo\", \"c\": 20 }"

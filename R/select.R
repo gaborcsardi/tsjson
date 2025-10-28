@@ -132,6 +132,69 @@ select <- function(json, ...) {
 #' See https://tree-sitter.github.io/tree-sitter/ on writing tree-sitter
 #' queries. Captured nodes of the TOML document will be selected.
 #'
+#' @section The JSON grammar:
+#'
+#' The grammar has the following node types. I included some less important
+#' nodes in the subsection of other nodes that they are related to.
+#'
+#' Comments may appear between any tokens, but they are not part of the
+#' grammar.
+#'
+#' Use [token_table()], [syntax_tree_json()] or [sexpr_json()] to explore
+#' the parse tree of a JSON document.
+#'
+#' ## `document`
+#'
+#' #' A document is a single value.
+#'
+#' ## Values
+#'
+#' A value is one of:
+#' - `object`,
+#' - `array`,
+#' - `numebr`,
+#' - `string`,
+#' - `true`,
+#' - `false`,
+#' - `null`.
+#'
+#' ## `object` / `pair`
+#'
+#' An `object` is a sequence of
+#' - `{`,
+#' - zero or more `pair` nodes, separated by `,` nodes, trailing commas
+#'   are allowed,
+#' - `}`.
+#'
+#' A pair is a series of
+#' - a key, a `string` node,
+#' - `:`,
+#' - a value (see above).
+#'
+#' ## `array`
+#'
+#' An `array` is a sequence of
+#' - `[`,
+#' - zero or more values (see above), separated by `,` nodes, trailing
+#'   commas are allowed,
+#' - `]`.
+#'
+#' ## `number`
+#'
+#' An integer or floating point number. Minus sign is part of the number.
+#' Scientific notation is supported.
+#'
+#' ## `string` / `string_content` / `escape_sequence`
+#'
+#' A string is a sequence of
+#' - a starting double quote (`"`),
+#' - zero or more `string_content` or `escape_sequence` nodes,
+#' - an ending double quote (`"`).
+#'
+#' ## `true` / `false` / `null`
+#'
+#' The literals `true`, `false`, and `null`.
+#'
 #' @param json tsjson object.
 #' @param query String, a tree-sitter query.
 #'

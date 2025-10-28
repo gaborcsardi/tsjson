@@ -31,6 +31,9 @@ of \code{patterns}.
 See https://tree-sitter.github.io/tree-sitter/ on writing tree-sitter
 queries.
 }
+\details{
+See \code{\link[=select_query]{select_query()}} for documentation on the nodes in the JSON grammar.
+}
 \examples{
 # A very simple JSON document
 txt <- "{ \"a\": 1, \"b\": \"foo\", \"c\": 20 }"
