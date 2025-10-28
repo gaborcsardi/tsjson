@@ -150,6 +150,13 @@
 #&gt;   <span style="color: #6F7783;">10  | </span>    {
 #&gt;   <span style="color: #6F7783;">...</span>
 </pre></div></div>
+
+<p>Select nodes that match a tree-sitter query:</p>
+<p></p><div class="sourceCode r"><pre><code><span><span class="va">json</span> <span class="op">|&gt;</span> <span class="fu"><a href="../reference/select_query.html">select_query</a></span><span class="op">(</span><span class="st">"((pair value: (false) @val))"</span><span class="op">)</span></span></code></pre><p></p></div>
+<div class="asciicast" style="color: #B9C0CB;font-family: 'Fira Code',Monaco,Consolas,Menlo,'Bitstream Vera Sans Mono','Powerline Symbols',monospace;line-height: 1.300000"><div class="sourceCode"><pre>
+#&gt; Error in select_query(json, "((pair value: (false) @val))") :
+#&gt;   could not find function "select_query"
+</pre></div></div>
 </div>
 
 <div class="section">

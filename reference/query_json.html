@@ -72,9 +72,14 @@ data frame with integer columns <code>start_row</code>, <code>start_col</code>, 
 <code>patterns</code> contains information about all patterns in the queries and
 it is a data frame with columns: <code>id</code>, <code>name</code>, <code>pattern</code>, <code>match_count</code>.
 <code>matched_captures</code> contains information about all matches, and it has
-columns <code>id</code>, <code>pattern</code>, <code>match</code>, <code>start_byte</code>, <code>end_byte</code>, <code>start_row</code>,
-<code>start_column</code>, <code>end_row</code>, <code>end_column</code>, <code>name</code>, <code>code</code>. The <code>pattern</code>
-column of <code>matched_captured</code> refers to the <code>id</code> column of <code>patterns</code>.</p>
+columns <code>id</code>, <code>pattern</code>, <code>match</code>, <code>type</code> <code>start_byte</code>, <code>end_byte</code>,
+<code>start_row</code>, <code>start_column</code>, <code>end_row</code>, <code>end_column</code>, <code>name</code>, <code>code</code>.
+The <code>pattern</code> column of <code>matched_captured</code> refers to the <code>id</code> column
+of <code>patterns</code>.</p>
+    </div>
+    <div class="section level2">
+    <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
+    <p>See <code><a href="select_query.html">select_query()</a></code> for documentation on the nodes in the JSON grammar.</p>
     </div>
 
     <div class="section level2">
@@ -100,11 +105,11 @@ column of <code>matched_captured</code> refers to the <code>id</code> column of 
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span>     1 <span style="color: #BB0000;">NA</span>    <span style="color: #949494;">"</span>((pair value: (number) @num))\n<span style="color: #949494;">"</span>           2</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $matched_captures</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A data frame: 2 × 11</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>      id pattern match start_byte end_byte start_row start_column</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span>     1       1     1          8        8         1            8</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span>     1       1     2         28       29         1           28</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A data frame: 2 × 12</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      id pattern match type   start_byte end_byte start_row start_column</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span>     1       1     1 number          7        8         0            7</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span>     1       1     2 number         27       29         0           27</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 4 more variables: end_row &lt;int&gt;, end_column &lt;int&gt;, name &lt;chr&gt;,</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   code &lt;chr&gt;</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
