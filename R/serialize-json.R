@@ -8,7 +8,7 @@
 #' tsjson functions [update_selected()] and [insert_into_selected()] use
 #' [serialize_json()] to create new JSON code.
 #'
-#' See example below on how to create all possible JSON elements with
+#' See the examples below on how to create all possible JSON elements with
 #' [serialize_json()].
 #'
 #' @param obj R object to serialize.

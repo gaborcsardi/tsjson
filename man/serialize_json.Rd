@@ -31,7 +31,7 @@ will do the exact inverse of \code{\link[=serialize_json]{serialize_json()}}.
 tsjson functions \code{\link[=update_selected]{update_selected()}} and \code{\link[=insert_into_selected]{insert_into_selected()}} use
 \code{\link[=serialize_json]{serialize_json()}} to create new JSON code.
 
-See example below on how to create all possible JSON elements with
+See the examples below on how to create all possible JSON elements with
 \code{\link[=serialize_json]{serialize_json()}}.
 }
 \examples{
