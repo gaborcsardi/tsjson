@@ -1,7 +1,7 @@
 # Tree sitter language object for JSONC
 
 Use this function with
-[`ts::ts_tree_new()`](https://r-lib.github.io/ts/reference/ts_tree_new.html)
+[`tsitter::ts_tree_new()`](https://r-lib.github.io/tsitter/reference/ts_tree_new.html)
 to create a tree-sitter tree for a JSONC document.
 
 ## Usage
@@ -19,10 +19,10 @@ Comments may appear between any tokens, but they are not part of the
 grammar.
 
 Use the [bracket
-operator](https://r-lib.github.io/ts/reference/ts_tree-brackets.html),
-[`ts::ts_tree_dom()`](https://r-lib.github.io/ts/reference/ts_tree_dom.html)
+operator](https://r-lib.github.io/tsitter/reference/ts_tree-brackets.html),
+[`tsitter::ts_tree_dom()`](https://r-lib.github.io/tsitter/reference/ts_tree_dom.html)
 and
-[`ts::ts_tree_ast()`](https://r-lib.github.io/ts/reference/ts_tree_ast.html)
+[`tsitter::ts_tree_ast()`](https://r-lib.github.io/tsitter/reference/ts_tree_ast.html)
 to explore the parse tree of a JSON document.
 
 ### `document`

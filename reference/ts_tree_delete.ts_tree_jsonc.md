@@ -32,8 +32,9 @@ The formatting of the rest of the document is left as is.
     jsonc <- tsjsonc::ts_parse_jsonc(
       "{ \"a\": true, \"b\": [1, 2, 3] }"
     ) |>
-      ts::ts_tree_format()
+      tsitter::ts_tree_format()
     jsonc
+
 
     #> # jsonc (8 lines)
     #> 1 | {
@@ -48,6 +49,7 @@ The formatting of the rest of the document is left as is.
  
 
     jsonc |> ts_tree_select("a") |> ts_tree_delete()
+
 
     #> # jsonc (7 lines)
     #> 1 | {
@@ -66,6 +68,7 @@ empty document is returned, i.e. the whole content is deleted.
     jsonc <- tsjsonc::ts_parse_jsonc("{ \"a\": true, \"b\": [1, 2, 3] }")
     jsonc |> ts_tree_delete()
 
+
     #> # jsonc (0 lines)
 
 If the tree has a selection, but it is the empty selection, then the
@@ -75,6 +78,7 @@ tree is returned unchanged.
 
     jsonc <- tsjsonc::ts_parse_jsonc("{ \"a\": true, \"b\": [1, 2, 3] }")
     jsonc |> ts_tree_select("c") |> ts_tree_delete()
+
 
     #> # jsonc (1 line)
     #> 1 | { "a": true, "b": [1, 2, 3] }
@@ -87,8 +91,9 @@ as is. See details in the manual of the specific parser.
 
     jsonc <- tsjsonc::ts_parse_jsonc(
       "// top comment\n{ \"a\": // comment\n  true,\n \"b\": [1, 2, 3] }"
-    ) |> ts::ts_tree_format()
+    ) |> tsitter::ts_tree_format()
     jsonc
+
 
     #> # jsonc (11 lines)
     #>  1 | // top comment
@@ -108,6 +113,7 @@ as is. See details in the manual of the specific parser.
 
     jsonc |> ts_tree_select("a") |> ts_tree_delete()
 
+
     #> # jsonc (8 lines)
     #> 1 | // top comment
     #> 2 | {
@@ -124,7 +130,7 @@ comments are left as is.
 ## Examples
 
 ``` r
-library(ts)
+library(tsitter)
 tree <- ts_parse_jsonc("{ \"a\": //comment\ntrue, \"b\": [1, 2, 3] }")
 tree
 #> # jsonc (2 lines)

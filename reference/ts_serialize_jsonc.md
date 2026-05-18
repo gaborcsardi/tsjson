@@ -41,9 +41,9 @@ vector (`collapse` = FALSE). If `file` is not `NULL` then nothing.
 ## Details
 
 tsjsonc functions
-[`ts::ts_tree_update()`](https://r-lib.github.io/ts/reference/ts_tree_update.html)
+[`tsitter::ts_tree_update()`](https://r-lib.github.io/tsitter/reference/ts_tree_update.html)
 and
-[`ts::ts_tree_insert()`](https://r-lib.github.io/ts/reference/ts_tree_insert.html)
+[`tsitter::ts_tree_insert()`](https://r-lib.github.io/tsitter/reference/ts_tree_insert.html)
 use `ts_serialize_jsonc()` to create new JSON code.
 
 See the examples below on how to create all possible JSON elements with
@@ -57,7 +57,7 @@ for the opposite.
 ## Examples
 
 ``` r
-library(ts)
+library(tsitter)
 # null
 ts_serialize_jsonc(NULL)
 #> [1] "null"

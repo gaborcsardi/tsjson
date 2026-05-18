@@ -46,7 +46,7 @@ the query language support. See links below.
 
 ``` r
 # Select all numbers in a JSONC document ------------------------------------
-library(ts)
+library(tsitter)
 json <- tsjsonc::ts_parse_jsonc(
   '{ "a": 1, "b": [10, 20, 30], "c": { "c1": true, "c2": 100 } }'
 )

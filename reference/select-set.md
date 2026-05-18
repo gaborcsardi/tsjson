@@ -8,12 +8,12 @@ function syntax.
 - x, json:
 
   ts_tree_jsonc object. Create a ts_tree_jsonc object with
-  [`ts::ts_tree_new()`](https://r-lib.github.io/ts/reference/ts_tree_new.html).
+  [`tsitter::ts_tree_new()`](https://r-lib.github.io/tsitter/reference/ts_tree_new.html).
 
 - i, ...:
 
   Selectors, see
-  [`ts::ts_tree_select()`](https://r-lib.github.io/ts/reference/ts_tree_select.html).
+  [`tsitter::ts_tree_select()`](https://r-lib.github.io/tsitter/reference/ts_tree_select.html).
 
 - value:
 
@@ -27,12 +27,12 @@ The updated ts_tree_jsonc object.
 ## See also
 
 Save the updated ts_tree_jsonc object to a file with
-[`ts::ts_tree_write()`](https://r-lib.github.io/ts/reference/ts_tree_write.html).
+[`tsitter::ts_tree_write()`](https://r-lib.github.io/tsitter/reference/ts_tree_write.html).
 
 ## Examples
 
 ``` r
-library(ts)
+library(tsitter)
 json <- ts_parse_jsonc("{}")
 
 json <- json |>

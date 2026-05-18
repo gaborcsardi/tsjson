@@ -63,11 +63,12 @@ the single bracket `` `[` `` operator to convert it to a data frame.
 
  
 
-    jsonc <- ts::ts_tree_new(
+    jsonc <- tsitter::ts_tree_new(
       tsjsonc::ts_language_jsonc(),
       text = "{ \"a\": true, // comment\n \"b\": [1, 2, 3], }"
     )
     jsonc
+
 
     #> # jsonc (2 lines)
     #> 1 | { "a": true, // comment

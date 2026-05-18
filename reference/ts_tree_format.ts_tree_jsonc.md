@@ -36,7 +36,7 @@ If `tree` does not have a selection, then all of it is formatted. If
 ## Examples
 
 ``` r
-library(ts)
+library(tsitter)
 tree <- ts_parse_jsonc("{ \"a\": [1,2,3] }")
 tree
 #> # jsonc (1 line)

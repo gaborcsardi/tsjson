@@ -38,7 +38,7 @@ The updated ts_tree_jsonc object
 ## Examples
 
 ``` r
-library(ts)
+library(tsitter)
 tree <- ts_parse_jsonc("{ \"a\": true, \"b\": [1, 2, 3] }")
 tree
 #> # jsonc (1 line)

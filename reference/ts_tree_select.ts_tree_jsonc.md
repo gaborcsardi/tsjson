@@ -4,7 +4,7 @@ This function is the heart of ts. To edit a tree-sitter tree, you first
 need to select the parts you want to delete or update.
 
 This is the S3 method of the
-[`ts::ts_tree_select()`](https://r-lib.github.io/ts/reference/ts_tree_select.html)
+[`tsitter::ts_tree_select()`](https://r-lib.github.io/tsitter/reference/ts_tree_select.html)
 generic, for
 [ts_tree_jsonc](https://gaborcsardi.github.io/tsjsonc/reference/ts_tree_new.ts_language_jsonc.md)
 objects.
@@ -21,7 +21,7 @@ ts_tree_select(tree, ..., refine = FALSE)
 - tree:
 
   A `ts_tree` object as returned by
-  [`ts_tree_new()`](https://r-lib.github.io/ts/reference/ts_tree_new.html).
+  [`ts_tree_new()`](https://r-lib.github.io/tsitter/reference/ts_tree_new.html).
 
 - ...:
 
@@ -45,7 +45,7 @@ to each currently selected node, and the results are concatenated.
 
 The selection process starts from the root of the DOM tree, the document
 node (see
-[`ts_tree_dom()`](https://r-lib.github.io/ts/reference/ts_tree_dom.html)),
+[`ts_tree_dom()`](https://r-lib.github.io/tsitter/reference/ts_tree_dom.html)),
 unless `refine = TRUE` is set, in which case it starts from the current
 selection.
 
@@ -64,6 +64,7 @@ Selects all child nodes of the current nodes.
     )
     json |> ts_tree_select(c("b", "c"), TRUE)
 
+
     #> # jsonc (1 line, 5 selected elements)
     #> > 1 | { "a": 1, "b": [10, 20, 30], "c": { "c1": true, "c2": null } }
 
@@ -78,6 +79,7 @@ If a node has no named children, it selects nothing from that node.
       '{ "a": 1, "b": [10, 20, 30], "c": { "c1": true, "c2": null } }'
     )
     json |> ts_tree_select(c("a", "c"), c("c1"))
+
 
     #> # jsonc (1 line, 1 selected element)
     #> > 1 | { "a": 1, "b": [10, 20, 30], "c": { "c1": true, "c2": null } }
@@ -97,6 +99,7 @@ For other nodes nothing is selected.
     )
     json |> ts_tree_select(c("b", "c"), -1)
 
+
     #> # jsonc (1 line, 2 selected elements)
     #> > 1 | { "a": 1, "b": [10, 20, 30], "c": { "c1": true, "c2": null } }
 
@@ -114,6 +117,7 @@ node.
     )
     json |> ts_tree_select(regex = "^a")
 
+
     #> # jsonc (1 line, 2 selected elements)
     #> > 1 | { "apple": 1, "almond": 2, "banana": 3, "cherry": 4 }
 
@@ -121,7 +125,7 @@ node.
 
 A character scalar named `query` can be used to select nodes matching a
 tree-sitter query. See
-[`ts_tree_query()`](https://r-lib.github.io/ts/reference/ts_tree_query.html)
+[`ts_tree_query()`](https://r-lib.github.io/tsitter/reference/ts_tree_query.html)
 for details on tree-sitter queries.
 
 Instead of a character scalar this can also be a two-element list, where
@@ -142,6 +146,7 @@ This example selects all numbers in the JSON document.
     )
     json |> ts_tree_select(query = "(number) @number")
 
+
     #> # jsonc (1 line, 5 selected elements)
     #> > 1 | { "a": 1, "b": [10, 20, 30], "c": { "c1": true, "c2": 100 } }
 
@@ -156,6 +161,7 @@ for advanced use cases only.
       '{ "a": 1, "b": [10, 20, 30], "c": { "c1": true, "c2": null } }'
     )
     ts_tree_dom(json)
+
 
     #> document (1)
     #> └─object (2)
@@ -172,13 +178,14 @@ for advanced use cases only.
 
     json |> ts_tree_select(I(18))
 
+
     #> # jsonc (1 line, 1 selected element)
     #> > 1 | { "a": 1, "b": [10, 20, 30], "c": { "c1": true, "c2": null } }
 
 ### Refining selections
 
 If the `refine` argument of
-[`ts_tree_select()`](https://r-lib.github.io/ts/reference/ts_tree_select.html)
+[`ts_tree_select()`](https://r-lib.github.io/tsitter/reference/ts_tree_select.html)
 is `TRUE`, then the selection starts from the already selected elements
 (all of them simultanously), instead of starting from the document
 element.
@@ -194,6 +201,7 @@ element.
 
     json |> ts_tree_select(1:2)
 
+
     #> # jsonc (1 line, 2 selected elements)
     #> > 1 | { "a": 1, "b": [10, 20, 30], "c": { "c1": true, "c2": null } }
 
@@ -201,17 +209,18 @@ element.
 
     json |> ts_tree_select(1:2, refine = TRUE)
 
+
     #> # jsonc (1 line, 4 selected elements)
     #> > 1 | { "a": 1, "b": [10, 20, 30], "c": { "c1": true, "c2": null } }
 
 ### The `ts_tree_select<-()` replacement function
 
 The
-[`ts_tree_select<-()`](https://r-lib.github.io/ts/reference/select-set.html)
+[`ts_tree_select<-()`](https://r-lib.github.io/tsitter/reference/select-set.html)
 replacement function works similarly to the combination of
-[`ts_tree_select()`](https://r-lib.github.io/ts/reference/ts_tree_select.html)
+[`ts_tree_select()`](https://r-lib.github.io/tsitter/reference/ts_tree_select.html)
 and
-[`ts_tree_update()`](https://r-lib.github.io/ts/reference/ts_tree_update.html),
+[`ts_tree_update()`](https://r-lib.github.io/tsitter/reference/ts_tree_update.html),
 but it might be more readable.
 
  
@@ -221,12 +230,14 @@ but it might be more readable.
     )
     json
 
+
     #> # jsonc (1 line)
     #> 1 | { "a": 1, "b": [10, 20, 30], "c": { "c1": true, "c2": null } }
 
  
 
     json |> ts_tree_select("b", 1)
+
 
     #> # jsonc (1 line, 1 selected element)
     #> > 1 | { "a": 1, "b": [10, 20, 30], "c": { "c1": true, "c2": null } }
@@ -236,15 +247,16 @@ but it might be more readable.
     ts_tree_select(json, "b", 1) <- 100
     json
 
+
     #> # jsonc (1 line)
     #> 1 | { "a": 1, "b": [100, 20, 30], "c": { "c1": true, "c2": null } }
 
 ### The `[[` and `[[<-` operators
 
 The `[[` operator works similarly to the combination of
-[`ts_tree_select()`](https://r-lib.github.io/ts/reference/ts_tree_select.html)
+[`ts_tree_select()`](https://r-lib.github.io/tsitter/reference/ts_tree_select.html)
 and
-[`ts_tree_unserialize()`](https://r-lib.github.io/ts/reference/ts_tree_unserialize.html),
+[`ts_tree_unserialize()`](https://r-lib.github.io/tsitter/reference/ts_tree_unserialize.html),
 but it might be more readable.
 
  
@@ -254,6 +266,7 @@ but it might be more readable.
     )
     json |> ts_tree_select("b", 1)
 
+
     #> # jsonc (1 line, 1 selected element)
     #> > 1 | { "a": 1, "b": [10, 20, 30], "c": { "c1": true, "c2": null } }
 
@@ -261,16 +274,17 @@ but it might be more readable.
 
     json[[list("b", 1)]]
 
+
     #> [[1]]
     #> [1] 10
     #>
 
 The `[[<-` operator works similarly to the combination of
-[`ts_tree_select()`](https://r-lib.github.io/ts/reference/ts_tree_select.html)
+[`ts_tree_select()`](https://r-lib.github.io/tsitter/reference/ts_tree_select.html)
 and
-[`ts_tree_update()`](https://r-lib.github.io/ts/reference/ts_tree_update.html),
+[`ts_tree_update()`](https://r-lib.github.io/tsitter/reference/ts_tree_update.html),
 (and also to the replacement function
-[`ts_tree_select<-()`](https://r-lib.github.io/ts/reference/select-set.html)),
+[`ts_tree_select<-()`](https://r-lib.github.io/tsitter/reference/select-set.html)),
 but it might be more readable.
 
  
@@ -280,12 +294,14 @@ but it might be more readable.
     )
     json
 
+
     #> # jsonc (1 line)
     #> 1 | { "a": 1, "b": [10, 20, 30], "c": { "c1": true, "c2": null } }
 
  
 
     json |> ts_tree_select("b", 1)
+
 
     #> # jsonc (1 line, 1 selected element)
     #> > 1 | { "a": 1, "b": [10, 20, 30], "c": { "c1": true, "c2": null } }
@@ -295,6 +311,7 @@ but it might be more readable.
     json[[list("b", 1)]] <- 100
     json
 
+
     #> # jsonc (1 line)
     #> 1 | { "a": 1, "b": [100, 20, 30], "c": { "c1": true, "c2": null } }
 
@@ -302,18 +319,20 @@ but it might be more readable.
 
  
 
-    library(ts)
+    library(tsitter)
     json <- ts_parse_jsonc(ts_serialize_jsonc(list(
       a = list(a1 = list(1,2,3), a2 = "string"),
       b = list(4, 5, 6),
       c = list(c1 = list("a", "b"))
     )))
 
+
     #>
 
  
 
     json
+
 
     #> # jsonc (21 lines)
     #>  1 | {
@@ -334,6 +353,7 @@ Select object by key:
  
 
     json |> ts_tree_select("a")
+
 
     #> # jsonc (21 lines, 1 selected element)
     #>    1  | {
@@ -356,6 +376,7 @@ Select within select, these are the same:
 
     json |> ts_tree_select("a", "a1")
     json |> ts_tree_select(list("a", "a1"))
+
 
     #> # jsonc (21 lines, 1 selected element)
     #>    1  | {
@@ -388,6 +409,7 @@ Select elements of an array. All elements:
 
     json |> ts_tree_select("b", TRUE)
 
+
     #> # jsonc (21 lines, 3 selected elements)
     #>   ...
     #>    8  |     "a2": "string"
@@ -407,6 +429,7 @@ First two elements:
 
     json |> ts_tree_select("b", 1:2)
 
+
     #> # jsonc (21 lines, 2 selected elements)
     #>   ...
     #>    8  |     "a2": "string"
@@ -424,6 +447,7 @@ First and last elements:
  
 
     json |> ts_tree_select("b", c(1, -1))
+
 
     #> # jsonc (21 lines, 2 selected elements)
     #>   ...
@@ -443,6 +467,7 @@ Regular expressions:
  
 
     json |> ts_tree_select(c("a", "c"), regex = "1$")
+
 
     #> # jsonc (21 lines, 2 selected elements)
     #>    1  | {

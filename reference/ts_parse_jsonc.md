@@ -50,29 +50,29 @@ ts_tree_jsonc objects have
 them to the screen.
 
 They can be converted to a data frame using the [single
-bracket](https://r-lib.github.io/ts/reference/ts_tree-brackets.html)
+bracket](https://r-lib.github.io/tsitter/reference/ts_tree-brackets.html)
 operator.
 
 ## See also
 
-[`ts::ts_tree_select()`](https://r-lib.github.io/ts/reference/ts_tree_select.html)
+[`tsitter::ts_tree_select()`](https://r-lib.github.io/tsitter/reference/ts_tree_select.html)
 to select part(s) of a ts_tree_jsonc object,
-[`ts::ts_tree_unserialize()`](https://r-lib.github.io/ts/reference/ts_tree_unserialize.html)
+[`tsitter::ts_tree_unserialize()`](https://r-lib.github.io/tsitter/reference/ts_tree_unserialize.html)
 to extract the selected part(s),
-[`ts::ts_tree_format()`](https://r-lib.github.io/ts/reference/ts_tree_format.html)
+[`tsitter::ts_tree_format()`](https://r-lib.github.io/tsitter/reference/ts_tree_format.html)
 to format the selected part(s),
-[`ts::ts_tree_delete()`](https://r-lib.github.io/ts/reference/ts_tree_delete.html),
-[`ts::ts_tree_insert()`](https://r-lib.github.io/ts/reference/ts_tree_insert.html)
+[`tsitter::ts_tree_delete()`](https://r-lib.github.io/tsitter/reference/ts_tree_delete.html),
+[`tsitter::ts_tree_insert()`](https://r-lib.github.io/tsitter/reference/ts_tree_insert.html)
 and
-[`ts::ts_tree_update()`](https://r-lib.github.io/ts/reference/ts_tree_update.html)
+[`tsitter::ts_tree_update()`](https://r-lib.github.io/tsitter/reference/ts_tree_update.html)
 to manipulate it.
-[`ts::ts_tree_write()`](https://r-lib.github.io/ts/reference/ts_tree_write.html)
+[`tsitter::ts_tree_write()`](https://r-lib.github.io/tsitter/reference/ts_tree_write.html)
 to save the JSON document to a file.
 
 ## Examples
 
 ``` r
-library(ts)
+library(tsitter)
 text <- '
 {
   "a": 1,
