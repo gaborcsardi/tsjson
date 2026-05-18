@@ -18,7 +18,7 @@ Suggests:
     testthat (>= 3.0.0),
     withr
 Remotes:
-    gaborcsardi/tsitter
+    r-lib/tsitter
 Encoding: UTF-8
 RoxygenNote: 7.3.3
 Config/testthat/edition: 3
