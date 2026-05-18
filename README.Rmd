@@ -49,7 +49,7 @@ pak::pak("gaborcsardi/tsjsonc")
 ## Documentation
 
 See at [`https://gaborcsardi.github.io/tsjsonc/`](
-  https://gaborcsardi.github.io/tsjsonc/reference/index.html/)
+  https://gaborcsardi.github.io/tsjsonc/reference/index.html)
 and also in the installed package: `help(package = "tsjsonc")`.
 
 ## Quickstart

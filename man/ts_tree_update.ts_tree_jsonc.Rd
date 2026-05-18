@@ -26,7 +26,7 @@ Replace all selected elements with a new element. If \code{tree} has no
 selection then the whole document is replaced.
 }
 \examples{
-library(ts)
+library(tsitter)
 tree <- ts_parse_jsonc("{ \"a\": true, \"b\": [1, 2, 3] }")
 tree
 

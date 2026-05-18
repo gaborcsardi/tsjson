@@ -40,7 +40,7 @@
 #' @keywords internal
 #'
 #' @examples
-#' library(ts)
+#' library(tsitter)
 #' tree <- ts_parse_jsonc("{ \"a\": [1,2,3] }")
 #' tree
 #'

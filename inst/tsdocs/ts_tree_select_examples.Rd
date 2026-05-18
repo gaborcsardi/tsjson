@@ -2,7 +2,7 @@
 # ---
 \subsection{Examples}{
 
-\if{html}{\out{<div class="sourceCode r"><p style="display:none">&nbsp;}}\preformatted{library(ts)
+\if{html}{\out{<div class="sourceCode r"><p style="display:none">&nbsp;}}\preformatted{library(tsitter)
 json <- ts_parse_jsonc(ts_serialize_jsonc(list(
   a = list(a1 = list(1,2,3), a2 = "string"),
   b = list(4, 5, 6),

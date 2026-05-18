@@ -7,23 +7,23 @@
 \method{ts_tree_select}{ts_tree_jsonc}(tree, ..., refine = FALSE)
 }
 \arguments{
-\item{tree}{\eval{ts:::doc_insert("ts::ts_tree_select_param_tree", "tsjsonc")}}
+\item{tree}{\eval{tsitter:::doc_insert("tsitter::ts_tree_select_param_tree", "tsjsonc")}}
 
 \item{...}{Reserved for future use.}
 
-\item{refine}{\eval{ts:::doc_insert("ts::ts_tree_select_param_refine", "tsjsonc")}}
+\item{refine}{\eval{tsitter:::doc_insert("tsitter::ts_tree_select_param_refine", "tsjsonc")}}
 }
 \value{
-\eval{ts:::doc_insert("ts::ts_tree_select_return", "tsjsonc")}
+\eval{tsitter:::doc_insert("tsitter::ts_tree_select_return", "tsjsonc")}
 }
 \description{
-\eval{ts:::doc_insert("ts::ts_tree_select_description", "tsjsonc")}
+\eval{tsitter:::doc_insert("tsitter::ts_tree_select_description", "tsjsonc")}
 
-This is the S3 method of the \code{\link[ts:ts_tree_select]{ts::ts_tree_select()}} generic,
+This is the S3 method of the \code{\link[tsitter:ts_tree_select]{tsitter::ts_tree_select()}} generic,
 for \link[=ts_tree_jsonc]{ts_tree_jsonc} objects.
 }
 \details{
-\eval{ts:::doc_insert("ts::ts_tree_select_details", "tsjsonc")}
-\eval{ts:::doc_insert("tsjsonc::ts_tree_select_examples", "tsjsonc")}
-\eval{ts:::doc_extra()}
+\eval{tsitter:::doc_insert("tsitter::ts_tree_select_details", "tsjsonc")}
+\eval{tsitter:::doc_insert("tsjsonc::ts_tree_select_examples", "tsjsonc")}
+\eval{tsitter:::doc_extra()}
 }

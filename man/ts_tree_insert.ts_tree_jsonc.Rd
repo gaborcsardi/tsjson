@@ -40,7 +40,7 @@ It is an error trying to insert into an element that is not an array and
 not an object.
 }
 \examples{
-library(ts)
+library(tsitter)
 json <- ts_parse_jsonc("{ \"a\": true, \"b\": [1, 2, 3] }")
 json
 

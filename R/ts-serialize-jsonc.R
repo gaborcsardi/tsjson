@@ -15,14 +15,14 @@
 #' @param file If not `NULL` then the result if written to this file.
 #' @param collapse If `file` is `NULL` then whether to return a character
 #'   scalar or a character vector.
-#' @inheritParams ts::ts_tree_format
+#' @inheritParams tsitter::ts_tree_format
 #' @return If `file` is `NULL` then a character scalar (`collapse` = TRUE)
 #'   or vector (`collapse` = FALSE). If `file` is not `NULL` then nothing.
 #'
 #' @export
 #' @seealso [ts_unserialize_jsonc()] for the opposite.
 #' @examples
-#' library(ts)
+#' library(tsitter)
 #' # null
 #' ts_serialize_jsonc(NULL)
 #'

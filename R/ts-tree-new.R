@@ -11,34 +11,34 @@
 #'   ...
 #' )
 #' @param language
-#' \eval{ts:::doc_insert("ts::ts_tree_new_param_language", "tsjsonc")}
+#' \eval{tsitter:::doc_insert("tsitter::ts_tree_new_param_language", "tsjsonc")}
 #' @param file
-#' \eval{ts:::doc_insert("ts::ts_tree_new_param_file", "tsjsonc")}
+#' \eval{tsitter:::doc_insert("tsitter::ts_tree_new_param_file", "tsjsonc")}
 #' @param text
-#' \eval{ts:::doc_insert("ts::ts_tree_new_param_text", "tsjsonc")}
+#' \eval{tsitter:::doc_insert("tsitter::ts_tree_new_param_text", "tsjsonc")}
 #' @param ranges
-#' \eval{ts:::doc_insert("ts::ts_tree_new_param_ranges", "tsjsonc")}
+#' \eval{tsitter:::doc_insert("tsitter::ts_tree_new_param_ranges", "tsjsonc")}
 #' @param fail_on_parse_error
-#' \eval{ts:::doc_insert("ts::ts_tree_new_param_fail_on_parse_error",
+#' \eval{tsitter:::doc_insert("tsitter::ts_tree_new_param_fail_on_parse_error",
 #'   "tsjsonc")}
 #' @param options Named list of formatting options, see
 #'   [tsjsonc options][tsjsonc_options].
 #' @param ... Reserved for future use.
 #' @return
-#' \eval{ts:::doc_insert("ts::ts_tree_new_return", "tsjsonc")}
+#' \eval{tsitter:::doc_insert("tsitter::ts_tree_new_return", "tsjsonc")}
 #'
 #' @description
-#' \eval{ts:::doc_insert("ts::ts_tree_new_description", "tsjsonc")}
+#' \eval{tsitter:::doc_insert("tsitter::ts_tree_new_description", "tsjsonc")}
 #' @details
-#' \if{text}{This is the S3 method of the [ts::ts_tree_new()] generic.}
+#' \if{text}{This is the S3 method of the [tsitter::ts_tree_new()] generic.}
 #'
-#' \eval{ts:::doc_extra()}
-#' \eval{ts:::doc_insert("ts::ts_tree_new_details", "tsjsonc")}
+#' \eval{tsitter:::doc_extra()}
+#' \eval{tsitter:::doc_insert("tsitter::ts_tree_new_details", "tsjsonc")}
 #'
 #' @ts ts_tree_new_examples JSONC examples
 #'
 #' ```{asciicast}
-#' jsonc <- ts::ts_tree_new(
+#' jsonc <- tsitter::ts_tree_new(
 #'   tsjsonc::ts_language_jsonc(),
 #'   text = "{ \"a\": true, // comment\n \"b\": [1, 2, 3], }"
 #' )

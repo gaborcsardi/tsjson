@@ -37,7 +37,7 @@
 #' @seealso [ts_tree_unserialize()] to unserialize a JSON document from a
 #'   file or string. [ts_serialize_jsonc()] to create JSON from R objects.
 #' @examples
-#' library(ts)
+#' library(tsitter)
 #' json <- ts_parse_jsonc(ts_serialize_jsonc(list(
 #'   a = list(a1 = list(1,2,3), a2 = "string"),
 #'   b = list(4, 5, 6),

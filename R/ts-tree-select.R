@@ -140,7 +140,7 @@
 #' ## Examples
 #'
 #' ```{asciicast}
-#' library(ts)
+#' library(tsitter)
 #' json <- ts_parse_jsonc(ts_serialize_jsonc(list(
 #'   a = list(a1 = list(1,2,3), a2 = "string"),
 #'   b = list(4, 5, 6),
@@ -199,7 +199,7 @@ NULL
 #' function syntax.
 #'
 #' @param x,json ts_tree_jsonc object. Create a ts_tree_jsonc object with
-#'   [ts::ts_tree_new()].
+#'   [tsitter::ts_tree_new()].
 #' @param i,... Selectors, see [ts_tree_select()].
 #' @param value New value. Will be serialized to JSON with
 #'   [ts_serialize_jsonc()].
@@ -210,7 +210,7 @@ NULL
 #'
 #' @rdname select-set
 #' @examples
-#' library(ts)
+#' library(tsitter)
 #' json <- ts_parse_jsonc("{}")
 #'
 #' json <- json |>
@@ -254,23 +254,23 @@ NULL
 #' @usage
 #' \method{ts_tree_select}{ts_tree_jsonc}(tree, ..., refine = FALSE)
 #' @param tree
-#' \eval{ts:::doc_insert("ts::ts_tree_select_param_tree", "tsjsonc")}
+#' \eval{tsitter:::doc_insert("tsitter::ts_tree_select_param_tree", "tsjsonc")}
 #' @param ... Reserved for future use.
 #' @param refine
-#' \eval{ts:::doc_insert("ts::ts_tree_select_param_refine", "tsjsonc")}
+#' \eval{tsitter:::doc_insert("tsitter::ts_tree_select_param_refine", "tsjsonc")}
 #' @return
-#' \eval{ts:::doc_insert("ts::ts_tree_select_return", "tsjsonc")}
+#' \eval{tsitter:::doc_insert("tsitter::ts_tree_select_return", "tsjsonc")}
 #'
 #' @description
-#' \eval{ts:::doc_insert("ts::ts_tree_select_description", "tsjsonc")}
+#' \eval{tsitter:::doc_insert("tsitter::ts_tree_select_description", "tsjsonc")}
 #'
-#' This is the S3 method of the [ts::ts_tree_select()] generic,
+#' This is the S3 method of the [tsitter::ts_tree_select()] generic,
 #' for [ts_tree_jsonc][tsjsonc::ts_tree_jsonc] objects.
 #'
 #' @details
-#' \eval{ts:::doc_insert("ts::ts_tree_select_details", "tsjsonc")}
-#' \eval{ts:::doc_insert("tsjsonc::ts_tree_select_examples", "tsjsonc")}
-#' \eval{ts:::doc_extra()}
+#' \eval{tsitter:::doc_insert("tsitter::ts_tree_select_details", "tsjsonc")}
+#' \eval{tsitter:::doc_insert("tsjsonc::ts_tree_select_examples", "tsjsonc")}
+#' \eval{tsitter:::doc_extra()}
 #' @export
 
 ts_tree_select.ts_tree_jsonc <- function(tree, ..., refine = FALSE) {

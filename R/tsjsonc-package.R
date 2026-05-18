@@ -2,7 +2,7 @@
 "_PACKAGE"
 
 #' @importFrom utils head tail
-#' @import ts
+#' @import tsitter
 NULL
 
 #' @name quickstart

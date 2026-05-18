@@ -10,16 +10,16 @@ ts_parse_jsonc(text, ranges = NULL, fail_on_parse_error = TRUE, options = NULL)
 ts_read_jsonc(file, ranges = NULL, fail_on_parse_error = TRUE, options = NULL)
 }
 \arguments{
-\item{text}{\Sexpr[stage=render,results=rd]{ts:::doc_insert("ts::ts_tree_new_param_text", "ts")}}
+\item{text}{\Sexpr[stage=render,results=rd]{tsitter:::doc_insert("tsitter::ts_tree_new_param_text", "tsitter")}}
 
-\item{ranges}{\Sexpr[stage=render,results=rd]{ts:::doc_insert("ts::ts_tree_new_param_ranges", "ts")}}
+\item{ranges}{\Sexpr[stage=render,results=rd]{tsitter:::doc_insert("tsitter::ts_tree_new_param_ranges", "tsitter")}}
 
-\item{fail_on_parse_error}{\Sexpr[stage=render,results=rd]{ts:::doc_insert("ts::ts_tree_new_param_fail_on_parse_error", "ts")}}
+\item{fail_on_parse_error}{\Sexpr[stage=render,results=rd]{tsitter:::doc_insert("tsitter::ts_tree_new_param_fail_on_parse_error", "tsitter")}}
 
 \item{options}{Named list of parsing options, see
 \link[=tsjsonc_options]{tsjsonc options}.}
 
-\item{file}{\Sexpr[stage=render,results=rd]{ts:::doc_insert("ts::ts_tree_new_param_file", "ts")}}
+\item{file}{\Sexpr[stage=render,results=rd]{tsitter:::doc_insert("tsitter::ts_tree_new_param_file", "tsitter")}}
 }
 \value{
 A ts_tree_jsonc object.
@@ -34,10 +34,10 @@ ts_tree_jsonc objects have \code{format()} and \code{print()} methods to pretty-
 them to the screen.
 
 They can be converted to a data frame using the
-\link[ts:ts_tree-brackets]{single bracket} operator.
+\link[tsitter:ts_tree-brackets]{single bracket} operator.
 }
 \examples{
-library(ts)
+library(tsitter)
 text <- '
 {
   "a": 1,
@@ -74,10 +74,10 @@ ts_parse_jsonc(text) |>
   ts_tree_unserialize()
 }
 \seealso{
-\code{\link[ts:ts_tree_select]{ts::ts_tree_select()}} to select part(s) of a ts_tree_jsonc
-object, \code{\link[ts:ts_tree_unserialize]{ts::ts_tree_unserialize()}} to extract the selected part(s),
-\code{\link[ts:ts_tree_format]{ts::ts_tree_format()}} to format the selected part(s),
-\code{\link[ts:ts_tree_delete]{ts::ts_tree_delete()}}, \code{\link[ts:ts_tree_insert]{ts::ts_tree_insert()}} and
-\code{\link[ts:ts_tree_update]{ts::ts_tree_update()}} to manipulate it. \code{\link[ts:ts_tree_write]{ts::ts_tree_write()}} to save
+\code{\link[tsitter:ts_tree_select]{tsitter::ts_tree_select()}} to select part(s) of a ts_tree_jsonc
+object, \code{\link[tsitter:ts_tree_unserialize]{tsitter::ts_tree_unserialize()}} to extract the selected part(s),
+\code{\link[tsitter:ts_tree_format]{tsitter::ts_tree_format()}} to format the selected part(s),
+\code{\link[tsitter:ts_tree_delete]{tsitter::ts_tree_delete()}}, \code{\link[tsitter:ts_tree_insert]{tsitter::ts_tree_insert()}} and
+\code{\link[tsitter:ts_tree_update]{tsitter::ts_tree_update()}} to manipulate it. \code{\link[tsitter:ts_tree_write]{tsitter::ts_tree_write()}} to save
 the JSON document to a file.
 }

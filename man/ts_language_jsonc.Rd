@@ -7,7 +7,7 @@
 ts_language_jsonc()
 }
 \description{
-Use this function with \code{\link[ts:ts_tree_new]{ts::ts_tree_new()}} to create a tree-sitter
+Use this function with \code{\link[tsitter:ts_tree_new]{tsitter::ts_tree_new()}} to create a tree-sitter
 tree for a JSONC document.
 }
 \section{The JSON grammar}{
@@ -19,8 +19,8 @@ nodes in the subsection of other nodes that they are related to.
 Comments may appear between any tokens, but they are not part of the
 grammar.
 
-Use the \link[ts:ts_tree-brackets]{bracket operator},
-\code{\link[ts:ts_tree_dom]{ts::ts_tree_dom()}} and \code{\link[ts:ts_tree_ast]{ts::ts_tree_ast()}} to explore the parse tree
+Use the \link[tsitter:ts_tree-brackets]{bracket operator},
+\code{\link[tsitter:ts_tree_dom]{tsitter::ts_tree_dom()}} and \code{\link[tsitter:ts_tree_ast]{tsitter::ts_tree_ast()}} to explore the parse tree
 of a JSON document.
 \subsection{\code{document}}{
 

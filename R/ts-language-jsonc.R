@@ -1,6 +1,6 @@
 #' Tree sitter language object for JSONC
 #'
-#' Use this function with [ts::ts_tree_new()] to create a tree-sitter
+#' Use this function with [tsitter::ts_tree_new()] to create a tree-sitter
 #' tree for a JSONC document.
 #'
 #' @section The JSON grammar:
@@ -11,8 +11,8 @@
 #' Comments may appear between any tokens, but they are not part of the
 #' grammar.
 #'
-#' Use the [bracket operator][ts::ts_tree-brackets],
-#' [ts::ts_tree_dom()] and [ts::ts_tree_ast()] to explore the parse tree
+#' Use the [bracket operator][tsitter::ts_tree-brackets],
+#' [tsitter::ts_tree_dom()] and [tsitter::ts_tree_ast()] to explore the parse tree
 #' of a JSON document.
 #'
 #' ## `document`

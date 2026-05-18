@@ -6,7 +6,7 @@
 #' See examples below on how the different JSON elements are mapped to
 #' R objects.
 #'
-#' @inheritParams ts::ts_tree_new
+#' @inheritParams tsitter::ts_tree_new
 #' @param options Named list of parsing options, see
 #'   [tsjsonc options][tsjsonc_options].
 #' @return R object.
@@ -14,9 +14,9 @@
 #' @export
 #' @seealso [ts_serialize_jsonc()] for the opposite, [ts_tree_select()] and
 #' [ts_tree_unserialize()] to unserialize part(s) of a JSON document.
-#' [ts::ts_tree_new()] to load a JSON document and then manipulate it.
+#' [tsitter::ts_tree_new()] to load a JSON document and then manipulate it.
 #' @examples
-#' library(ts)
+#' library(tsitter)
 #' # null -> NULL
 #' ts_unserialize_jsonc(text = "null")
 #'

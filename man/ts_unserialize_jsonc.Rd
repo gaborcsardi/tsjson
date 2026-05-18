@@ -7,11 +7,11 @@
 ts_unserialize_jsonc(file = NULL, text = NULL, ranges = NULL, options = NULL)
 }
 \arguments{
-\item{file}{\Sexpr[stage=render,results=rd]{ts:::doc_insert("ts::ts_tree_new_param_file", "ts")}}
+\item{file}{\Sexpr[stage=render,results=rd]{tsitter:::doc_insert("tsitter::ts_tree_new_param_file", "tsitter")}}
 
-\item{text}{\Sexpr[stage=render,results=rd]{ts:::doc_insert("ts::ts_tree_new_param_text", "ts")}}
+\item{text}{\Sexpr[stage=render,results=rd]{tsitter:::doc_insert("tsitter::ts_tree_new_param_text", "tsitter")}}
 
-\item{ranges}{\Sexpr[stage=render,results=rd]{ts:::doc_insert("ts::ts_tree_new_param_ranges", "ts")}}
+\item{ranges}{\Sexpr[stage=render,results=rd]{tsitter:::doc_insert("tsitter::ts_tree_new_param_ranges", "tsitter")}}
 
 \item{options}{Named list of parsing options, see
 \link[=tsjsonc_options]{tsjsonc options}.}
@@ -28,7 +28,7 @@ See examples below on how the different JSON elements are mapped to
 R objects.
 }
 \examples{
-library(ts)
+library(tsitter)
 # null -> NULL
 ts_unserialize_jsonc(text = "null")
 
@@ -49,7 +49,7 @@ ts_unserialize_jsonc(text = "[1, 2, 3]")
 ts_unserialize_jsonc(text = "{\"a\": 1, \"b\": 2 }")
 }
 \seealso{
-\code{\link[=ts_serialize_jsonc]{ts_serialize_jsonc()}} for the opposite, \code{\link[ts:ts_tree_select]{ts::ts_tree_select()}} and
-\code{\link[ts:ts_tree_unserialize]{ts::ts_tree_unserialize()}} to unserialize part(s) of a JSON document.
-\code{\link[ts:ts_tree_new]{ts::ts_tree_new()}} to load a JSON document and then manipulate it.
+\code{\link[=ts_serialize_jsonc]{ts_serialize_jsonc()}} for the opposite, \code{\link[tsitter:ts_tree_select]{tsitter::ts_tree_select()}} and
+\code{\link[tsitter:ts_tree_unserialize]{tsitter::ts_tree_unserialize()}} to unserialize part(s) of a JSON document.
+\code{\link[tsitter:ts_tree_new]{tsitter::ts_tree_new()}} to load a JSON document and then manipulate it.
 }

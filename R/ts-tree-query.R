@@ -4,11 +4,11 @@
 #' \method{ts_tree_query}{ts_tree_jsonc}(tree, query)
 #'
 #' @description
-#' \eval{ts:::doc_insert("ts_tree_query_description", "tsjsonc")}
+#' \eval{tsitter:::doc_insert("ts_tree_query_description", "tsjsonc")}
 #'
 #' @details
-#' \eval{ts:::doc_insert("ts_tree_query_details", "tsjsonc")}
-#' \eval{ts:::doc_extra()}
+#' \eval{tsitter:::doc_insert("ts_tree_query_details", "tsjsonc")}
+#' \eval{tsitter:::doc_extra()}
 #'
 #' @ts ts_tree_query_details_examples
 #'
@@ -20,16 +20,16 @@
 #' ```
 #'
 #' @param tree
-#' \eval{ts:::doc_insert("ts_tree_query_param_tree", "tsjsonc")}
+#' \eval{tsitter:::doc_insert("ts_tree_query_param_tree", "tsjsonc")}
 #' @param query
-#' \eval{ts:::doc_insert("ts_tree_query_param_query", "tsjsonc")}
+#' \eval{tsitter:::doc_insert("ts_tree_query_param_query", "tsjsonc")}
 #'
-#' @return \eval{ts:::doc_insert("ts_tree_query_return", "tsjsonc")}
+#' @return \eval{tsitter:::doc_insert("ts_tree_query_return", "tsjsonc")}
 #'
 #' @export
 #' @examples
 #' # Select all numbers in a JSONC document ------------------------------------
-#' library(ts)
+#' library(tsitter)
 #' json <- tsjsonc::ts_parse_jsonc(
 #'   '{ "a": 1, "b": [10, 20, 30], "c": { "c1": true, "c2": 100 } }'
 #' )

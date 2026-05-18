@@ -14,14 +14,14 @@ List of R objects, each the unserialization of a selected element
 in tsjsonc.
 }
 \description{
-Uses \code{\link[ts:ts_tree_unserialize]{ts::ts_tree_unserialize()}} on the selected elements.
+Uses \code{\link[tsitter:ts_tree_unserialize]{tsitter::ts_tree_unserialize()}} on the selected elements.
 }
 \details{
 If \code{json} does not have a selection, then all of it is unserialized.
 If \code{json} has an empty selection, then an empty list is returned.
 }
 \examples{
-library(ts)
+library(tsitter)
 json <- ts_parse_jsonc(ts_serialize_jsonc(list(
   a = list(a1 = list(1,2,3), a2 = "string"),
   b = list(4, 5, 6),
@@ -30,7 +30,7 @@ json <- ts_parse_jsonc(ts_serialize_jsonc(list(
 json |> ts_tree_select(c("b", "c")) |> ts_tree_unserialize()
 }
 \seealso{
-\code{\link[ts:ts_tree_unserialize]{ts::ts_tree_unserialize()}} to unserialize a JSON document from a
+\code{\link[tsitter:ts_tree_unserialize]{tsitter::ts_tree_unserialize()}} to unserialize a JSON document from a
 file or string. \code{\link[=ts_serialize_jsonc]{ts_serialize_jsonc()}} to create JSON from R objects.
 }
 \keyword{internal}

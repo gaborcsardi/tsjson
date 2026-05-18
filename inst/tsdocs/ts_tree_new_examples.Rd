@@ -1,6 +1,6 @@
 #| title: JSONC examples
 # ---
-\if{html}{\out{<div class="sourceCode r"><p style="display:none">&nbsp;}}\preformatted{jsonc <- ts::ts_tree_new(
+\if{html}{\out{<div class="sourceCode r"><p style="display:none">&nbsp;}}\preformatted{jsonc <- tsitter::ts_tree_new(
   tsjsonc::ts_language_jsonc(),
   text = "\{ \\"a\\": true, // comment\\n \\"b\\": [1, 2, 3], \}"
 )

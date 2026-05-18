@@ -9,10 +9,10 @@
 #' them to the screen.
 #'
 #' They can be converted to a data frame using the
-#' [single bracket][ts::ts_tree-brackets] operator.
+#' [single bracket][tsitter::ts_tree-brackets] operator.
 #'
 # TODO: do not inherit from other package
-#' @inheritParams ts::ts_tree_new
+#' @inheritParams tsitter::ts_tree_new
 #' @param options Named list of parsing options, see
 #'   [tsjsonc options][tsjsonc_options].
 #' @return A ts_tree_jsonc object.
@@ -25,7 +25,7 @@
 #'   the JSON document to a file.
 #' @export
 #' @examples
-#' library(ts)
+#' library(tsitter)
 #' text <- '
 #' {
 #'   "a": 1,

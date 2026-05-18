@@ -12,13 +12,13 @@ Description: Extract and manipulate parts of JSON files without touching
 License: MIT + file LICENSE
 Depends: R (>= 3.5.0)
 Imports:
-    ts
+    tsitter
 Suggests:
     pillar,
     testthat (>= 3.0.0),
     withr
 Remotes:
-    gaborcsardi/ts
+    gaborcsardi/tsitter
 Encoding: UTF-8
 RoxygenNote: 7.3.3
 Config/testthat/edition: 3

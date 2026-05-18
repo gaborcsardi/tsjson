@@ -5,9 +5,9 @@
 \title{Update selected elements in a ts_tree_jsonc object}
 \arguments{
 \item{x, json}{ts_tree_jsonc object. Create a ts_tree_jsonc object with
-\code{\link[ts:ts_tree_new]{ts::ts_tree_new()}}.}
+\code{\link[tsitter:ts_tree_new]{tsitter::ts_tree_new()}}.}
 
-\item{i, ...}{Selectors, see \code{\link[ts:ts_tree_select]{ts::ts_tree_select()}}.}
+\item{i, ...}{Selectors, see \code{\link[tsitter:ts_tree_select]{tsitter::ts_tree_select()}}.}
 
 \item{value}{New value. Will be serialized to JSON with
 \code{\link[=ts_serialize_jsonc]{ts_serialize_jsonc()}}.}
@@ -20,7 +20,7 @@ Update the selected elements of a JSON document, using the replacement
 function syntax.
 }
 \examples{
-library(ts)
+library(tsitter)
 json <- ts_parse_jsonc("{}")
 
 json <- json |>
@@ -58,6 +58,6 @@ json |> ts_tree_select("foo") |>
 }
 \seealso{
 Save the updated ts_tree_jsonc object to a file with
-\code{\link[ts:ts_tree_write]{ts::ts_tree_write()}}.
+\code{\link[tsitter:ts_tree_write]{tsitter::ts_tree_write()}}.
 }
 \keyword{internal}

@@ -14,7 +14,7 @@ ts_serialize_jsonc(obj, file = NULL, collapse = FALSE, options = NULL)
 \item{collapse}{If \code{file} is \code{NULL} then whether to return a character
 scalar or a character vector.}
 
-\item{options}{\Sexpr[stage=render,results=rd]{ts:::doc_insert("ts::ts_tree_format_param_options")}\if{html}{\out{
+\item{options}{\Sexpr[stage=render,results=rd]{tsitter:::doc_insert("tsitter::ts_tree_format_param_options")}\if{html}{\out{
 <p>
 }}
 
@@ -32,14 +32,14 @@ any R object in JSON. Also, you cannot expect that \code{\link[=ts_unserialize_j
 will do the exact inverse of \code{\link[=ts_serialize_jsonc]{ts_serialize_jsonc()}}.
 }
 \details{
-tsjsonc functions \code{\link[ts:ts_tree_update]{ts::ts_tree_update()}} and \code{\link[ts:ts_tree_insert]{ts::ts_tree_insert()}} use
+tsjsonc functions \code{\link[tsitter:ts_tree_update]{tsitter::ts_tree_update()}} and \code{\link[tsitter:ts_tree_insert]{tsitter::ts_tree_insert()}} use
 \code{\link[=ts_serialize_jsonc]{ts_serialize_jsonc()}} to create new JSON code.
 
 See the examples below on how to create all possible JSON elements with
 \code{\link[=ts_serialize_jsonc]{ts_serialize_jsonc()}}.
 }
 \examples{
-library(ts)
+library(tsitter)
 # null
 ts_serialize_jsonc(NULL)
 

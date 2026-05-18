@@ -497,7 +497,7 @@
       json[[list("b", c(1, 2, 0, 3))]]
     Condition
       Error in `ts_tree_select1.ts_tree.integer()`:
-      ! Zero indices are not allowed in ts selectors.
+      ! Zero indices are not allowed in tsitter selectors.
 
 # TS query
 

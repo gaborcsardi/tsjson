@@ -6,7 +6,7 @@
 #' jsonc <- tsjsonc::ts_parse_jsonc(
 #'   "{ \"a\": true, \"b\": [1, 2, 3] }"
 #' ) |>
-#'   ts::ts_tree_format()
+#'   tsitter::ts_tree_format()
 #' jsonc
 #' ```
 #'
@@ -33,7 +33,7 @@
 #' ```{asciicast}
 #' jsonc <- tsjsonc::ts_parse_jsonc(
 #'   "// top comment\n{ \"a\": // comment\n  true,\n \"b\": [1, 2, 3] }"
-#' ) |> ts::ts_tree_format()
+#' ) |> tsitter::ts_tree_format()
 #' jsonc
 #' ```
 #'
@@ -42,7 +42,7 @@
 #' ```
 #'
 #' @details
-#' \eval{ts:::doc_insert("ts_tree_delete_details", "tsjsonc")}
+#' \eval{tsitter:::doc_insert("ts_tree_delete_details", "tsjsonc")}
 #'
 #' Comments appearing inside the deleted elements are also deleted. Other
 #' comments are left as is.
@@ -50,14 +50,14 @@
 #' @usage
 #' \method{ts_tree_delete}{ts_tree_jsonc}(tree, ...)
 #' @param tree
-#' \eval{ts:::doc_insert("ts::ts_tree_delete_param_tree", "tsjsonc")}
+#' \eval{tsitter:::doc_insert("tsitter::ts_tree_delete_param_tree", "tsjsonc")}
 #' @param ... Reserved for future use.
 #' @return
-#' \eval{ts:::doc_insert("ts::ts_tree_delete_return", "tsjsonc")}
+#' \eval{tsitter:::doc_insert("tsitter::ts_tree_delete_return", "tsjsonc")}
 #'
 #' @export
 #' @examples
-#' library(ts)
+#' library(tsitter)
 #' tree <- ts_parse_jsonc("{ \"a\": //comment\ntrue, \"b\": [1, 2, 3] }")
 #' tree
 #'

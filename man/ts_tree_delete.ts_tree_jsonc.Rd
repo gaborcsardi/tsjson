@@ -7,24 +7,24 @@
 \method{ts_tree_delete}{ts_tree_jsonc}(tree, ...)
 }
 \arguments{
-\item{tree}{\eval{ts:::doc_insert("ts::ts_tree_delete_param_tree", "tsjsonc")}}
+\item{tree}{\eval{tsitter:::doc_insert("tsitter::ts_tree_delete_param_tree", "tsjsonc")}}
 
 \item{...}{Reserved for future use.}
 }
 \value{
-\eval{ts:::doc_insert("ts::ts_tree_delete_return", "tsjsonc")}
+\eval{tsitter:::doc_insert("tsitter::ts_tree_delete_return", "tsjsonc")}
 }
 \description{
 Delete selected elements from a ts_tree_jsonc object
 }
 \details{
-\eval{ts:::doc_insert("ts_tree_delete_details", "tsjsonc")}
+\eval{tsitter:::doc_insert("ts_tree_delete_details", "tsjsonc")}
 
 Comments appearing inside the deleted elements are also deleted. Other
 comments are left as is.
 }
 \examples{
-library(ts)
+library(tsitter)
 tree <- ts_parse_jsonc("{ \"a\": //comment\ntrue, \"b\": [1, 2, 3] }")
 tree
 
